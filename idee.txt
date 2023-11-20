@@ -1,0 +1,9 @@
+Repository con branch separati
+host:
+    aws
+    axure
+sonarqube:
+    se usiamo sonarcloud, è richiesto che la repo sia pubblica, altrimenti si paga
+    altrimenti, va hostato(verificare impatto a livello di costi su aws)
+interfaccia:
+    studiare app esistenti(ebay, vinted, wallapop) e prendere le cose migliori da ognuno

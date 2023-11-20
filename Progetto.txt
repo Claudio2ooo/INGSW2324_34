@@ -1,0 +1,52 @@
+Utente:
+    registrazione:
+        venditore
+        compratore
+        (possibile stessa email per entrambi)
+        apprezzato login con google/facebook/github/ecc
+    profilo:
+        bio
+        link a siti esterni/social
+        area geografica
+    ricerca
+        filtrata per
+            categoria
+            parola chiave
+    visualizzazione dettagli aste
+    visualizzazione profilo del creatore dell'asta
+    venditore:
+        creazione asta all'inglese(o incrementale)
+            base d'asta pubblica, specificata dal venditore
+            intervallo fisso di tempo per presentare nuove offerte(default 1 ora)
+            soglia di rialzo(default 10 euro)
+        creazione asta al ribasso
+            prezzo elevato specificato dal venditore
+            timer per il decremento del prezzo(default 1 ora)
+            importo, in euro, per ciascun decremento
+            prezzo minimo segreto per la vendita
+    acquirente:
+        asta all'inglese:
+            presentare offerta per prezzo corrente
+        asta al ribasso:
+            presentare un'offerta
+            il primo a presentare un'offerta, vince
+
+sistema:
+    creazione aste
+    aste:
+        descrizione
+        fotografia(opzionale)
+        categoria
+    navigazione per categoria
+    asta all'inglese:
+        quando scade il timer senza nuove offerte, notifica a venditori e acquirenti che hanno partecipato all'asta
+    asta al ribasso:
+        al raggiungimento del timer, il prezzo viene decrementato dell'importo previsto
+        se il prezzo raggiunge il prezzo minimo, l'asta viene considerata fallita e il venditore visualizza una notifica
+
+Domande:
+    (asta inglese)le nuove offerte aggiungono tempo addizionale al timer?
+    (asta al ribasso)importo di default per il decremento?
+
+
+
