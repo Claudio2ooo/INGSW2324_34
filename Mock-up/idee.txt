@@ -1,0 +1,23 @@
+figma:
+    layout android large
+    palette colori giallo/nero(oppure un colore non usato da applicazioni di aste esistenti)
+
+    layout con la barra inferiore
+
+    schermata accesso con iscrizione o login
+        login con opzioni
+            email
+            google
+            (per ora)
+    dopo il login
+        barra sotto con
+            - home
+            - categoria
+            - notifiche
+            - profilo
+        - logo in alto a sinistra
+        - bottone in alto a destra che mostra le aste a cui stai partecipando
+        - barra di ricerca subito sotto
+        - sotto la barra di ricerca un feed con le aste con più offerte
+
+
