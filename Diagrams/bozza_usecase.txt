@@ -39,9 +39,4 @@ sistema:
         al raggiungimento del timer, il prezzo viene decrementato dell'importo previsto
         se il prezzo raggiunge il prezzo minimo, l'asta viene considerata fallita e il venditore visualizza una notifica
 
-Domande:
-    (asta inglese)le nuove offerte aggiungono tempo addizionale al timer?
-    (asta al ribasso)importo di default per il decremento?
-
-
 
