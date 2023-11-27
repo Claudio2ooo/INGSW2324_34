@@ -32,11 +32,6 @@ Utente:
             il primo a presentare un'offerta, vince
 
 sistema:
-    creazione aste
-    aste:
-        descrizione
-        fotografia(opzionale)
-        categoria
     navigazione per categoria
     asta all'inglese:
         quando scade il timer senza nuove offerte, notifica a venditori e acquirenti che hanno partecipato all'asta
