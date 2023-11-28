@@ -1,0 +1,15 @@
+postgres:
+    docker pull postgres
+    docker run --name <nome-container> -e POSTGRES_PASSWORD=<password-db> -dp <porta-per-accedere>:5432 postgres
+
+pgadmin4:
+    docker pull dpage/pgadmin4
+    docker run -e 'PGADMIN_DEFAULT_EMAIL=<email-login>' -e 'PGADMIN_DEFAULT_PASSWORD=<password-login>' -p <porta-per-accedere-tramite-localhost>:80 --name <nome-container> dpage/pgadmin4
+
+docker inspect <nome-container-postgres>
+    per andare a leggere l'ip nella sezione network
+
+da pgadmin
+    register server, ip del container, username è postgres
+
+source: https://www.sqlshack.com/getting-started-with-postgresql-on-docker/
