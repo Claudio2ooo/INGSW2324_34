@@ -1,4 +1,3 @@
-(asta inglese)le nuove offerte aggiungono tempo addizionale al timer?
 (asta al ribasso)importo di default per il decremento?
 (utente) (incongruenza tra richiesta 1 e richiesta 2) Un unico profilo o profili separati?
 
