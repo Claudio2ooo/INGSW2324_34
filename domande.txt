@@ -1,4 +1,8 @@
-(asta al ribasso)importo di default per il decremento?
-(utente) (incongruenza tra richiesta 1 e richiesta 2) Un unico profilo o profili separati?
-
+(asta al ribasso)
+    importo di default per il decremento?
+    Nel requisito 5 viene specificato un importo di default per il rialzo, nel requisito 6 invece non è specificato un importo di default per il decremento nelle aste al ribasso, è necessario? se sì, quanto?
+(utente) (incongruenza tra richiesta 1 e richiesta 2)
+    Un unico profilo o profili separati?
+    Nel requisito 1 viene specificato che un account può essere di tipo venditore o acquirente, con la possibilità di usare la stessa mail per entrambi, ma nel requisito 2 viene detto che il sistema permette sia ai venditori sia ai compratori di creare aste, e quindi di vendere.
+    Di conseguenza, possiamo unire le funzionalità di account venditore e account acquirente in un unico account ambivalente?
 
