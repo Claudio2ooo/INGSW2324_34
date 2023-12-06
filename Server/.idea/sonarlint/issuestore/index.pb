@@ -1,0 +1,19 @@
+
+7
+pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
+R
+"src/main/java/org/example/App.java,2/6/268b09d2a5cdab7d148f0ec91f7b3fb51601410d
+Q
+!src/main/java/classes/Utente.java,4/b/4b89ad7afd9eea028a822b81d0b739653bb40d6f
+O
+src/main/java/classes/Asta.java,e/8/e895e1cdadcf52cdf3fec135e4979eca803c897c
+^
+.src/main/java/enumerations/Categoria_ENUM.java,6/f/6f3b59b9e568e42ded0c1adaa23aea0675cca55e
+V
+&src/main/java/classes/AstaInglese.java,e/5/e51e52dc488713f5a1569a707637b2c7d7d477ec
+V
+&src/main/java/classes/AstaRibasso.java,e/6/e6da108613dd87e5eb14a92b29af683adf83ca06
+S
+#src/main/java/classes/Notifica.java,d/8/d8968027456167bfe8019b47e7601ecb935e6d94
+R
+"src/main/java/classes/Offerta.java,e/4/e4e408a192dc6def375c5cde1aec2a218bdc9c10
