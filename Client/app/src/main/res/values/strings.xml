@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">DietiDeals24</string>
     <string name="search_bar_auction">Cerca tra le aste...</string>
+    <string name="categories">Categorie</string>
+    <string name="featuredAuctions">Aste in evidenza</string>
+    <string name="reverseAuctions">Aste al ribasso</string>
 </resources>

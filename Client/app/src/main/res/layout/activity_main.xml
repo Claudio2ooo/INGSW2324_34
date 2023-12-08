@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="4dp"
-                        android:text="DietiDeals24"
+                        android:text="@string/app_name"
                         android:textSize="40sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/editTextText"
@@ -58,6 +58,8 @@
                         android:textColor="@color/black"
                         android:padding="8dp"
                         android:hint="@string/search_bar_auction"
+                        android:textColorHint="@color/lightGrey"
+                        android:importantForAutofill="no"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -69,25 +71,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:layout_weight="1"
-                    android:text="Categorie"
+                    android:text="@string/categories"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/categoryBtn"
                     android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_height="32dp"
                     app:icon="@drawable/round_arrow_forward_24"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
@@ -99,8 +101,83 @@
                 android:id="@+id/categoryList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/featuredAuctions"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/featuredAuctionsBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    app:icon="@drawable/round_arrow_forward_24"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="25dp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/featuredAuctionsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reverseAuctions"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/reverseAuctionsBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    app:icon="@drawable/round_arrow_forward_24"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="25dp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reverseAuctionsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
 
         </LinearLayout>
     </ScrollView>
