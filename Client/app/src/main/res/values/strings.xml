@@ -4,4 +4,12 @@
     <string name="categories">Categorie</string>
     <string name="featuredAuctions">Aste in evidenza</string>
     <string name="reverseAuctions">Aste al ribasso</string>
+
+    <string name="home">Home</string>
+    <string name="auction">Aste</string>
+    <string name="add">Aggiungi</string>
+    <string name="notify">Notifiche</string>
+    <string name="profile">Profilo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
