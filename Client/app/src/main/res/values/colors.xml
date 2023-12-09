@@ -6,4 +6,5 @@
     <color name="nightBlue">#333C4B</color>
     <color name="lightNightBlue">#4A4C5C</color>
     <color name="lightGrey">#6A6A6A</color>
+    <color name="transparentGrey">#887A7A7A</color>
 </resources>
