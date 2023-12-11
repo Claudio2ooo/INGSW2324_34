@@ -1,6 +1,6 @@
-package it.unina.dietideals24.classes;
+package it.unina.dietideals24.api.model;
 
-import it.unina.dietideals24.enumerations.Category;
+import it.unina.dietideals24.enumeration.Category;
 
 import java.awt.*;
 import java.time.LocalTime;

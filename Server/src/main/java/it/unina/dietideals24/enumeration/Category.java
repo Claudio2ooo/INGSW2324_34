@@ -1,4 +1,4 @@
-package it.unina.dietideals24.enumerations;
+package it.unina.dietideals24.enumeration;
 
 public enum Category {
     ELETTRONICA,

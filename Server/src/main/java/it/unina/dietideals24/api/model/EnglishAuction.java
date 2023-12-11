@@ -1,4 +1,4 @@
-package it.unina.dietideals24.classes;
+package it.unina.dietideals24.api.model;
 
 import java.util.Currency;
 

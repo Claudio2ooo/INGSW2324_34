@@ -1,7 +1,8 @@
-package it.unina.dietideals24.classes;
+package it.unina.dietideals24.api.model;
 
 import java.time.LocalDateTime;
 import java.util.Currency;
+
 
 public class Offer {
     private Currency amount;
