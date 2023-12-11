@@ -1,0 +1,15 @@
+package it.unina.dietideals24.repository;
+
+import it.unina.dietideals24.model.DietiUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface DietiUserRepository extends JpaRepository<DietiUser, String> {
+
+    //@Query("SELECT u FROM DietiUser d WHERE d.email = ?1") //JPQL
+    //DietiUser nella query è quella taggata con @Entity
+    Optional<DietiUser> findDietiUserByEmail(String email);
+}

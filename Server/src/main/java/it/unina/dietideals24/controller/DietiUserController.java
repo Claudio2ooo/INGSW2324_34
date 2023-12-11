@@ -1,6 +1,6 @@
-package it.unina.dietideals24.api.controller;
+package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.api.model.DietiUser;
+import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.service.DietiUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,13 @@ public class DietiUserController {
         return dietiUserService.getUsers();
     }
 
-    @PostMapping(value="/createDietiUser", consumes = "application/json")
+    @PostMapping
     public void registerNewDietiUser(@RequestBody DietiUser dietiUser){
         dietiUserService.addNewDietiUser(dietiUser);
+    }
+
+    @DeleteMapping(path = "{dietiUserEmail}")
+    public void deleteDietiUser(@PathVariable("dietiUserEmail") String email){
+        dietiUserService.deleteDietiUser(email);
     }
 }

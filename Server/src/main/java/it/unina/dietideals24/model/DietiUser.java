@@ -1,4 +1,4 @@
-package it.unina.dietideals24.api.model;
+package it.unina.dietideals24.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
