@@ -1,12 +1,6 @@
-package it.unina.dietideals24.api.config;
+package it.unina.dietideals24.config;
 
-import it.unina.dietideals24.api.model.DietiUser;
-import it.unina.dietideals24.api.repository.DietiUserRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class DietiUserConfig {

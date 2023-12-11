@@ -1,4 +1,4 @@
-package it.unina.dietideals24.api.model;
+package it.unina.dietideals24.model;
 
 import java.time.LocalDateTime;
 import java.util.Currency;
