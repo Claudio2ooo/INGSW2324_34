@@ -5,5 +5,6 @@ public enum CategoryEnum {
     FOTOGRAFIA,
     INFORMATICA,
     MUSICA,
+    GIOCHI,
     MODA
 }
