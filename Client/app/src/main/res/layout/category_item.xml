@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/imageCategory"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageBackground"
         app:layout_constraintEnd_toEndOf="@+id/imageBackground"
         app:layout_constraintStart_toStartOf="@+id/imageBackground"
@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageBackground"
         app:layout_constraintStart_toStartOf="@+id/imageBackground"

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/body_container"
@@ -75,7 +75,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -90,8 +90,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/categories"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                     <Button
                         android:id="@+id/categoryBtn"
@@ -100,9 +103,12 @@
                         app:icon="@drawable/round_arrow_forward_24"
                         app:iconGravity="textStart"
                         app:iconPadding="0dp"
-                        app:iconSize="25dp" />
+                        app:iconSize="25dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryList"
@@ -112,7 +118,7 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
@@ -127,8 +133,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/featuredAuctions"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                     <Button
                         android:id="@+id/featuredAuctionsBtn"
@@ -137,9 +146,12 @@
                         app:icon="@drawable/round_arrow_forward_24"
                         app:iconGravity="textStart"
                         app:iconPadding="0dp"
-                        app:iconSize="25dp" />
+                        app:iconSize="25dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/featuredAuctionsList"
@@ -149,7 +161,7 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
@@ -164,8 +176,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/reverseAuctions"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                     <Button
                         android:id="@+id/reverseAuctionsBtn"
@@ -174,9 +189,12 @@
                         app:icon="@drawable/round_arrow_forward_24"
                         app:iconGravity="textStart"
                         app:iconPadding="0dp"
-                        app:iconSize="25dp" />
+                        app:iconSize="25dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reverseAuctionsList"
