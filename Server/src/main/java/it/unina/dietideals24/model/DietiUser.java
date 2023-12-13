@@ -1,48 +1,43 @@
 package it.unina.dietideals24.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Entity
-@Table
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "dietiuser_email_unique", columnNames = "email")
+        }
+)
 public class DietiUser {
-
-    private String name;
-    private String surname;
     @Id
+    @SequenceGenerator(
+            name = "dietiuser_sequence",
+            sequenceName = "dietiuser_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "dietiuser_sequence"
+    )
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "surname", nullable = false)
+    private String surname;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "password", nullable = false)
     private String password;
     private List<String> links;
+    @Column(name = "geographical_area")
     private String geographicalArea;
-
-    public DietiUser(){};
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public List<String> getLinks() {
-        return links;
-    }
-
-    public String getGeographicalArea() {
-        return geographicalArea;
-    }
 
     public DietiUser(String name, String surname, String email, String password) {
         this.name = name;
@@ -52,11 +47,12 @@ public class DietiUser {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "DietiUser{" +
-                "name="+'\''+name+'\''+
-                ", surname="+'\''+surname+'\''+
-                ", email="+'\''+email+'\''+
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

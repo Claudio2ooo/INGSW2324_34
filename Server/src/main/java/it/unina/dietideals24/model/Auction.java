@@ -2,13 +2,17 @@ package it.unina.dietideals24.model;
 
 import it.unina.dietideals24.enumeration.Category;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.awt.*;
 import java.time.LocalTime;
 import java.util.Currency;
 
+
+@Data
 @Entity
-@Table
 public class Auction {
 
     @Id
@@ -24,10 +28,14 @@ public class Auction {
     private Long id;
     private String title;
     private String description;
+    @Enumerated(EnumType.STRING)
     private Category category;
+    private String imageURL;
+    @Transient
     private Image image;
     private Currency startingPrice;
     private LocalTime timer;
+    @ManyToOne
     private DietiUser owner;
 }
 

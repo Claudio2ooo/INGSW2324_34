@@ -29,7 +29,7 @@ public class DietiUserController {
     }
 
     @DeleteMapping(path = "{dietiUserEmail}")
-    public void deleteDietiUser(@PathVariable("dietiUserEmail") String email){
-        dietiUserService.deleteDietiUser(email);
+    public void deleteDietiUser(@PathVariable("dietiUserId") Long id){
+        dietiUserService.deleteDietiUser(id);
     }
 }

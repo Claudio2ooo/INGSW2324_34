@@ -30,11 +30,11 @@ public class DietiUserService {
         dietiUserRepository.save(dietiUser);
     }
 
-    public void deleteDietiUser(String email) {
-        boolean exists = dietiUserRepository.existsById(email);
+    public void deleteDietiUser(Long dietiUserId) {
+        boolean exists = dietiUserRepository.existsById(dietiUserId);
         if(!exists){
-            throw new IllegalStateException("Utente con email "+email+" non esiste");
+            throw new IllegalStateException("Utente con id "+dietiUserId+" non esiste");
         }
-        dietiUserRepository.deleteById(email);
+        dietiUserRepository.deleteById(dietiUserId);
     }
 }
