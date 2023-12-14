@@ -5,39 +5,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(name = "dietiuser_email_unique", columnNames = "email")
-        }
-)
 public class DietiUser {
     @Id
-    @SequenceGenerator(
-            name = "dietiuser_sequence",
-            sequenceName = "dietiuser_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "dietiuser_sequence"
+            strategy = GenerationType.IDENTITY
     )
-    @Column(name = "id")
     private Long id;
-    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "surname", nullable = false)
     private String surname;
-    @Column(name = "email", nullable = false)
     private String email;
-    @Column(name = "password", nullable = false)
     private String password;
     private List<String> links;
-    @Column(name = "geographical_area")
     private String geographicalArea;
+
+    @OneToMany(mappedBy = "offerer")
+    private Set<Offer> offers;
 
     public DietiUser(String name, String surname, String email, String password) {
         this.name = name;

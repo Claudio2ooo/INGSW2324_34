@@ -1,26 +1,31 @@
 package it.unina.dietideals24.model;
 
-import it.unina.dietideals24.compositePrimaryKey.OfferId;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Currency;
 
 @Data
 @Entity
-@IdClass(OfferId.class)
 public class Offer {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    private Long id;
     private Currency amount;
     private LocalDateTime timestamp;
 
-    @Id
     @ManyToOne
+    @JoinColumn(name = "offerer_id", referencedColumnName = "id")
     private DietiUser offerer;
 
-    @Id
     @ManyToOne
-    private Auction targetAuction;
+    @JoinColumn(name = "english_auction_id", referencedColumnName = "id")
+    private EnglishAuction targetEnglishAuction;
+
+    @ManyToOne
+    @JoinColumn(name = "reverse_auction_id", referencedColumnName = "id")
+    private ReverseAuction targetReverseAuction;
 }

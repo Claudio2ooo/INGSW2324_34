@@ -10,3 +10,11 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 }
+
+/*
+    TODO
+     rinominare constraint
+     constraint unique per dietiuser.email
+     metodi per i service
+      
+ */

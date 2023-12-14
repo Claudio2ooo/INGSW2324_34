@@ -1,8 +1,9 @@
 package it.unina.dietideals24.controller;
 
 import it.unina.dietideals24.model.DietiUser;
-import it.unina.dietideals24.service.DietiUserService;
+import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,12 +12,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class DietiUserController {
 
-    private final DietiUserService dietiUserService;
-
     @Autowired
-    public DietiUserController(DietiUserService dietiUserService){
-        this.dietiUserService = dietiUserService;
-    }
+    @Qualifier("mainDietiUserService")
+    private IDietiUserService dietiUserService;
 
     @GetMapping
     public List<DietiUser> getUsers(){

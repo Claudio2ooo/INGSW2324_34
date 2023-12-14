@@ -1,7 +1,10 @@
 package it.unina.dietideals24.enumeration;
 
-public enum Category {
+public enum CategoryEnum {
     ELETTRONICA,
     FOTOGRAFIA,
-    INFORMATICA;
+    INFORMATICA,
+    MUSICA,
+    GIOCHI,
+    MODA
 }

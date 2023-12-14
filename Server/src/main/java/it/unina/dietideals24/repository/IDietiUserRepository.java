@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DietiUserRepository extends JpaRepository<DietiUser, Long> {
+public interface IDietiUserRepository extends JpaRepository<DietiUser, Long> {
 
     //@Query("SELECT u FROM DietiUser d WHERE d.email = ?1") //JPQL
     //DietiUser nella query è quella taggata con @Entity
