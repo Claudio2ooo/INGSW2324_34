@@ -30,7 +30,6 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageBackground"
         app:layout_constraintStart_toStartOf="@+id/imageBackground"
         app:layout_constraintTop_toBottomOf="@+id/imageBackground" />
