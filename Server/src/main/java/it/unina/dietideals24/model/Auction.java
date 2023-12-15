@@ -28,7 +28,7 @@ public class Auction {
     private Currency currentPrice;
     private Long timer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private DietiUser owner;
 }
