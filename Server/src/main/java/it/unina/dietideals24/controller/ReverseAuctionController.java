@@ -11,35 +11,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reverse_mapping")
+@RequestMapping("/reverse_auction")
 public class ReverseAuctionController {
+
     @Autowired
     @Qualifier("mainReverseAuctionService")
     private IReverseAuctionService reverseAuctionService;
 
     @GetMapping
-    public List<ReverseAuction> getReverseAuctions(){
+    public List<ReverseAuction> getReverseAuctions() {
         return reverseAuctionService.getReverseAuctions();
     }
 
-    @GetMapping
-    public ReverseAuction getReverseAcutionById(@RequestParam Long id){
+    @GetMapping("{id}")
+    public ReverseAuction getReverseAcutionById(@PathVariable("id") Long id) {
         return reverseAuctionService.getReverseAuctionById(id);
     }
 
-    @GetMapping
-    public List<ReverseAuction> getReverseAuctionsByOwner(@RequestParam Long ownerId){
+    @GetMapping("user/{id}")
+    public List<ReverseAuction> getReverseAuctionsByOwner(@PathVariable("id") Long ownerId) {
         return reverseAuctionService.getReverseAuctionsByOwner(ownerId);
     }
 
-    @GetMapping
-    public List<ReverseAuction> getReverseAuctionsByCategory(@RequestParam CategoryEnum category){
+    @GetMapping("{category}")
+    public List<ReverseAuction> getReverseAuctionsByCategory(@PathVariable("category") CategoryEnum category) {
         return reverseAuctionService.getReverseAuctionsByCategory(category);
     }
 
-    @DeleteMapping(path = "{reverseAuctionId}")
-    public void deleteReverseAuction(@PathVariable("reverseAuctionId") Long id){
+    @DeleteMapping("{id}")
+    public void deleteReverseAuction(@PathVariable("id") Long id) {
         reverseAuctionService.deleteReverseAcutionById(id);
     }
-
 }

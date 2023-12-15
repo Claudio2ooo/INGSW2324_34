@@ -11,17 +11,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
+
     @Autowired
     @Qualifier("mainNotificationService")
     private INotificationService notificationService;
 
-    @GetMapping("/user")
-    public List<Notification> getNotificationsByReceiverId(@RequestParam Long receiverId){
+    @GetMapping("user/{id}")
+    public List<Notification> getNotificationsByReceiverId(@PathVariable("id") Long receiverId) {
         return notificationService.getNotificationsByReceiverId(receiverId);
     }
 
-    @DeleteMapping(path = "{notificationId}")
-    public void deleteNotificatiion(@PathVariable("notificationId") Long id){
+    @DeleteMapping("{id}")
+    public void deleteNotification(@PathVariable("id") Long id) {
         notificationService.deleteNotification(id);
     }
 }

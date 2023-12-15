@@ -17,17 +17,17 @@ public class DietiUserController {
     private IDietiUserService dietiUserService;
 
     @GetMapping
-    public List<DietiUser> getUsers(){
+    public List<DietiUser> getUsers() {
         return dietiUserService.getUsers();
     }
 
     @PostMapping
-    public void registerNewDietiUser(@RequestBody DietiUser dietiUser){
+    public void registerNewDietiUser(@RequestBody DietiUser dietiUser) {
         dietiUserService.addNewDietiUser(dietiUser);
     }
 
-    @DeleteMapping(path = "{dietiUserEmail}")
-    public void deleteDietiUser(@PathVariable("dietiUserId") Long id){
+    @DeleteMapping("{id}")
+    public void deleteDietiUser(@PathVariable("id") Long id) {
         dietiUserService.deleteDietiUser(id);
     }
 }

@@ -12,32 +12,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/english_auction")
 public class EnglishAuctionController {
+
     @Autowired
     @Qualifier("mainEnglishAuctionService")
     private IEnglishAuctionService englishAuctionService;
 
     @GetMapping
-    public List<EnglishAuction> getEnglishAuctions(){
+    public List<EnglishAuction> getEnglishAuctions() {
         return englishAuctionService.getEnglishAuctions();
     }
 
-    @GetMapping
-    public EnglishAuction getEnglishAuctionById(@RequestParam Long id){
+    @GetMapping("{id}")
+    public EnglishAuction getEnglishAuctionById(@PathVariable("id") Long id) {
         return englishAuctionService.getEnglishAuctionById(id);
     }
 
-    @GetMapping
-    public List<EnglishAuction> getEnglishAuctionsByOwner(@RequestParam Long ownerId){
+    @GetMapping("user/{id}")
+    public List<EnglishAuction> getEnglishAuctionsByOwner(@PathVariable("id") Long ownerId) {
         return englishAuctionService.getEnglishAuctionsByOwner(ownerId);
     }
 
-    @GetMapping
-    public List<EnglishAuction> getEnglishAuctionsByCategory(@RequestParam CategoryEnum category){
+    @GetMapping("{category}")
+    public List<EnglishAuction> getEnglishAuctionsByCategory(@PathVariable("category") CategoryEnum category) {
         return englishAuctionService.getEnglishAuctionsByCategory(category);
     }
 
-    @DeleteMapping(path = "{englishAuctionId}")
-    public void deleteEnglishAuction(@PathVariable("englishAuctionId") Long id){
+    @DeleteMapping("{id}")
+    public void deleteEnglishAuction(@PathVariable("id") Long id) {
         englishAuctionService.deleteEnglishAuctionById(id);
     }
 }
