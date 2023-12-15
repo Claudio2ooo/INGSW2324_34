@@ -1,4 +1,18 @@
 package it.unina.dietideals24.service.interfaces;
 
+import it.unina.dietideals24.enumeration.CategoryEnum;
+import it.unina.dietideals24.model.EnglishAuction;
+
+import java.util.List;
+
 public interface IEnglishAuctionService {
+    List<EnglishAuction> getEnglishAuctions();
+
+    EnglishAuction getEnglishAuctionById(Long id);
+
+    List<EnglishAuction> getEnglishAuctionsByOwner(Long ownerId);
+
+    List<EnglishAuction> getEnglishAuctionsByCategory(CategoryEnum category);
+
+    void deleteEnglishAuctionById(Long id);
 }
