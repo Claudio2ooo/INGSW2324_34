@@ -10,6 +10,9 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(name = "unique_email", columnNames = "email")
+)
 public class DietiUser {
     @Id
     @GeneratedValue(

@@ -17,12 +17,12 @@ public class OfferService implements IOfferService {
 
     @Override
     public List<Offer> getOffersByEnglishAuctionId(Long englishAuctionId) {
-        return offerRepository.findByEnglishAuctionId(englishAuctionId);
+        return offerRepository.findByTargetEnglishAuctionId(englishAuctionId);
     }
 
     @Override
     public List<Offer> getOffersByReverseAuctionId(Long reverseAuctionId) {
-        return offerRepository.findByReverseAuctionId(reverseAuctionId);
+        return offerRepository.findByTargetReverseAuctionId(reverseAuctionId);
     }
 
     @Override

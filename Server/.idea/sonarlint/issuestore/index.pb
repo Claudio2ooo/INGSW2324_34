@@ -53,3 +53,7 @@ Usrc/main/java/it/unina/dietideals24/service/implementation/ReverseAuctionServic
 Rsrc/main/java/it/unina/dietideals24/service/interfaces/IReverseAuctionService.java,8/5/854c371110713a132ddc1813589896e010a7cf86
 }
 Msrc/main/java/it/unina/dietideals24/repository/IReverseAuctionRepository.java,f/d/fdc7c6f2fc92c3cae69d95f3957868191c6c4eea
+j
+:src/main/java/it/unina/dietideals24/ServerApplication.java,8/b/8b98f672dbdfd75c2858cc0a6a5f842918690ec0
+m
+=src/main/java/it/unina/dietideals24/model/EnglishAuction.java,c/4/c48c778a6b360d1a9e0027e34da40c433b523170

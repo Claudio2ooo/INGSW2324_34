@@ -29,7 +29,7 @@ public class Auction {
     private Long timer;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
     private DietiUser owner;
 }
 

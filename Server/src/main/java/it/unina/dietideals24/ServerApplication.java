@@ -13,8 +13,5 @@ public class ServerApplication {
 
 /*
     TODO
-     rinominare constraint
      constraint unique per dietiuser.email
-     metodi per i service
-      
  */
