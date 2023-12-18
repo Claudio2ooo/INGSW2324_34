@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/english_auction")
+@RequestMapping("/english-auctions")
 public class EnglishAuctionController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class EnglishAuctionController {
         return englishAuctionService.getEnglishAuctionById(id);
     }
 
-    @GetMapping("user/{id}")
+    @GetMapping("owner/{id}")
     public List<EnglishAuction> getEnglishAuctionsByOwner(@PathVariable("id") Long ownerId) {
         return englishAuctionService.getEnglishAuctionsByOwner(ownerId);
     }

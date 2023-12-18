@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/offer")
+@RequestMapping("/offers")
 public class OfferController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class OfferController {
         return offerService.getOffersByReverseAuctionId(reverseAuctionId);
     }
 
-    @GetMapping("user/{id}")
+    @GetMapping("offerer/{id}")
     public List<Offer> getOffersByOffererId(@PathVariable("id") Long offererId) {
         return offerService.getOffersByOffererId(offererId);
     }

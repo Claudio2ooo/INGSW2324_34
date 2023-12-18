@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/notification")
+@RequestMapping("/notifications")
 public class NotificationController {
 
     @Autowired
     @Qualifier("mainNotificationService")
     private INotificationService notificationService;
 
-    @GetMapping("user/{id}")
+    @GetMapping("receiver/{id}")
     public List<Notification> getNotificationsByReceiverId(@PathVariable("id") Long receiverId) {
         return notificationService.getNotificationsByReceiverId(receiverId);
     }

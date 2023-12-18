@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reverse_auction")
+@RequestMapping("/reverse-auctions")
 public class ReverseAuctionController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class ReverseAuctionController {
         return reverseAuctionService.getReverseAuctionById(id);
     }
 
-    @GetMapping("user/{id}")
+    @GetMapping("owner/{id}")
     public List<ReverseAuction> getReverseAuctionsByOwner(@PathVariable("id") Long ownerId) {
         return reverseAuctionService.getReverseAuctionsByOwner(ownerId);
     }
