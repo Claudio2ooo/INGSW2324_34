@@ -3,7 +3,6 @@ package it.unina.dietideals24.model;
 import it.unina.dietideals24.enumeration.StateEnum;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 @Data
 @Entity
@@ -24,6 +23,6 @@ public class Notification {
     private EnglishAuction endedEnglishAuction;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ended_reverse_auction_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_REVERSE_AUCTION"))
-    private ReverseAuction endedReverseAuction;
+    @JoinColumn(name = "ended_downward_auction_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DOWNWARD_AUCTION"))
+    private DownwardAuction endedDownwardAuction;
 }

@@ -21,8 +21,8 @@ public class OfferService implements IOfferService {
     }
 
     @Override
-    public List<Offer> getOffersByReverseAuctionId(Long reverseAuctionId) {
-        return offerRepository.findByTargetReverseAuctionId(reverseAuctionId);
+    public List<Offer> getOffersByDownwardAuctionId(Long downwardAuctionId) {
+        return offerRepository.findByTargetDownwardAuctionId(downwardAuctionId);
     }
 
     @Override

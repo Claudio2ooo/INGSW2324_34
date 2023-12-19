@@ -8,7 +8,7 @@ public interface IOfferService {
 
     List<Offer> getOffersByEnglishAuctionId(Long englishAuctionId);
 
-    List<Offer> getOffersByReverseAuctionId(Long reverseAuctionId);
+    List<Offer> getOffersByDownwardAuctionId(Long downwardAuctionId);
 
     List<Offer> getOffersByOffererId(Long offererId);
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Currency;
 
 
@@ -24,10 +26,11 @@ public class Auction {
     private String imageURL;
     @Transient
     private Image image;
-    private Currency startingPrice;
-    private Currency currentPrice;
-    private Long timer;
-
+    private BigDecimal startingPrice;
+    private BigDecimal currentPrice;
+    @Column(name = "timer")
+    private Long timerInMilliseconds;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
     private DietiUser owner;
