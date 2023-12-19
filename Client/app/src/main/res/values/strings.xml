@@ -8,7 +8,7 @@
     <!-- String for item menu -->
     <string name="home">Home</string>
     <string name="auction">Aste</string>
-    <string name="add">Aggiungi</string>
+    <string name="create">Crea</string>
     <string name="notify">Notifiche</string>
     <string name="profile">Profilo</string>
 
@@ -32,4 +32,9 @@
     <string name="registration_label">Registrati</string>
 
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="english_auction_label">Asta all\'inglese</string>
+    <string name="downward_autction_label">Asta al ribasso</string>
+    <string name="create_auction_label">Crea Asta</string>
+    <string name="message_add_dialog_label">Che tipo di asta vuoi creare?</string>
 </resources>
