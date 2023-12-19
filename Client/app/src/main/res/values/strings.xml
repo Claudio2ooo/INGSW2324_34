@@ -37,4 +37,12 @@
     <string name="downward_autction_label">Asta al ribasso</string>
     <string name="create_auction_label">Crea Asta</string>
     <string name="message_add_dialog_label">Che tipo di asta vuoi creare?</string>
+
+    <string name="change_password_label">Cambia password</string>
+    <string name="old_password_label">Password corrente</string>
+    <string name="new_password_label">Nuova password</string>
+    <string name="confirm_new_password_label">Conferma password</string>
+    <string name="log_out_label">Esci</string>
+    <string name="biography_label">Biografia</string>
+    <string name="links_label">Links</string>
 </resources>

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddDialog() {
-        ConstraintLayout addAuctionConstraintLayout = findViewById(R.id.addAuctionConstraintLayout);
+        ConstraintLayout addAuctionConstraintLayout = findViewById(R.id.createAuctionConstraintLayout);
         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.create_dialog, addAuctionConstraintLayout);
 
         Button englishAuctionBtn = view.findViewById(R.id.englishAuctionBtn);
