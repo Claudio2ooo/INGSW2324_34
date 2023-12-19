@@ -1,0 +1,56 @@
+   /**
+     * Formats an interval from seconds to hh:mm:ss
+     * @param timeInSeconds interval in seconds
+     * @return the interval formatted in hh:mm:ss
+     */
+    public static String formatSeconds(long timeInSeconds)
+    {
+        long hours = timeInSeconds / 3600;
+        long secondsLeft = timeInSeconds - hours * 3600;
+        long minutes = secondsLeft / 60;
+        long seconds = secondsLeft - minutes * 60;
+
+        String formattedTime = "";
+        if (hours < 10)
+            formattedTime += "0";
+        formattedTime += hours + ":";
+
+        if (minutes < 10)
+            formattedTime += "0";
+        formattedTime += minutes + ":";
+
+        if (seconds < 10)
+            formattedTime += "0";
+        formattedTime += seconds ;
+
+        return formattedTime;
+    }
+}
+
+
+    /**
+     * Get a diff between two timestamps.
+     *
+     * @param oldTs The older timestamp
+     * @param newTs The newer timestamp
+     * @param timeUnit The unit in which you want the diff
+     * @return The diff value, in the provided time unit.
+     */
+    public static long getDateDiff(Timestamp oldTs, Timestamp newTs, TimeUnit timeUnit) {
+        long diffInMS = newTs.getTime() - oldTs.getTime();
+        return timeUnit.convert(diffInMS, TimeUnit.MILLISECONDS);
+    }
+
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        Timestamp deadline = new Timestamp(System.currentTimeMillis()+600000);
+        for(int i = 0; i<10; i++){
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            Long timeDiff = getDateDiff(now, deadline, TimeUnit.MILLISECONDS);
+            System.out.println("current time: "+now);
+            System.out.println("deadline: "+deadline);
+            System.out.println("remaining time: "+ formatSeconds(Duration.between(now.toInstant(), deadline.toInstant()).toSeconds()));
+            System.out.println("");
+            TimeUnit.SECONDS.sleep(1);
+        }

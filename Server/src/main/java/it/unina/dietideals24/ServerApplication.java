@@ -10,8 +10,3 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 }
-
-/*
-    TODO
-     constraint unique per dietiuser.email
- */

@@ -21,9 +21,9 @@ public class OfferController {
         return offerService.getOffersByEnglishAuctionId(englishAuctionId);
     }
 
-    @GetMapping("reverse/{id}")
-    public List<Offer> getOffersByReverseAuctionId(@PathVariable("id") Long reverseAuctionId) {
-        return offerService.getOffersByReverseAuctionId(reverseAuctionId);
+    @GetMapping("downward/{id}")
+    public List<Offer> getOffersByDownwardAuctionId(@PathVariable("id") Long downwardAuctionId) {
+        return offerService.getOffersByDownwardAuctionId(downwardAuctionId);
     }
 
     @GetMapping("offerer/{id}")
