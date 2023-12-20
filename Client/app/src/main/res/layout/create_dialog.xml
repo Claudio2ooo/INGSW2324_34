@@ -22,7 +22,7 @@
             android:id="@+id/createText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
+
             android:text="@string/create_auction_label"
             android:textAlignment="center"
             android:textColor="@color/yellow"
@@ -35,23 +35,28 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/message_add_dialog_label"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp"/>
 
         <Button
             android:id="@+id/englishAuctionBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
             android:text="@string/english_auction_label"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="12dp" />
 
         <Button
             android:id="@+id/downwardAuctionBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
             android:text="@string/downward_autction_label"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="12dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
