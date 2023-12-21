@@ -12,9 +12,6 @@
     <string name="notify">Notifiche</string>
     <string name="profile">Profilo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Label for Edit Text-->
     <string name="name_label">Nome</string>
     <string name="surname_label">Cognome</string>
@@ -43,6 +40,10 @@
     <string name="new_password_label">Nuova password</string>
     <string name="confirm_new_password_label">Conferma password</string>
     <string name="log_out_label">Esci</string>
+
     <string name="biography_label">Biografia</string>
     <string name="links_label">Links</string>
+    <string name="edit_profile_label">Modifica profilo</string>
+    <string name="change_image_label">Cambia immagine profilo</string>
+    <string name="apply_changes_label">Applica modifice</string>
 </resources>

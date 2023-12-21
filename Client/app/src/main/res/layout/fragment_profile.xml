@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/top_background"
         android:orientation="vertical"
-        android:elevation="10dp">
+        android:elevation="9dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -54,7 +54,8 @@
                 android:layout_margin="16dp"
                 android:layout_gravity="center"
                 android:clipToOutline="true"
-                android:background="@drawable/oval_background" />
+                android:background="@drawable/oval_background"
+                android:src="@drawable/round_person_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -168,6 +169,18 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/editProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="@string/edit_profile_label"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/changePasswordBtn"
