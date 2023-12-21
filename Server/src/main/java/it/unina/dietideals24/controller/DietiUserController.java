@@ -12,18 +12,17 @@ import java.util.List;
 @RequestMapping("/users")
 public class DietiUserController {
 
-    @Autowired
     @Qualifier("mainDietiUserService")
-    private IDietiUserService dietiUserService;
+    private final IDietiUserService dietiUserService;
+
+    @Autowired
+    public DietiUserController(IDietiUserService dietiUserService){
+        this.dietiUserService = dietiUserService;
+    }
 
     @GetMapping
     public List<DietiUser> getUsers() {
         return dietiUserService.getUsers();
-    }
-
-    @PostMapping
-    public void registerNewDietiUser(@RequestBody DietiUser dietiUser) {
-        dietiUserService.addNewDietiUser(dietiUser);
     }
 
     @DeleteMapping("{id}")

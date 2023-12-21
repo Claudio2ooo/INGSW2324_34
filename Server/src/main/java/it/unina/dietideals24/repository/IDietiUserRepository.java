@@ -12,4 +12,5 @@ public interface IDietiUserRepository extends JpaRepository<DietiUser, Long> {
     //@Query("SELECT u FROM DietiUser d WHERE d.email = ?1") //JPQL
     //DietiUser nella query è quella taggata con @Entity
     Optional<DietiUser> findDietiUserByEmail(String email);
+    boolean existsByEmail(String email);
 }
