@@ -1,3 +1,4 @@
 
 *.properties
 DB/compose.yaml
+Server/src/main/resources/application.properties

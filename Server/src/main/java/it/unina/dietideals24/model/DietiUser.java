@@ -3,6 +3,7 @@ package it.unina.dietideals24.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,16 +32,6 @@ public class DietiUser implements UserDetails {
         this.surname = surname;
         this.email = email;
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "DietiUser{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 
     @Override
