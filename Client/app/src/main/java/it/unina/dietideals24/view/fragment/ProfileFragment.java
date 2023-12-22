@@ -51,14 +51,14 @@ public class ProfileFragment extends Fragment {
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changePasswordDialog(view);
+                showChangePasswordDialog(view);
             }
         });
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editProfileDialog(view);
+                showEditProfileDialog(view);
             }
         });
 
@@ -72,13 +72,13 @@ public class ProfileFragment extends Fragment {
                 if (uri == null) {
                     Toast.makeText(getContext(), "Seleziona immagine!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Glide.with(getContext()).load(uri).into(imageProfile);
+                    Glide.with(getActivity()).load(uri).into(imageProfile);
                 }
             }
         });
     }
 
-    private void changePasswordDialog(View view) {
+    private void showChangePasswordDialog(View view) {
         ConstraintLayout changePasswordConstraintLayout = view.findViewById(R.id.changePasswordConstraintLayout);
         View viewChangePasswordDialog = LayoutInflater.from(getContext()).inflate(R.layout.change_password_dialog, changePasswordConstraintLayout);
 
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void editProfileDialog(View view) {
+    private void showEditProfileDialog(View view) {
         ConstraintLayout editProfileConstraintLayout = view.findViewById(R.id.editProfileConstraintLayout);
         View viewEditProfileDialog = LayoutInflater.from(getContext()).inflate(R.layout.edit_profile_dialog, editProfileConstraintLayout);
 

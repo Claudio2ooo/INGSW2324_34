@@ -1,10 +1,12 @@
 package it.unina.dietideals24.view.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_auction) {
                 replaceFragment(new AuctionFragment(), "AUCTION");
             } else if (itemId == R.id.nav_add) {
-                showAddDialog();
+                showCreateAuctionDialog();
             } else if (itemId == R.id.nav_notify) {
                 replaceFragment(new NotifyFragment(), "NOTIFY");
             } else if (itemId == R.id.nav_profile) {
@@ -53,21 +55,23 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).addToBackStack(tag).commit();
     }
 
-    private void showAddDialog() {
+    private void showCreateAuctionDialog() {
         ConstraintLayout addAuctionConstraintLayout = findViewById(R.id.createAuctionConstraintLayout);
-        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.create_dialog, addAuctionConstraintLayout);
+        View viewCreateAuctionDialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.create_auction_dialog, addAuctionConstraintLayout);
 
-        Button englishAuctionBtn = view.findViewById(R.id.englishAuctionBtn);
-        Button reverseAuctionBtn = view.findViewById(R.id.downwardAuctionBtn);
+        Button englishAuctionBtn = viewCreateAuctionDialog.findViewById(R.id.englishAuctionBtn);
+        Button reverseAuctionBtn = viewCreateAuctionDialog.findViewById(R.id.downwardAuctionBtn);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setView(view);
+        builder.setView(viewCreateAuctionDialog);
         final AlertDialog alertDialog = builder.create();
 
         englishAuctionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                Intent createEnglishAuctionActivity = new Intent(getApplicationContext(), CreateEnglishAuctionActivity.class);
+                startActivity(createEnglishAuctionActivity);
             }
         });
 

@@ -46,4 +46,14 @@
     <string name="edit_profile_label">Modifica profilo</string>
     <string name="change_image_label">Cambia immagine profilo</string>
     <string name="apply_changes_label">Applica modifice</string>
+    <string name="make_an_offer_label">Fai un\'offerta</string>
+    <string name="bidders_label">Offerenti</string>
+    <string name="cancel_label">Annulla</string>
+    <string name="product_name_label">Nome prodotto</string>
+    <string name="starting_price_label">Base d\'asta</string>
+    <string name="timer_label">Timer</string>
+    <string name="increase_threshold_label">Soglia rialzo</string>
+    <string name="create_label">Crea</string>
+    <string name="upload_image">Carica immagine</string>
+    <string name="select_category">Seleziona categoria</string>
 </resources>
