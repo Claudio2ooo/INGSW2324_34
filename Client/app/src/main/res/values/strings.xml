@@ -31,7 +31,7 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="english_auction_label">Asta all\'inglese</string>
-    <string name="downward_autction_label">Asta al ribasso</string>
+    <string name="downward_auction_label">Asta al ribasso</string>
     <string name="create_auction_label">Crea Asta</string>
     <string name="message_add_dialog_label">Che tipo di asta vuoi creare?</string>
 
@@ -50,10 +50,16 @@
     <string name="bidders_label">Offerenti</string>
     <string name="cancel_label">Annulla</string>
     <string name="product_name_label">Nome prodotto</string>
-    <string name="starting_price_label">Base d\'asta</string>
+    <string name="starting_price_label">Prezzo iniziale</string>
     <string name="timer_label">Timer</string>
     <string name="increase_threshold_label">Soglia rialzo</string>
     <string name="create_label">Crea</string>
-    <string name="upload_image">Carica immagine</string>
-    <string name="select_category">Seleziona categoria</string>
+    <string name="upload_image_label">Carica immagine</string>
+    <string name="select_category_label">Seleziona categoria</string>
+    <string name="decrease_amount_label">Importo di decremento</string>
+    <string name="lowest_price_label">Prezzo minimo</string>
+    <string name="description_label">Descrizione</string>
+    <string name="your_auctions_label">Le tue aste</string>
+    <string name="your_offers_label">Le tue offerte</string>
+    <string name="notifications_label">Notifiche</string>
 </resources>

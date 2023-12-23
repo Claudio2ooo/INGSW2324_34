@@ -1,5 +1,11 @@
 package it.unina.dietideals24.view.activity;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
-public class CreateEnglishAuctionActivity extends AppCompatActivity {
+public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
     ImageView imageProduct;
     ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
@@ -33,7 +33,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_english_auction);
+        setContentView(R.layout.activity_create_downward_auction);
 
         initializeSinglePhotoPickerLauncher();
 
@@ -45,9 +45,9 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             @Override
             public void onActivityResult(Uri uri) {
                 if (uri == null) {
-                    Toast.makeText(CreateEnglishAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateDownwardAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Glide.with(CreateEnglishAuctionActivity.this).load(uri).into(imageProduct);
+                    Glide.with(CreateDownwardAuctionActivity.this).load(uri).into(imageProduct);
                 }
             }
         });

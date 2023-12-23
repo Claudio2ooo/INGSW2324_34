@@ -180,7 +180,8 @@
                 android:padding="10dp"
                 android:text="@string/edit_profile_label"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/margin_background" />
 
             <Button
                 android:id="@+id/changePasswordBtn"
