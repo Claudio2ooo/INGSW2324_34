@@ -77,12 +77,10 @@
 
         <Button
             android:id="@+id/button"
+            style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/btn_login_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:padding="12dp" />
+            android:text="@string/btn_login_label" />
 
         <TextView
             android:id="@+id/textView6"
@@ -96,15 +94,15 @@
 
         <Button
             android:id="@+id/loginWhitGoogleBtn"
+            style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/margin_background"
             app:icon="@drawable/google_logo"
+            app:iconGravity="textStart"
             app:iconTint="@null"
-            android:text="@string/btn_login_whit_google_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:padding="12dp" />
+            app:iconPadding="16dp"
+            android:text="@string/btn_login_whit_google_label" />
 
         <LinearLayout
             android:layout_width="match_parent"

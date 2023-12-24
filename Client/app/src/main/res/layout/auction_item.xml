@@ -87,11 +87,10 @@
 
     <Button
         android:id="@+id/auctionBtn"
+        style="@style/CustomButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Mostra"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="@string/show"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

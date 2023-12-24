@@ -146,12 +146,10 @@
 
         <Button
             android:id="@+id/signInBtn"
+            style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/btn_sign_in_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:padding="12dp" />
+            android:text="@string/btn_sign_in_label" />
 
     </LinearLayout>
 

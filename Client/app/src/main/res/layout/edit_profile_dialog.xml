@@ -51,13 +51,11 @@
 
             <Button
                 android:id="@+id/changeImgBtn"
+                style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:padding="12dp"
-                android:text="@string/change_image_label"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="@string/change_image_label" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -138,12 +136,10 @@
 
             <Button
                 android:id="@+id/changePasswordBtn"
+                style="@style/CustomButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="12dp"
-                android:text="@string/apply_changes_label"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="@string/apply_changes_label" />
 
         </LinearLayout>
     </ScrollView>

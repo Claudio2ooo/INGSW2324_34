@@ -62,4 +62,5 @@
     <string name="your_auctions_label">Le tue aste</string>
     <string name="your_offers_label">Le tue offerte</string>
     <string name="notifications_label">Notifiche</string>
+    <string name="show">Mostra</string>
 </resources>
