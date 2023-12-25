@@ -57,13 +57,11 @@
 
                 <TextView
                     android:id="@+id/textView2"
+                    style="@style/CustomTextViewTitleSection"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/your_auctions_label"
-                    android:textColor="@color/yellow"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -123,13 +121,11 @@
 
                 <TextView
                     android:id="@+id/textView3"
+                    style="@style/CustomTextViewTitleSection"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/your_offers_label"
-                    android:textColor="@color/yellow"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

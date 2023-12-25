@@ -20,6 +20,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CustomTextViewTitleSection">
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/darkBlue</item>
     </style>

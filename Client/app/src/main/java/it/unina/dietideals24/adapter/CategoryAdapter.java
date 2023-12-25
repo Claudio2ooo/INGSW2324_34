@@ -1,13 +1,12 @@
 package it.unina.dietideals24.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.entity.CategoryItem;
-import it.unina.dietideals24.view.activity.MainActivity;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     ArrayList<CategoryItem> categories;
@@ -42,8 +40,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Intent
-                Log.i("Category", categories.get(holder.getAdapterPosition()).getName());
+                // TODO Intent -> Send Name Category, open Activity, findAuctionByName
+                // Creare Activity con le aste filtrate in base al nome della categoria
+                /* Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
+                intent.putExtra("name", categories.get(holder.getAdapterPosition()).getName());
+                context.startActivity(intent); */
             }
         });
     }

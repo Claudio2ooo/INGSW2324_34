@@ -162,7 +162,7 @@
                 app:startIconDrawable="@drawable/round_euro_24">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputIncreaseThreshold"
+                    android:id="@+id/inputIncreaseAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -188,7 +188,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/createEnglishAuctionBtn"
             style="@style/CustomButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

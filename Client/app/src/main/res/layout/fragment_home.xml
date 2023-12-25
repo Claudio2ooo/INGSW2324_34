@@ -79,19 +79,17 @@
 
                 <TextView
                     android:id="@+id/textView2"
+                    style="@style/CustomTextViewTitleSection"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/categories"
-                    android:textColor="@color/yellow"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/categoryBtn"
+                    android:id="@+id/categoriesBtn"
                     style="@style/CustomButton"
                     android:layout_width="50dp"
                     android:layout_height="32dp"
@@ -125,19 +123,17 @@
 
                 <TextView
                     android:id="@+id/textView3"
+                    style="@style/CustomTextViewTitleSection"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/featuredAuctions"
-                    android:textColor="@color/yellow"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
+                    android:text="@string/english_auctions_label"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/featuredAuctionsBtn"
+                    android:id="@+id/englishAuctionsBtn"
                     style="@style/CustomButton"
                     android:layout_width="50dp"
                     android:layout_height="32dp"
@@ -157,7 +153,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/featuredAuctionsList"
+                    android:id="@+id/englishAuctionsList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
@@ -193,19 +189,17 @@
 
                 <TextView
                     android:id="@+id/textView4"
+                    style="@style/CustomTextViewTitleSection"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/reverseAuctions"
-                    android:textColor="@color/yellow"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
+                    android:text="@string/downward_auctions_label"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/reverseAuctionsBtn"
+                    android:id="@+id/downwardAuctionsBtn"
                     style="@style/CustomButton"
                     android:layout_width="50dp"
                     android:layout_height="32dp"
@@ -225,12 +219,13 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reverseAuctionsList"
+                    android:id="@+id/downwardAuctionsList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:paddingBottom="120dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -38,7 +38,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
+        android:paddingTop="90dp"
         android:paddingBottom="124dp"
         android:clipToPadding="false">
 
@@ -52,13 +52,11 @@
 
             <TextView
                 android:id="@+id/textView17"
+                style="@style/CustomTextViewTitleSection"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/notifications_label"
-                android:textColor="@color/yellow"
-                android:textSize="26sp"
-                android:textStyle="bold"/>
+                android:text="@string/notifications_label" />
 
         </LinearLayout>
     </ScrollView>

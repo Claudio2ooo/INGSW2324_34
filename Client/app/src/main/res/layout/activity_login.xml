@@ -76,7 +76,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/loginBtn"
             style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -93,7 +93,7 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/loginWhitGoogleBtn"
+            android:id="@+id/loginWithGoogleBtn"
             style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

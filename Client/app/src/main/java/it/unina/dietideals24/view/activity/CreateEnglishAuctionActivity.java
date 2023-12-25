@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,9 +26,11 @@ import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
 public class CreateEnglishAuctionActivity extends AppCompatActivity {
 
-    ImageView imageProduct;
+    EditText nameEditText, startingPriceEditText, timerEditText, increaseAmountEditText;
+    ImageView backBtn, imageProduct;
+    Button createAuctionBtn, uploadImageBtn, cancelBtn;
+    AutoCompleteTextView listItemsDropdownMenu;
     ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
-
     String selectedCategory = null;
 
     @Override
@@ -36,30 +39,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_english_auction);
 
         initializeSinglePhotoPickerLauncher();
-
-        initView();
-    }
-
-    private void initializeSinglePhotoPickerLauncher() {
-        singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri uri) {
-                if (uri == null) {
-                    Toast.makeText(CreateEnglishAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Glide.with(CreateEnglishAuctionActivity.this).load(uri).into(imageProduct);
-                }
-            }
-        });
-    }
-
-    private void initView() {
-        ImageView backBtn = findViewById(R.id.backBtn);
-        imageProduct = findViewById(R.id.imageProduct);
-        Button uploadImage = findViewById(R.id.uploadImageBtn);
-        Button cancelBtn = findViewById(R.id.cancelBtn);
-
-        initCategoryDropdownMenu();
+        initializeViews();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +55,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             }
         });
 
-        uploadImage.setOnClickListener(new View.OnClickListener() {
+        uploadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Launch the photo picker and let the user choose only images
@@ -86,8 +66,36 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         });
     }
 
-    private void initCategoryDropdownMenu() {
-        AutoCompleteTextView listItemsDropdownMenu = findViewById(R.id.listItemsDropdownMenu);
+    private void initializeSinglePhotoPickerLauncher() {
+        singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri uri) {
+                if (uri == null) {
+                    Toast.makeText(CreateEnglishAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Glide.with(CreateEnglishAuctionActivity.this).load(uri).into(imageProduct);
+                }
+            }
+        });
+    }
+
+    private void initializeViews() {
+        backBtn = findViewById(R.id.backBtn);
+        imageProduct = findViewById(R.id.imageProduct);
+        uploadImageBtn = findViewById(R.id.uploadImageBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
+        createAuctionBtn = findViewById(R.id.createEnglishAuctionBtn);
+
+        listItemsDropdownMenu = findViewById(R.id.listItemsDropdownMenu);
+        nameEditText = findViewById(R.id.inputName);
+        startingPriceEditText = findViewById(R.id.inputStartingPrice);
+        timerEditText = findViewById(R.id.inputTimer);
+        increaseAmountEditText = findViewById(R.id.inputIncreaseAmount);
+
+        initializeCategoryDropdownMenu();
+    }
+
+    private void initializeCategoryDropdownMenu() {
         ArrayList<String> categories = CategoryArrayListInitializer.getAllCategoryNames();
 
         ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categories);

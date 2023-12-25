@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="200dp"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:background="@drawable/rounded_corners_background"
-    android:padding="8dp"
-    android:elevation="10dp"
-    android:layout_margin="8dp">
+    android:elevation="2dp"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/imageItem"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:background="@drawable/rounded_corners_image"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
@@ -20,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nameItem"
+        android:id="@+id/titleItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="2"
         android:text="Name Item"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,35 +38,36 @@
         android:layout_height="wrap_content"
         android:text="Category name"
         android:textColor="@color/lightGrey"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameItem" />
+        app:layout_constraintTop_toBottomOf="@+id/titleItem"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/auctionBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/showAuctionBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageItem">
 
         <TextView
-            android:id="@+id/priceItem"
+            android:id="@+id/currentPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="€200"
             android:textColor="@color/yellow"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/timeLeft"
+            android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1h:20m"
@@ -80,17 +81,18 @@
             android:layout_height="24dp"
             android:src="@drawable/round_alarm_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/timeLeft"
+            app:layout_constraintEnd_toStartOf="@+id/timer"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/auctionBtn"
+        android:id="@+id/showAuctionBtn"
         style="@style/CustomButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/show"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
