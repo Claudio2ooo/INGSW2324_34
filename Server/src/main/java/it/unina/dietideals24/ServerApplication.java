@@ -14,5 +14,6 @@ public class ServerApplication {
     TODO
      sistema di notifiche
      finalizza acquisto asta ribasso
+     metodi per la modifica del profilo utente
      */
 }
