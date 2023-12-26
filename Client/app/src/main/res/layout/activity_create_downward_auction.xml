@@ -10,12 +10,12 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_background"
         android:orientation="horizontal"
         android:padding="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/top_background">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/backBtn"
@@ -33,10 +33,10 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="@string/downward_auction_label"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:gravity="center_vertical" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ScrollView
@@ -52,9 +52,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingBottom="216dp"
-            android:clipToPadding="false">
+            android:paddingBottom="216dp">
 
             <ImageView
                 android:id="@+id/imageProduct"
@@ -77,18 +77,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:background="@null"
                 android:hint="@string/select_category_label"
                 android:theme="@style/CustomTextInputLayout"
-                app:startIconDrawable="@drawable/round_category_24"
-                android:background="@null">
+                app:startIconDrawable="@drawable/round_category_24">
 
                 <AutoCompleteTextView
                     android:id="@+id/listItemsDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
                     android:completionThreshold="1"
                     android:dropDownHeight="wrap_content"
+                    android:inputType="text"
                     android:textColor="@color/white"
                     app:dropDownBackgroundTint="@color/yellow" />
 

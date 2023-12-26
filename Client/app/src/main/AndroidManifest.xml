@@ -17,6 +17,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.CategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.EnglishAuctionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.DownwardAuctionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.SearchAuctionActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.CreateDownwardAuctionActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
@@ -29,9 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".view.activity.LoginActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".view.activity.AuctionDetailsActivity"
             android:exported="false"

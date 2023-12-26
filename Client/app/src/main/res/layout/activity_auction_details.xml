@@ -59,17 +59,17 @@
                 android:paddingStart="24dp"
                 android:paddingTop="24dp"
                 android:paddingEnd="24dp"
-                android:paddingBottom="16dp" >
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/titleAuction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
+                    android:paddingBottom="8dp"
                     android:text="Name Item"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:paddingBottom="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/currentPriceAuction"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -157,9 +157,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Nome Congnome"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
                     android:textColor="@color/yellow"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageProfile"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -172,16 +172,16 @@
                 android:paddingStart="24dp"
                 android:paddingTop="24dp"
                 android:paddingEnd="24dp"
-                android:paddingBottom="16dp" >
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/descriptionLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
                     android:text="@string/description_label"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:paddingBottom="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -190,9 +190,9 @@
                     android:id="@+id/descriptionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lorem_ipsum"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/lorem_ipsum"
                     android:textColor="@color/lightGrey"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/descriptionLabel"
@@ -229,24 +229,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners_top_background_dark"
         android:orientation="horizontal"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/rounded_corners_top_background_dark"
-        android:padding="16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:hint="200 + 1"
             android:theme="@style/CustomTextInputLayout"
             app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/round_euro_24"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp" >
+            app:startIconDrawable="@drawable/round_euro_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputAnOffer"

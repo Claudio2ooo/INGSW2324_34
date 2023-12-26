@@ -10,6 +10,8 @@
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,17 +36,17 @@
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="@string/app_name"
                         android:textSize="40sp"
                         android:textStyle="bold"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/editTextText"
+                        app:layout_constraintBottom_toTopOf="@+id/inputSeachAuction"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/editTextText"
+                        android:id="@+id/inputSeachAuction"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_marginStart="24dp"
@@ -54,6 +56,7 @@
                         android:drawableStart="@drawable/baseline_search_24"
                         android:drawablePadding="8dp"
                         android:ems="10"
+                        android:focusable="false"
                         android:hint="@string/search_bar_auction"
                         android:importantForAutofill="no"
                         android:inputType="text"
@@ -64,8 +67,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -225,7 +228,6 @@
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:paddingBottom="120dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

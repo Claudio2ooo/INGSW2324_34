@@ -13,7 +13,10 @@ import it.unina.dietideals24.R;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
 
-    ImageView backBtn;
+    ImageView backBtn, image;
+    TextView title, categoryName, currentPrice, timer;
+    EditText offerEditText;
+    Button makeAnOfferBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void InitializeViews() {
-        ImageView image = findViewById(R.id.imageAcution);
-        TextView title = findViewById(R.id.titleAuction);
-        TextView categoryName = findViewById(R.id.categoryAuction);
-        TextView currentPrice = findViewById(R.id.currentPriceAuction);
-        TextView timer = findViewById(R.id.timerAuction);
-        EditText offerEditText = findViewById(R.id.inputAnOffer);
-        Button makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
+        image = findViewById(R.id.imageAcution);
+        title = findViewById(R.id.titleAuction);
+        categoryName = findViewById(R.id.categoryAuction);
+        currentPrice = findViewById(R.id.currentPriceAuction);
+        timer = findViewById(R.id.timerAuction);
+        offerEditText = findViewById(R.id.inputAnOffer);
+        makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
         backBtn = findViewById(R.id.backBtn);
     }
 }

@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageItem"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:background="@drawable/rounded_corners_image"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
