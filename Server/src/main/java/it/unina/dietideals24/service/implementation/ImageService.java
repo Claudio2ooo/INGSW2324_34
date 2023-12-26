@@ -23,7 +23,6 @@ public class ImageService implements IImageService {
      */
     @Override
     public void saveImage(String imageDirectory, Long id, MultipartFile file) throws IOException {
-        StringBuilder fileName = new StringBuilder();
         String path = imageDirectory + "/" + id.toString();
         Path fileNameAndPath = Paths.get(path);
         Files.write(fileNameAndPath, file.getBytes());
