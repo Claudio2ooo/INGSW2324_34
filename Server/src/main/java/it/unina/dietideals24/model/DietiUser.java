@@ -26,6 +26,7 @@ public class DietiUser implements UserDetails {
     private String password;
     private List<String> links;
     private String geographicalArea;
+    private String profilePictureUrl;
 
     public DietiUser(String name, String surname, String email, String password) {
         this.name = name;

@@ -13,8 +13,8 @@ public interface IDietiUserService {
 
     void deleteDietiUser(Long dietiUserId);
 
-    /*
-    TODO
-     login
-    */
+    boolean existsById(Long id);
+
+    void linkImage(String profilePicDirectory, Long id);
+
 }
