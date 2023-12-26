@@ -13,8 +13,6 @@ public class ServerApplication {
     /*
     TODO
      sistema di notifiche
-     avviare i timer quando viene inserita asta
-     aggiornare i prezzi delle aste quando arriva offerta
-     gestione immagini
+     finalizza acquisto asta ribasso
      */
 }

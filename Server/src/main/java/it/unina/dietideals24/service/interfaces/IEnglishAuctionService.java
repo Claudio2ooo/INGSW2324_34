@@ -5,6 +5,7 @@ import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.model.EnglishAuction;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IEnglishAuctionService {
@@ -23,4 +24,6 @@ public interface IEnglishAuctionService {
     EnglishAuction save(EnglishAuctionDto englishAuctionDto, DietiUser owner);
 
     void linkImage(String englishAuctionImageDirectory, Long id);
+
+    void updateCurrentPrice(EnglishAuction targetAuction, BigDecimal newOffer);
 }

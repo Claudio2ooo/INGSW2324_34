@@ -23,4 +23,6 @@ public interface IDownwardAuctionService {
     boolean existsById(Long id);
 
     void linkImage(String downwardAuctionImageDirectory, Long id);
+
+    void save(DownwardAuction toBeDecreased);
 }

@@ -18,8 +18,7 @@ public class DownwardAuctionTask extends AuctionTask {
         DownwardAuction downwardAuction = (DownwardAuction) getAuction();
 
         if(downwardAuction.canBeDecreased()){
-            //TODO implementare questo metodo
-            //downwardAuctionController.decreaseCurrentPrice(getAuction().getId());
+            downwardAuctionController.decreaseCurrentPrice(getAuction().getId());
             cancel();
         } else {
             //TODO inviare notifica al venditore

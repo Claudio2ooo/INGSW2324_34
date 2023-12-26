@@ -1,5 +1,6 @@
 package it.unina.dietideals24.controller;
 
+import it.unina.dietideals24.auction_timer.AuctionTimerController;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
@@ -29,6 +30,9 @@ public class EnglishAuctionController {
     @Autowired
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
+
+    @Autowired
+    private AuctionTimerController auctionTimerController;
 
     @Autowired
     @Qualifier("locallyStoreImageService")
@@ -61,6 +65,8 @@ public class EnglishAuctionController {
             DietiUser owner = dietiUserService.getUserById(englishAuctionDto.getOwnerId());
             EnglishAuction createdEnglishAuction = englishAuctionService.save(englishAuctionDto, owner);
 
+            auctionTimerController.startNewTimer(createdEnglishAuction);
+
             return ResponseEntity.ok(createdEnglishAuction);
         } else {
             throw new BadRequestException("User not found");
@@ -73,6 +79,7 @@ public class EnglishAuctionController {
             try{
                 imageService.saveImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id, image);
                 englishAuctionService.linkImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id);
+
                 return new ResponseEntity<>("Aucton image updated!", HttpStatus.OK);
             } catch (IOException e){
                 return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);

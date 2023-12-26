@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,5 +81,11 @@ public class EnglishAuctionService implements IEnglishAuctionService {
         EnglishAuction englishAuction = englishAuctionRepository.findById(id).get();
         englishAuction.setImageURL(englishAuctionImageDirectory + "/" + id);
         englishAuctionRepository.save(englishAuction);
+    }
+
+    @Override
+    public void updateCurrentPrice(EnglishAuction targetAuction, BigDecimal newOffer) {
+        targetAuction.setCurrentPrice(newOffer);
+        englishAuctionRepository.save(targetAuction);
     }
 }

@@ -82,4 +82,9 @@ public class DownwardAuctionService implements IDownwardAuctionService {
         downwardAuction.setImageURL(downwardAuctionImageDirectory+"/"+id);
         downwardAuctionRepository.save(downwardAuction);
     }
+
+    @Override
+    public void save(DownwardAuction toBeDecreased) {
+        downwardAuctionRepository.save(toBeDecreased);
+    }
 }
