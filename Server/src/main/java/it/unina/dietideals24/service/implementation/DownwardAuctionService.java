@@ -1,6 +1,8 @@
 package it.unina.dietideals24.service.implementation;
 
+import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
+import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.repository.IDownwardAuctionRepository;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
@@ -51,5 +53,33 @@ public class DownwardAuctionService implements IDownwardAuctionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
         }
         downwardAuctionRepository.deleteById(id);
+    }
+
+    @Override
+    public DownwardAuction save(DownwardAuctionDto downwardAuctionDto, DietiUser owner) {
+        DownwardAuction downwardAuction = new DownwardAuction();
+        downwardAuction.setTitle(downwardAuctionDto.getTitle());
+        downwardAuction.setDescription(downwardAuctionDto.getDescription());
+        downwardAuction.setCategory(downwardAuctionDto.getCategory());
+        downwardAuction.setTimerInMilliseconds(downwardAuctionDto.getTimerInMilliseconds());
+        downwardAuction.setCurrentPrice(downwardAuctionDto.getCurrentPrice());
+        downwardAuction.setStartingPrice(downwardAuctionDto.getStartingPrice());
+        downwardAuction.setDecreaseAmount(downwardAuctionDto.getDecreaseAmount());
+        downwardAuction.setMinimumPrice(downwardAuction.getMinimumPrice());
+        downwardAuction.setOwner(owner);
+
+        return downwardAuctionRepository.save(downwardAuction);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return downwardAuctionRepository.existsById(id);
+    }
+
+    @Override
+    public void linkImage(String downwardAuctionImageDirectory, Long id) {
+        DownwardAuction downwardAuction = downwardAuctionRepository.findById(id).get();
+        downwardAuction.setImageURL(downwardAuctionImageDirectory+"/"+id);
+        downwardAuctionRepository.save(downwardAuction);
     }
 }

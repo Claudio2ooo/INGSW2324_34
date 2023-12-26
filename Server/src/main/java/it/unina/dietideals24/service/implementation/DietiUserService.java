@@ -50,4 +50,16 @@ public class DietiUserService implements IDietiUserService {
         }
         dietiUserRepository.deleteById(dietiUserId);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return dietiUserRepository.existsById(id);
+    }
+
+    @Override
+    public void linkImage(String profilePicDirectory, Long id) {
+        DietiUser dietiUser = dietiUserRepository.findById(id).get();
+        dietiUser.setProfilePictureUrl(profilePicDirectory+"/"+id);
+        dietiUserRepository.save(dietiUser);
+    }
 }
