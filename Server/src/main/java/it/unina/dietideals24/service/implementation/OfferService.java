@@ -29,4 +29,9 @@ public class OfferService implements IOfferService {
     public List<Offer> getOffersByOffererId(Long offererId) {
         return offerRepository.findByOffererId(offererId);
     }
+
+    @Override
+    public Offer save(Offer betterOffer) {
+        return offerRepository.save(betterOffer);
+    }
 }

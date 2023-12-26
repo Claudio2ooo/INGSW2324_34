@@ -11,4 +11,6 @@ public interface IOfferService {
     List<Offer> getOffersByDownwardAuctionId(Long downwardAuctionId);
 
     List<Offer> getOffersByOffererId(Long offererId);
+
+    Offer save(Offer betterOffer);
 }

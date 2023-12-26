@@ -14,9 +14,7 @@ public class ServerApplication {
     TODO
      sistema di notifiche
      avviare i timer quando viene inserita asta
-     metodi post per aste e offerte
      aggiornare i prezzi delle aste quando arriva offerta
      gestione immagini
-
      */
 }
