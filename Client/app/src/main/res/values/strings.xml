@@ -63,4 +63,5 @@
     <string name="your_offers_label">Le tue offerte</string>
     <string name="notifications_label">Notifiche</string>
     <string name="show">Mostra</string>
+    <string name="seller_info_label">Informazioni sul venditore</string>
 </resources>

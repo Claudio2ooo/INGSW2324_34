@@ -17,11 +17,11 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
 import it.unina.dietideals24.view.fragment.HomeFragment;
-import it.unina.dietideals24.view.fragment.NotifyFragment;
+import it.unina.dietideals24.view.fragment.NotificationFragment;
 import it.unina.dietideals24.view.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_add) {
                 showCreateAuctionDialog();
             } else if (itemId == R.id.nav_notify) {
-                replaceFragment(new NotifyFragment(), "NOTIFY");
+                replaceFragment(new NotificationFragment(), "NOTIFY");
             } else if (itemId == R.id.nav_profile) {
                 replaceFragment(new ProfileFragment(), "PROFILE");
             }

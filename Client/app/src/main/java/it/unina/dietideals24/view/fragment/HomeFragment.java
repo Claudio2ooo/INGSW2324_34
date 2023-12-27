@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
 
     private EditText searchAuctionEditText;
     private Button categoryBtn, englishAuctionsBtn, downwardAuctionsBtn;
+    private RecyclerView recyclerViewCategories, recyclerViewEnglishAuction, recyclerViewDownwardAuction;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -91,12 +92,15 @@ public class HomeFragment extends Fragment {
         categoryBtn = view.findViewById(R.id.categoriesBtn);
         englishAuctionsBtn = view.findViewById(R.id.englishAuctionsBtn);
         downwardAuctionsBtn = view.findViewById(R.id.downwardAuctionsBtn);
+
+        recyclerViewCategories = view.findViewById(R.id.categoryList);
+        recyclerViewEnglishAuction = view.findViewById(R.id.englishAuctionsList);
+        recyclerViewDownwardAuction = view.findViewById(R.id.downwardAuctionsList);
     }
 
     private void initializeCategories(View view) {
-        ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getAllCategoryItems(getContext(), getActivity());
+        ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getFirstSixCategoryItems(getContext(), getActivity());
 
-        RecyclerView recyclerViewCategories = view.findViewById(R.id.categoryList);
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
         RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter = new CategoryAdapter(categories, true);
@@ -114,11 +118,10 @@ public class HomeFragment extends Fragment {
         auctions.add(new Auction("Monitor", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
         auctions.add(new Auction("TV", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
 
-        RecyclerView recyclerViewAuction = view.findViewById(R.id.englishAuctionsList);
-        recyclerViewAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
-        recyclerViewAuction.setAdapter(adapterAuction);
+        recyclerViewEnglishAuction.setAdapter(adapterAuction);
     }
 
     private void initializeDownwardAuction(View view) {
@@ -132,10 +135,9 @@ public class HomeFragment extends Fragment {
         auctions.add(new Auction("Monitor", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
         auctions.add(new Auction("TV", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
 
-        RecyclerView recyclerViewAuction = view.findViewById(R.id.downwardAuctionsList);
-        recyclerViewAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
-        recyclerViewAuction.setAdapter(adapterAuction);
+        recyclerViewDownwardAuction.setAdapter(adapterAuction);
     }
 }

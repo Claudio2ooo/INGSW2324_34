@@ -48,7 +48,8 @@
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
-                    app:hintTextColor="@color/darkBlue"
+                    app:boxBackgroundColor="@color/white"
+                    android:textColorHint="@color/darkBlue"
                     app:startIconDrawable="@drawable/round_category_24"
                     app:startIconTint="@color/darkBlue">
 

@@ -20,11 +20,11 @@ import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
 public class CategoriesActivity extends AppCompatActivity {
 
-    ArrayList<CategoryItem> categories;
-
-    ImageView backBtn;
-    AutoCompleteTextView listItemsDropdownMenu;
-    String selectedCategory = null;
+    private ArrayList<CategoryItem> categories;
+    private RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter;
+    private ImageView backBtn;
+    private AutoCompleteTextView listItemsDropdownMenu;
+    private String selectedCategory = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +54,35 @@ public class CategoriesActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categories);
         listItemsDropdownMenu.setAdapter(adapterItemListCategoryDropdownMenu);
+
         listItemsDropdownMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position);
-                ShowCategoryView(selectedCategory);
+                ShowCategoryView(selectedCategory, position);
             }
         });
     }
 
     private void initializeCategories() {
-        ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getAllCategoryItems(getApplicationContext(), this);
+        categories = CategoryArrayListInitializer.getAllCategoryItems(getApplicationContext(), this);
 
         RecyclerView recyclerViewCategories = findViewById(R.id.categoryList);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this, 3));
 
-        RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter = new CategoryAdapter(categories, false);
+        categoryAdapter = new CategoryAdapter(categories, false);
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
-    private void ShowCategoryView(String selectedCategory) {
+    private void ShowCategoryView(String selectedCategory, int position) {
+        if (categories.size() < 2)
+            initializeCategories();
 
+        CategoryItem categoryItem = categories.get(position);
+
+        categories.clear();
+        categories.add(categoryItem);
+
+        categoryAdapter.notifyDataSetChanged();
     }
 }

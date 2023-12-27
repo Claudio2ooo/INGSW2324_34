@@ -10,12 +10,23 @@ public class DietiUser {
     private String password;
     private List<String> links;
     private String geographicalArea;
+    private String profilePictureUrl;
 
     public DietiUser(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+    }
+
+    public DietiUser(String name, String surname, String email, String password, List<String> links, String geographicalArea, String profilePictureUrl) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.links = links;
+        this.geographicalArea = geographicalArea;
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     public Long getId() {
@@ -72,5 +83,13 @@ public class DietiUser {
 
     public void setGeographicalArea(String geographicalArea) {
         this.geographicalArea = geographicalArea;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 }

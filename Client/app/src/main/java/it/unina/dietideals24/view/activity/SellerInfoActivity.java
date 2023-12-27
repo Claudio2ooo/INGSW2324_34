@@ -2,22 +2,20 @@ package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import it.unina.dietideals24.R;
 
-public class SearchAuctionActivity extends AppCompatActivity {
+public class SellerInfoActivity extends AppCompatActivity {
 
-    private EditText searchAuctionEditText;
     private ImageView backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_auction);
+        setContentView(R.layout.activity_seller_info);
 
         initializeViews();
 
@@ -30,9 +28,6 @@ public class SearchAuctionActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        searchAuctionEditText = findViewById(R.id.inputSeachAuction);
-        searchAuctionEditText.requestFocus();
-
         backBtn = findViewById(R.id.backBtn);
     }
 }

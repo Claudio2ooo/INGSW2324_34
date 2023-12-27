@@ -23,9 +23,7 @@
             android:layout_height="30dp"
             android:background="@drawable/oval_background"
             android:padding="8dp"
-            android:src="@drawable/round_arrow_back_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/round_arrow_back_24" />
 
         <TextView
             android:id="@+id/textView16"

@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import it.unina.dietideals24.R;
 
-public class NotifyFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
-    public NotifyFragment() {
+    private RecyclerView recyclerViewNotification;
+
+    public NotificationFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +26,18 @@ public class NotifyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notify, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+
+        initializeViews(view);
+
+        return view;
+    }
+
+    private void initializeViews(View view) {
+        recyclerViewNotification = view.findViewById(R.id.notificationList);
+    }
+
+    private void initializeNotification(View view) {
+
     }
 }

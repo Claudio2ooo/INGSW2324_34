@@ -6,5 +6,14 @@ public enum CategoryEnum {
     INFORMATICA,
     MUSICA,
     GIOCHI,
-    MODA
+    MODA,
+    TV,
+    CASA,
+    SPORT,
+    INFANZIA,
+    ANIMALI,
+    AUTO,
+    MOTO,
+    OROLOGI,
+    GIARDINAGGIO
 }

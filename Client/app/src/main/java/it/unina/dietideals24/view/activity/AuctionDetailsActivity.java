@@ -1,5 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,15 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import it.unina.dietideals24.R;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
 
-    ImageView backBtn, image;
-    TextView title, categoryName, currentPrice, timer;
-    EditText offerEditText;
-    Button makeAnOfferBtn;
+    private ImageView backBtn, image;
+    private TextView title, categoryName, currentPrice, timer;
+    private EditText offerEditText;
+    private Button makeAnOfferBtn;
+    private ConstraintLayout sellerInfoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         Long idAuction = getIntent().getLongExtra("id", -1);
         // TODO if idAuction == -1 -> Error
 
-        InitializeViews();
+        initializeViews();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,9 +37,17 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        sellerInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SellerInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    private void InitializeViews() {
+    private void initializeViews() {
         image = findViewById(R.id.imageAcution);
         title = findViewById(R.id.titleAuction);
         categoryName = findViewById(R.id.categoryAuction);
@@ -45,5 +56,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerEditText = findViewById(R.id.inputAnOffer);
         makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
         backBtn = findViewById(R.id.backBtn);
+        sellerInfoBtn = findViewById(R.id.sellerInfo);
     }
 }

@@ -21,7 +21,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        InitializeViews();
+        initializeViews();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    private void InitializeViews() {
+    private void initializeViews() {
         nameEditText = findViewById(R.id.inputName);
         surnameEditText = findViewById(R.id.inputSurname);
         emailEditText = findViewById(R.id.inputEmail);
@@ -40,5 +40,16 @@ public class SignInActivity extends AppCompatActivity {
 
         signInBtn = findViewById(R.id.signInBtn);
         backBtn = findViewById(R.id.backBtn);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        nameEditText.setText(null);
+        surnameEditText.setText(null);
+        emailEditText.setText(null);
+        passwordEditText.setText(null);
+        confirmPasswordEditText.setText(null);
     }
 }

@@ -26,12 +26,12 @@ import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
 public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
-    EditText nameEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
-    ImageView backBtn, imageProduct;
-    Button createAuctionBtn, uploadImageBtn, cancelBtn;
-    AutoCompleteTextView listItemsDropdownMenu;
-    ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
-    String selectedCategory = null;
+    private EditText nameEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
+    private ImageView backBtn, imageProduct;
+    private Button createAuctionBtn, uploadImageBtn, cancelBtn;
+    private AutoCompleteTextView listItemsDropdownMenu;
+    private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
+    private String selectedCategory = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

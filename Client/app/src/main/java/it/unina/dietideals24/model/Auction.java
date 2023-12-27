@@ -8,12 +8,12 @@ public class Auction {
     private Long id;
     private String title;
     private String description;
-
     private CategoryEnum category;
     private String imageURL;
     private BigDecimal startingPrice;
     private BigDecimal currentPrice;
     private Long timerInMilliseconds;
+
     private DietiUser owner;
 
     public Auction(String title, String description, CategoryEnum category, String imageURL, BigDecimal startingPrice, BigDecimal currentPrice, Long timerInMilliseconds) {

@@ -10,14 +10,14 @@ import it.unina.dietideals24.R;
 
 public class EnglishAuctionsActivity extends AppCompatActivity {
 
-    ImageView backBtn;
+    private ImageView backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_english_auctions);
 
-        InitializeViews();
+        initializeViews();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,7 +27,7 @@ public class EnglishAuctionsActivity extends AppCompatActivity {
         });
     }
 
-    private void InitializeViews() {
+    private void initializeViews() {
         backBtn = findViewById(R.id.backBtn);
     }
 }

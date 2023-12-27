@@ -22,7 +22,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        InitializeViews();
+        initializeViews();
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                if (email.equals("test") && password.equals("test")) {
+                    Intent signInActivity = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(signInActivity);
+                }
+            }
+        });
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,12 +45,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void InitializeViews() {
+    private void initializeViews() {
         emailEditText = findViewById(R.id.inputEmail);
         passwordEditText = findViewById(R.id.inputPassword);
 
         loginBtn = findViewById(R.id.loginBtn);
         loginWithGoogleBtn = findViewById(R.id.loginWithGoogleBtn);
         signInBtn = findViewById(R.id.signInBtn);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        emailEditText.setText(null);
+        passwordEditText.setText(null);
     }
 }

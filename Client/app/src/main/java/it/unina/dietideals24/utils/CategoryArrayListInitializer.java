@@ -25,6 +25,25 @@ public class CategoryArrayListInitializer {
     }
 
     /**
+     * This method takes the first six the constants in the CategoryEnum and initializes an array of CategoryItem
+     * with category name and resource id (icon)
+     * @param context used to access resources
+     * @param activity reference to activity
+     * @return The array of CategoryItem
+     * */
+    public static ArrayList<CategoryItem> getFirstSixCategoryItems(Context context, Activity activity) {
+        ArrayList<CategoryItem> categories = new ArrayList<>();
+
+        CategoryEnum[] values = CategoryEnum.values();
+        for (int i = 0; i < values.length && i < 6; i++) {
+            CategoryEnum category = values[i];
+            categories.add(new CategoryItem(capitalize(category.toString()), iconCategory(category.toString(), context, activity)));
+        }
+
+        return categories;
+    }
+
+    /**
      * This method takes all the constants in the CategoryEnum and initializes an array of CategoryItem
      * with category name and resource id (icon)
      * @param context used to access resources
@@ -34,9 +53,7 @@ public class CategoryArrayListInitializer {
     public static ArrayList<CategoryItem> getAllCategoryItems(Context context, Activity activity) {
         ArrayList<CategoryItem> categories = new ArrayList<>();
 
-        CategoryEnum[] values = CategoryEnum.values();
-        for (int i = 0; i < values.length && i < 6; i++) {
-            CategoryEnum category = values[i];
+        for (CategoryEnum category : CategoryEnum.values()) {
             categories.add(new CategoryItem(capitalize(category.toString()), iconCategory(category.toString(), context, activity)));
         }
 
