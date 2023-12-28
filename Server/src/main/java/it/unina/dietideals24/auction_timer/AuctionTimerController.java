@@ -3,10 +3,14 @@ package it.unina.dietideals24.auction_timer;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
+@Component
 public class AuctionTimerController {
     ArrayList<Timer> englishAuctionTimers = new ArrayList<>();
     ArrayList<Timer> downwardAuctionTimers = new ArrayList<>();

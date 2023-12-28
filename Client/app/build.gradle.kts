@@ -53,4 +53,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.10")
     implementation("com.squareup.retrofit2:converter-gson")
+
+    // Login
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
 }
