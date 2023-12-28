@@ -59,7 +59,7 @@ public class SignInActivity extends AppCompatActivity {
         String surname = surnameEditText.getText().toString();
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String confirmedPassowrd = confirmPasswordEditText.getText().toString();
+        String confirmedPassword = confirmPasswordEditText.getText().toString();
 
         if(name.matches("")){
             nameEditText.setHintTextColor(Color.RED);
@@ -77,7 +77,7 @@ public class SignInActivity extends AppCompatActivity {
             passwordEditText.setHintTextColor(Color.RED);
             return false;
         }
-        if(confirmedPassowrd.matches("")){
+        if(confirmedPassword.matches("")){
             confirmPasswordEditText.setHintTextColor(Color.RED);
             return false;
         }
