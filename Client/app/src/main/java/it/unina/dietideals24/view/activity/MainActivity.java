@@ -12,6 +12,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
@@ -48,10 +49,32 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+        backButtonManagement();
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).addToBackStack(tag).commit();
+    }
+
+    private void backButtonManagement() {
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) finish();
+
+            FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+
+            if (backStackEntry.getName() == null) return;
+
+            if (backStackEntry.getName().equals("HOME")) {
+                binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
+            } else if (backStackEntry.getName().equals("AUCTION")) {
+                binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
+            } else if (backStackEntry.getName().equals("NOTIFY")) {
+                binding.bottomNavigation.getMenu().getItem(3).setChecked(true);
+            } else if (backStackEntry.getName().equals("PROFILE")) {
+                binding.bottomNavigation.getMenu().getItem(4).setChecked(true);
+            }
+        });
     }
 
     private void showCreateAuctionDialog() {
@@ -65,22 +88,16 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(viewCreateAuctionDialog);
         final AlertDialog alertDialog = builder.create();
 
-        englishAuctionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Intent createEnglishAuctionActivity = new Intent(getApplicationContext(), CreateEnglishAuctionActivity.class);
-                startActivity(createEnglishAuctionActivity);
-            }
+        englishAuctionBtn.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Intent createEnglishAuctionActivity = new Intent(getApplicationContext(), CreateEnglishAuctionActivity.class);
+            startActivity(createEnglishAuctionActivity);
         });
 
-        reverseAuctionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Intent createDownwardAuctionActivity = new Intent(getApplicationContext(), CreateDownwardAuctionActivity.class);
-                startActivity(createDownwardAuctionActivity);
-            }
+        reverseAuctionBtn.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Intent createDownwardAuctionActivity = new Intent(getApplicationContext(), CreateDownwardAuctionActivity.class);
+            startActivity(createDownwardAuctionActivity);
         });
 
         if (alertDialog.getWindow() != null) {
