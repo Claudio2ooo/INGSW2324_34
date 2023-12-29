@@ -1,22 +1,28 @@
 package it.unina.dietideals24.view.activity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.RegisterDto;
 import it.unina.dietideals24.model.DietiUser;
-import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
 import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +33,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextInputLayout nameTextLayout, surnameTextLayout, emailTextLayout, passwordTextLayout, confirmPasswordTextLayout;
     private Button signInBtn;
     private ImageView backBtn;
+    private ProgressBar signInProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,32 +42,26 @@ public class SignInActivity extends AppCompatActivity {
 
         initializeViews();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
 
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isNotEmptyEditText() && matchesRegex() && passwordCorrespond())
-                    register();
+        signInBtn.setOnClickListener(v -> {
+            if (isNotEmptyEditText() && matchesRegex() && passwordCorrespond()) {
+                signInProgressBar.setVisibility(View.VISIBLE);
+                register();
             }
         });
     }
 
     /**
      * checks if password and confirmPassword correspond
+     *
      * @return true if they correspond, false otherwise
      */
-
     private boolean passwordCorrespond() {
         String password = passwordEditText.getText().toString();
         String confirmedPassword = confirmPasswordEditText.getText().toString();
 
-        if(password.equals(confirmedPassword))
+        if (password.equals(confirmedPassword))
             return true;
         else {
             confirmPasswordTextLayout.setError("Le password non corrispondo");
@@ -70,9 +71,9 @@ public class SignInActivity extends AppCompatActivity {
 
     /**
      * checks if all the EditText match the assigned regex
+     *
      * @return true if all the EditText match, false otherwise
      */
-
     private boolean matchesRegex() {
         String name = nameEditText.getText().toString();
         String surname = surnameEditText.getText().toString();
@@ -80,19 +81,19 @@ public class SignInActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         boolean ret = true;
 
-        if (!name.matches("^([a-zA-Z]{2,})")){
+        if (!name.matches("^([a-zA-Z]{2,})")) {
             nameTextLayout.setError("Nome non valido");
             ret = false;
         } else {
             nameTextLayout.setErrorEnabled(false);
         }
-        if (!surname.matches("^([a-zA-Z]+'?-?\\s?[a-zA-Z]{2,}\\s?([a-zA-Z]+))")){
+        if (!surname.matches("^([a-zA-Z]+'?-?\\s?[a-zA-Z]{2,}\\s?([a-zA-Z]+))")) {
             surnameTextLayout.setError("Cognome non valido");
             ret = false;
         } else {
             surnameTextLayout.setErrorEnabled(false);
         }
-        if(!email.matches("^[\\w\\-\\.]*[\\w\\.]\\@[\\w\\.]*[\\w\\-\\.]+[\\w\\-]+[\\w]\\.+[\\w]+[\\w $]")){
+        if (!email.matches("^[\\w\\-\\.]*[\\w\\.]\\@[\\w\\.]*[\\w\\-\\.]+[\\w\\-]+[\\w]\\.+[\\w]+[\\w $]")) {
             emailTextLayout.setError("Non è una mail valida");
             ret = false;
         } else {
@@ -109,7 +110,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * @return
      */
     private boolean isNotEmptyEditText() {
@@ -164,19 +164,83 @@ public class SignInActivity extends AppCompatActivity {
         RegisterDto registerDto = new RegisterDto(name, surname, email, password);
         DietiDealsAuthAPI dietiDealsAuthAPI = RetrofitService.getRetrofitInstance().create(DietiDealsAuthAPI.class);
 
-        //TODO progress bar
         dietiDealsAuthAPI.register(registerDto).enqueue(new Callback<DietiUser>() {
             @Override
             public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
-                Log.e("Registrazione riuscita", "registrazione riuscita");
-                finish();
+                signInProgressBar.setVisibility(View.GONE);
+                if (response.code() != 400) {
+                    showSuccessSignInDialog();
+                } else {
+                    showFailedSignInEmailAlreadyRegisteredDialog(registerDto.getEmail());
+                }
             }
 
             @Override
             public void onFailure(Call<DietiUser> call, Throwable t) {
-                Toast.makeText(SignInActivity.this, "Registrazione fallita", Toast.LENGTH_SHORT).show();
+                signInProgressBar.setVisibility(View.GONE);
+                showFailedSignInDialog();
             }
         });
+    }
+
+    private void showSuccessSignInDialog() {
+        ConstraintLayout successLoginConstraintLayout = findViewById(R.id.successLoginConstraintLayout);
+        View viewSuccessSignInDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.success_sign_in_dialog, successLoginConstraintLayout);
+
+        Button backToLoginBtn = viewSuccessSignInDialog.findViewById(R.id.backToLoginBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+        builder.setView(viewSuccessSignInDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToLoginBtn.setOnClickListener(v -> {
+            Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginActivity);
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void showFailedSignInDialog() {
+        ConstraintLayout failedSignInConstraintLayout = findViewById(R.id.failedSignInConstraintLayout);
+        View viewFailedSignInDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.failed_sign_in_dialog, failedSignInConstraintLayout);
+
+        Button tryAgainBtn = viewFailedSignInDialog.findViewById(R.id.tryAgainBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+        builder.setView(viewFailedSignInDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        tryAgainBtn.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void showFailedSignInEmailAlreadyRegisteredDialog(String emailAlreadyRegistered) {
+        ConstraintLayout failedSignInEmailAlreadyRegisteredConstraintLayout = findViewById(R.id.failedSignInEmailAlreadyRegisteredConstraintLayout);
+        View viewFailedSignInEmailAlreadyRegisteredDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.failed_sign_in_email_already_registered_dialog, failedSignInEmailAlreadyRegisteredConstraintLayout);
+
+        TextView messageTextView = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.messageText);
+        messageTextView.setText("L'email " + emailAlreadyRegistered + " è già registrata!\n Riprova con un'altra email.");
+
+        Button tryAgainBtn = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.tryAgainBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+        builder.setView(viewFailedSignInEmailAlreadyRegisteredDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        tryAgainBtn.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
     }
 
     private void initializeViews() {
@@ -193,6 +257,9 @@ public class SignInActivity extends AppCompatActivity {
 
         signInBtn = findViewById(R.id.signInBtn);
         backBtn = findViewById(R.id.backBtn);
+
+        signInProgressBar = findViewById(R.id.signInProgressBar);
+        signInProgressBar.setVisibility(View.GONE);
     }
 
     @Override

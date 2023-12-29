@@ -1,22 +1,25 @@
 package it.unina.dietideals24.view.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.LoginDto;
-import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.response.LoginResponse;
 import it.unina.dietideals24.retrofit.RetrofitService;
-import it.unina.dietideals24.retrofit.api.DietiDealsAPI;
 import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button loginBtn, loginWithGoogleBtn;
     private TextView signInBtn;
+    private ProgressBar loginProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +41,14 @@ public class LoginActivity extends AppCompatActivity {
 
         initializeViews();
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
+        loginBtn.setOnClickListener(v -> {
+            loginProgressBar.setVisibility(View.VISIBLE);
+            login();
         });
 
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInActivity = new Intent(getApplicationContext(), SignInActivity.class);
-                startActivity(signInActivity);
-            }
+        signInBtn.setOnClickListener(v -> {
+            Intent signInActivity = new Intent(getApplicationContext(), SignInActivity.class);
+            startActivity(signInActivity);
         });
     }
 
@@ -67,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         dietiDealsService.login(loginDto).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                loginProgressBar.setVisibility(View.GONE);
                 saveToken(response);
                 saveCurrentUser(response);
 
@@ -76,19 +76,38 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Login fallito", Toast.LENGTH_SHORT).show();
+                loginProgressBar.setVisibility(View.GONE);
+                showFailedLoginDialog();
             }
         });
     }
 
     private void saveCurrentUser(Response<LoginResponse> response) {
         LocalDietiUser.setLocalDietiUser(getApplicationContext(), response.body().getDietiUser());
-        Log.e("DietiUser", "DietiUser: "+LocalDietiUser.getLocalDietiUser(getApplicationContext()));
+        Log.e("DietiUser", "DietiUser: " + LocalDietiUser.getLocalDietiUser(getApplicationContext()));
     }
 
     private void saveToken(Response<LoginResponse> response) {
         TokenManagement tokenManagement = TokenManagement.getInstance(getApplicationContext());
         tokenManagement.setToken(response.body().getToken());
+    }
+
+    private void showFailedLoginDialog() {
+        ConstraintLayout failedLoginConstraintLayout = findViewById(R.id.failedLoginConstraintLayout);
+        View viewFailedLoginDialog = LayoutInflater.from(LoginActivity.this).inflate(R.layout.failed_login_dialog, failedLoginConstraintLayout);
+
+        Button tryAgainBtn = viewFailedLoginDialog.findViewById(R.id.tryAgainBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setView(viewFailedLoginDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        tryAgainBtn.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
     }
 
     private void initializeViews() {
@@ -98,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         loginWithGoogleBtn = findViewById(R.id.loginWithGoogleBtn);
         signInBtn = findViewById(R.id.signInBtn);
+
+        loginProgressBar = findViewById(R.id.loginProgressBar);
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     @Override

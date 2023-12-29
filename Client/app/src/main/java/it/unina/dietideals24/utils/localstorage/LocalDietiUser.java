@@ -3,8 +3,6 @@ package it.unina.dietideals24.utils.localstorage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,8 +10,12 @@ import it.unina.dietideals24.model.DietiUser;
 
 public class LocalDietiUser {
 
+    private static final String FILE_NAME_DIETI_USER = "local_dieti_user_data";
+
+    private LocalDietiUser() {}
+
     public static void setLocalDietiUser(Context context, DietiUser dietiUser) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("local_dieti_user_data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME_DIETI_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong("id", dietiUser.getId());
         editor.putString("name", dietiUser.getName());
@@ -29,12 +31,12 @@ public class LocalDietiUser {
     }
 
     public static void deleteLocalDietiUser(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("local_dieti_user_data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME_DIETI_USER, Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
     }
 
-    public static DietiUser getLocalDietiUser(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("local_dieti_user_data", Context.MODE_PRIVATE);
+    public static DietiUser getLocalDietiUser(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME_DIETI_USER, Context.MODE_PRIVATE);
         List<String> links = Collections.singletonList(sharedPreferences.getString("links", ""));
         return new DietiUser(
                 sharedPreferences.getLong("id", 0),

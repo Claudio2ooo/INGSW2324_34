@@ -64,4 +64,9 @@
     <string name="notifications_label">Notifiche</string>
     <string name="show">Mostra</string>
     <string name="seller_info_label">Informazioni sul venditore</string>
+    <string name="failed_login">Login fallito!</string>
+    <string name="login_error_info_label">Le credenziali inserite non sono valide!</string>
+    <string name="try_again_label">Riprova</string>
+    <string name="registration_was_successful">Registrazione avvenuta con successo!</string>
+    <string name="failed_sign_in_label">Registrazione Fallita!</string>
 </resources>

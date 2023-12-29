@@ -126,7 +126,7 @@
                         android:gravity="center"
                         android:maxLines="4"
                         android:text="@string/lorem_ipsum"
-                        android:textColor="@color/lightGrey"
+                        android:textColor="@color/light_grey"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/textView12"
                         app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -161,7 +161,7 @@
                         android:gravity="center"
                         android:maxLines="4"
                         android:text="https://www.instagram.com/example/"
-                        android:textColor="@color/lightGrey"
+                        android:textColor="@color/light_grey"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -192,14 +192,14 @@
                 android:text="@string/change_password_label" />
 
             <Button
-                android:id="@+id/exitBtn"
+                android:id="@+id/logOutBtn"
                 style="@style/CustomButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/red"
+                android:backgroundTint="@color/red_cherry"
                 android:text="@string/log_out_label" />
 
         </LinearLayout>

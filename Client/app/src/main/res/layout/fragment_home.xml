@@ -62,7 +62,7 @@
                         android:inputType="text"
                         android:padding="8dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/lightGrey"
+                        android:textColorHint="@color/light_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

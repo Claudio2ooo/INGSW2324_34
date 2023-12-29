@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="0.5"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/red_cherry"
             android:text="@string/cancel_label" />
 
     </LinearLayout>

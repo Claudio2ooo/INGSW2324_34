@@ -49,7 +49,7 @@
                     android:inputType="text"
                     android:padding="8dp"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightGrey" />
+                    android:textColorHint="@color/light_grey" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,9 +49,9 @@
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
                     app:boxBackgroundColor="@color/white"
-                    android:textColorHint="@color/darkBlue"
+                    android:textColorHint="@color/dark_blue"
                     app:startIconDrawable="@drawable/round_category_24"
-                    app:startIconTint="@color/darkBlue">
+                    app:startIconTint="@color/dark_blue">
 
                     <AutoCompleteTextView
                         android:id="@+id/listItemsDropdownMenu"
@@ -61,7 +61,7 @@
                         android:dropDownHeight="wrap_content"
                         android:inputType="text"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/darkBlue"
+                        android:textColorHint="@color/dark_blue"
                         app:dropDownBackgroundTint="@color/yellow" />
 
                 </com.google.android.material.textfield.TextInputLayout>

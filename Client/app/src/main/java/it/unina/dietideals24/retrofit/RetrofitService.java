@@ -2,7 +2,6 @@ package it.unina.dietideals24.retrofit;
 
 import com.google.gson.Gson;
 
-import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

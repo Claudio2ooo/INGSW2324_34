@@ -29,7 +29,7 @@ public class TokenManagement {
         return sharedPreferences.getString(TOKEN_KEY, "");
     }
 
-    public void deleteToken() {
+    public static void deleteToken() {
         if (sharedPreferences != null)
             sharedPreferences.edit().remove(TOKEN_KEY).apply();
     }
