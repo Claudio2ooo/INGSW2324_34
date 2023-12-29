@@ -8,6 +8,7 @@ public class DietiUser {
     private String surname;
     private String email;
     private String password;
+    private String biography;
     private List<String> links;
     private String geographicalArea;
     private String profilePictureUrl;
@@ -19,14 +20,25 @@ public class DietiUser {
         this.password = password;
     }
 
-    public DietiUser(String name, String surname, String email, String password, List<String> links, String geographicalArea, String profilePictureUrl) {
+    public DietiUser(String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.biography = biography;
         this.links = links;
         this.geographicalArea = geographicalArea;
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public DietiUser(Long id, String name, String surname, String email, String biography, List<String> links, String geographicalArea) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.biography = biography;
+        this.links = links;
+        this.geographicalArea = geographicalArea;
     }
 
     public Long getId() {
@@ -91,5 +103,28 @@ public class DietiUser {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    @Override
+    public String toString() {
+        return "DietiUser{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", biography='" + biography + '\'' +
+                ", links=" + links +
+                ", geographicalArea='" + geographicalArea + '\'' +
+                ", profilePictureUrl='" + profilePictureUrl + '\'' +
+                '}';
     }
 }

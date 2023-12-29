@@ -42,7 +42,7 @@ public class AuthenticationService {
                 )
         );
 
-        return dietiUserRepository.findDietiUserByEmail(loginDto.getEmail())
+        return dietiUserRepository.findByEmail(loginDto.getEmail())
                 .orElseThrow();
     }
 }

@@ -27,16 +27,16 @@ public class DietiUserService implements IDietiUserService {
     @Override
     public DietiUser getUserById(Long dietiUserId) {
         Optional<DietiUser> dietiUserOptional = dietiUserRepository.findById(dietiUserId);
-        if(dietiUserOptional.isEmpty()){
-            throw new IllegalStateException("Utente con id "+dietiUserId+" non esite");
+        if (dietiUserOptional.isEmpty()) {
+            throw new IllegalStateException("Utente con id " + dietiUserId + " non esite");
         }
         return dietiUserOptional.get();
     }
 
     @Override
     public void addNewDietiUser(DietiUser dietiUser) {
-        Optional<DietiUser> dietiUserOptional = dietiUserRepository.findDietiUserByEmail(dietiUser.getEmail());
-        if(dietiUserOptional.isPresent()){
+        Optional<DietiUser> dietiUserOptional = dietiUserRepository.findByEmail(dietiUser.getEmail());
+        if (dietiUserOptional.isPresent()) {
             throw new IllegalStateException("email già registrata");
         }
         dietiUserRepository.save(dietiUser);
@@ -45,7 +45,7 @@ public class DietiUserService implements IDietiUserService {
     @Override
     public void deleteDietiUser(Long dietiUserId) {
         boolean exists = dietiUserRepository.existsById(dietiUserId);
-        if(!exists){
+        if (!exists) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
         dietiUserRepository.deleteById(dietiUserId);
@@ -59,7 +59,16 @@ public class DietiUserService implements IDietiUserService {
     @Override
     public void linkImage(String profilePicDirectory, Long id) {
         DietiUser dietiUser = dietiUserRepository.findById(id).get();
-        dietiUser.setProfilePictureUrl(profilePicDirectory+"/"+id);
+        dietiUser.setProfilePictureUrl(profilePicDirectory + "/" + id);
         dietiUserRepository.save(dietiUser);
+    }
+
+    @Override
+    public DietiUser getUserByEmail(String email) {
+        Optional<DietiUser> dietiUserOptional = dietiUserRepository.findByEmail(email);
+        if (dietiUserOptional.isEmpty()) {
+            throw new IllegalStateException("email inesistente");
+        }
+        return dietiUserOptional.get();
     }
 }

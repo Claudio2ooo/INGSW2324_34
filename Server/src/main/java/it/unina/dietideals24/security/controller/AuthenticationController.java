@@ -1,5 +1,6 @@
 package it.unina.dietideals24.security.controller;
 
+import io.micrometer.observation.GlobalObservationConvention;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.repository.IDietiUserRepository;
 import it.unina.dietideals24.security.dto.LoginDto;
@@ -31,7 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<DietiUser> register(@RequestBody RegisterDto registerDTO) throws BadRequestException {
-        if(dietiUserRepository.existsByEmail(registerDTO.getEmail()))
+        if (dietiUserRepository.existsByEmail(registerDTO.getEmail()))
             throw new BadRequestException("Email already registered");
 
         DietiUser registeredUser = authenticationService.register(registerDTO);
@@ -39,7 +40,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDto loginDto) {
         DietiUser authenticatedUser = authenticationService.login(loginDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
@@ -47,7 +48,8 @@ public class AuthenticationController {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(jwtToken);
         loginResponse.setExpiresIn(jwtService.getExpirationTime());
-
+        loginResponse.setDietiUser(authenticatedUser);
+        
         return ResponseEntity.ok(loginResponse);
     }
 

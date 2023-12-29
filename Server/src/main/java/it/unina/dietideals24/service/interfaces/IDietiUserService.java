@@ -17,4 +17,5 @@ public interface IDietiUserService {
 
     void linkImage(String profilePicDirectory, Long id);
 
+    DietiUser getUserByEmail(String email);
 }

@@ -2,9 +2,10 @@ package it.unina.dietideals24.retrofit;
 
 import com.google.gson.Gson;
 
+import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
+import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,19 +16,13 @@ public class RetrofitService {
 
     private RetrofitService() {}
 
-    public static Retrofit getRetrofitInstance(String token) {
-        if (token != null) {
-            httpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
-                Request newRequest = chain.request().newBuilder()
-                        .header("Authorization", "Bearer " + token)
-                        .build();
-                return chain.proceed(newRequest);
-            }).build();
-        } else {
-            httpClient = new OkHttpClient.Builder()
-                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+    public static Retrofit getRetrofitInstance() {
+        httpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
+            Request newRequest = chain.request().newBuilder()
+                    .header("Authorization", "Bearer " + TokenManagement.getToken())
                     .build();
-        }
+            return chain.proceed(newRequest);
+        }).build();
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -39,5 +34,4 @@ public class RetrofitService {
 
         return retrofit;
     }
-
 }

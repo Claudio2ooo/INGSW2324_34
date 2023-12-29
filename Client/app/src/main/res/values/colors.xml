@@ -9,4 +9,5 @@
     <color name="lightGrey">#9A9A9A</color>
     <color name="transparentGrey">#887A7A7A</color>
     <color name="red">#B50000</color>
+    <color name="red_error">#C51818</color>
 </resources>

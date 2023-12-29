@@ -1,4 +1,4 @@
-package it.unina.dietideals24.retrofit;
+package it.unina.dietideals24.retrofit.api;
 
 import java.util.List;
 
@@ -10,15 +10,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface DietiDealsService {
-
-    @POST
-    public Call<List<DietiUser>> getUsers();
+public interface DietiDealsAuthAPI {
 
     @POST("/auth/register")
-    public Call<DietiUser> register(@Body RegisterDto registerDto);
+    Call<DietiUser> register(@Body RegisterDto registerDto);
 
     @POST("/auth/login")
-    public Call<LoginResponse> login(@Body LoginDto loginDto);
+    Call<LoginResponse> login(@Body LoginDto loginDto);
 
 }

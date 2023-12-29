@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class TokenManagement {
     private static TokenManagement token = null;
-    private final SharedPreferences sharedPreferences;
+    private static SharedPreferences sharedPreferences = null;
     private static final String TOKEN_KEY = "token";
 
     private TokenManagement(Context context) {
@@ -23,8 +23,10 @@ public class TokenManagement {
         sharedPreferences.edit().putString(TOKEN_KEY, token).apply();
     }
 
-    public void getToken() {
-        sharedPreferences.getString(TOKEN_KEY, "");
+    public static String getToken() {
+        if (sharedPreferences == null)
+            return "";
+        return sharedPreferences.getString(TOKEN_KEY, "");
     }
 
     public void deleteToken() {

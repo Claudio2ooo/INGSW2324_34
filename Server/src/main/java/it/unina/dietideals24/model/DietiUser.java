@@ -24,6 +24,7 @@ public class DietiUser implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+    private String biography;
     private List<String> links;
     private String geographicalArea;
     private String profilePictureUrl;

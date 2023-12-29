@@ -2,18 +2,24 @@ package it.unina.dietideals24.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.LoginDto;
+import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.response.LoginResponse;
-import it.unina.dietideals24.retrofit.DietiDealsService;
-import it.unina.dietideals24.retrofit.DietiDealsServiceGenerator;
+import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.DietiDealsAPI;
+import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,21 +62,33 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         LoginDto loginDto = new LoginDto(email, password);
-        DietiDealsService dietiDealsService = DietiDealsServiceGenerator.createService(DietiDealsService.class);
-        Call<LoginResponse> loginAsync = dietiDealsService.login(loginDto);
+        DietiDealsAuthAPI dietiDealsService = RetrofitService.getRetrofitInstance().create(DietiDealsAuthAPI.class);
 
-        loginAsync.enqueue(new Callback<LoginResponse>() {
+        dietiDealsService.login(loginDto).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                saveToken(response);
+                saveCurrentUser(response);
+
                 Intent signInActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(signInActivity);
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                //TODO popup login failed
+                Toast.makeText(LoginActivity.this, "Login fallito", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveCurrentUser(Response<LoginResponse> response) {
+        LocalDietiUser.setLocalDietiUser(getApplicationContext(), response.body().getDietiUser());
+        Log.e("DietiUser", "DietiUser: "+LocalDietiUser.getLocalDietiUser(getApplicationContext()));
+    }
+
+    private void saveToken(Response<LoginResponse> response) {
+        TokenManagement tokenManagement = TokenManagement.getInstance(getApplicationContext());
+        tokenManagement.setToken(response.body().getToken());
     }
 
     private void initializeViews() {
