@@ -69,4 +69,6 @@
     <string name="try_again_label">Riprova</string>
     <string name="registration_was_successful">Registrazione avvenuta con successo!</string>
     <string name="failed_sign_in_label">Registrazione Fallita!</string>
+    <string name="complete_your_profile_label">Completa il tuo profilo!</string>
+    <string name="geographical_area">Area Geografica</string>
 </resources>

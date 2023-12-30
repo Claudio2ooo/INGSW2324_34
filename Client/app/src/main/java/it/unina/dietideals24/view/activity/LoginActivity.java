@@ -92,12 +92,17 @@ public class LoginActivity extends AppCompatActivity {
         dietiUserAuthAPI.login(loginDto).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                loginProgressBar.setVisibility(View.GONE);
-                saveToken(response);
-                saveCurrentUser(response);
+                if (response.code() != 401) {
+                    loginProgressBar.setVisibility(View.GONE);
+                    saveToken(response);
+                    saveCurrentUser(response);
 
-                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
+                    Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainActivity);
+                } else {
+                    loginProgressBar.setVisibility(View.GONE);
+                    showFailedLoginDialog();
+                }
             }
 
             @Override
