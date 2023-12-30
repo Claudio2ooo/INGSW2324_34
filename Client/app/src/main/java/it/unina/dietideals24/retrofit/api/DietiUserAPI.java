@@ -5,7 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface DietiDealsAPI {
+public interface DietiUserAPI {
 
     @GET("/users/email/{email}")
     Call<DietiUser> getUserByEmail(@Path("email") String email);

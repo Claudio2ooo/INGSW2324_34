@@ -22,7 +22,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.RegisterDto;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
-import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
+import it.unina.dietideals24.retrofit.api.DietiUserAuthAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -162,9 +162,9 @@ public class SignInActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
 
         RegisterDto registerDto = new RegisterDto(name, surname, email, password);
-        DietiDealsAuthAPI dietiDealsAuthAPI = RetrofitService.getRetrofitInstance().create(DietiDealsAuthAPI.class);
+        DietiUserAuthAPI dietiUserAuthAPI = RetrofitService.getRetrofitInstance().create(DietiUserAuthAPI.class);
 
-        dietiDealsAuthAPI.register(registerDto).enqueue(new Callback<DietiUser>() {
+        dietiUserAuthAPI.register(registerDto).enqueue(new Callback<DietiUser>() {
             @Override
             public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
                 signInProgressBar.setVisibility(View.GONE);

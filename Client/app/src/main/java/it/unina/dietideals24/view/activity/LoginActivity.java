@@ -20,7 +20,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.LoginDto;
 import it.unina.dietideals24.response.LoginResponse;
 import it.unina.dietideals24.retrofit.RetrofitService;
-import it.unina.dietideals24.retrofit.api.DietiDealsAuthAPI;
+import it.unina.dietideals24.retrofit.api.DietiUserAuthAPI;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import retrofit2.Call;
@@ -61,17 +61,17 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         LoginDto loginDto = new LoginDto(email, password);
-        DietiDealsAuthAPI dietiDealsService = RetrofitService.getRetrofitInstance().create(DietiDealsAuthAPI.class);
+        DietiUserAuthAPI dietiUserAuthAPI = RetrofitService.getRetrofitInstance().create(DietiUserAuthAPI.class);
 
-        dietiDealsService.login(loginDto).enqueue(new Callback<LoginResponse>() {
+        dietiUserAuthAPI.login(loginDto).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 loginProgressBar.setVisibility(View.GONE);
                 saveToken(response);
                 saveCurrentUser(response);
 
-                Intent signInActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(signInActivity);
+                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainActivity);
             }
 
             @Override
