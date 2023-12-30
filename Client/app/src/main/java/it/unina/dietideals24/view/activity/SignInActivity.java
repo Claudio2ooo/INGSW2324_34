@@ -110,7 +110,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     /**
-     * @return
+     * checks if the all the fields have been field
+     * @return true if all fields are filled, false otherwise
      */
     private boolean isNotEmptyEditText() {
         String name = nameEditText.getText().toString();

@@ -1,6 +1,5 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.auction_timer.AuctionTimerController;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
@@ -33,9 +32,6 @@ public class OfferController {
     @Qualifier("mainDownwardAuctionService")
     private IDownwardAuctionService downwardAuctionService;
 
-    @Autowired
-    private AuctionTimerController auctionTimerController;
-
     @GetMapping("english/{id}")
     public List<Offer> getOffersByEnglishAuctionId(@PathVariable("id") Long englishAuctionId) {
         return offerService.getOffersByEnglishAuctionId(englishAuctionId);
@@ -62,7 +58,8 @@ public class OfferController {
             );
             Offer savedOffer = offerService.save(betterOffer);
             englishAuctionService.updateCurrentPrice(targetAuction, newOffer);
-            auctionTimerController.restartOngoingEnglishTimer(targetAuction);
+            //TODO FIX
+            //auctionTimerController.restartOngoingEnglishTimer(targetAuction);
 
             return ResponseEntity.ok(savedOffer);
         } else {

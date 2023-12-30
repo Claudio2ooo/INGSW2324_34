@@ -1,5 +1,6 @@
 package it.unina.dietideals24.service.implementation;
 
+import it.unina.dietideals24.auction_timer.EnglishAuctionTask;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
@@ -52,8 +53,11 @@ public class EnglishAuctionService implements IEnglishAuctionService {
         boolean exists = englishAuctionRepository.existsById(id);
         if(!exists){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EnglishAuction not found");
+        } else {
+            EnglishAuction toBeDeleted = englishAuctionRepository.findById(id).get();
+            toBeDeleted.setOwner(null);
+            englishAuctionRepository.delete(toBeDeleted);
         }
-        englishAuctionRepository.deleteById(id);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.auction_timer.AuctionTimerController;
+import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
@@ -31,8 +31,7 @@ public class EnglishAuctionController {
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
 
-    @Autowired
-    private AuctionTimerController auctionTimerController;
+    private final EnglishAuctionTimerController englishAuctionTimerController = new EnglishAuctionTimerController(this);
 
     @Autowired
     @Qualifier("locallyStoreImageService")
@@ -65,7 +64,7 @@ public class EnglishAuctionController {
             DietiUser owner = dietiUserService.getUserById(englishAuctionDto.getOwnerId());
             EnglishAuction createdEnglishAuction = englishAuctionService.save(englishAuctionDto, owner);
 
-            auctionTimerController.startNewTimer(createdEnglishAuction);
+            englishAuctionTimerController.startNewTimer(createdEnglishAuction);
 
             return ResponseEntity.ok(createdEnglishAuction);
         } else {

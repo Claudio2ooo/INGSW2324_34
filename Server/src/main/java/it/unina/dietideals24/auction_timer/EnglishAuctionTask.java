@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class EnglishAuctionTask extends AuctionTask {
 
-    @Autowired
-    private EnglishAuctionController englishAuctionController;
+    private final EnglishAuctionController englishAuctionController;
 
-    public EnglishAuctionTask(Auction auction) {
+    public EnglishAuctionTask(Auction auction, EnglishAuctionController englishAuctionController) {
         super(auction);
+        this.englishAuctionController = englishAuctionController;
     }
 
     @Override

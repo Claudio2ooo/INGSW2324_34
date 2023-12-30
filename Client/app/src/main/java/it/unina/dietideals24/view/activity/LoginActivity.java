@@ -1,5 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
+import android.accessibilityservice.GestureDescription;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.LoginDto;
 import it.unina.dietideals24.response.LoginResponse;
@@ -30,6 +33,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
+    private TextInputLayout emailTextLayout, passwordTextLayout;
     private Button loginBtn, loginWithGoogleBtn;
     private TextView signInBtn;
     private ProgressBar loginProgressBar;
@@ -42,14 +46,36 @@ public class LoginActivity extends AppCompatActivity {
         initializeViews();
 
         loginBtn.setOnClickListener(v -> {
-            loginProgressBar.setVisibility(View.VISIBLE);
-            login();
+            if (isNotEmptyFields()) {
+                loginProgressBar.setVisibility(View.VISIBLE);
+                login();
+            }
         });
 
         signInBtn.setOnClickListener(v -> {
             Intent signInActivity = new Intent(getApplicationContext(), SignInActivity.class);
             startActivity(signInActivity);
         });
+    }
+
+    private boolean isNotEmptyFields() {
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        boolean ret = true;
+
+        if (email.matches("")) {
+            emailTextLayout.setError("Inserire una email");
+            ret = false;
+        } else
+            emailTextLayout.setErrorEnabled(false);
+        if (password.matches("")) {
+            passwordTextLayout.setError("Inserire una password");
+            ret = false;
+        } else
+            passwordTextLayout.setErrorEnabled(false);
+
+        return ret;
     }
 
     private void login() {
@@ -84,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveCurrentUser(Response<LoginResponse> response) {
         LocalDietiUser.setLocalDietiUser(getApplicationContext(), response.body().getDietiUser());
-        Log.e("DietiUser", "DietiUser: " + LocalDietiUser.getLocalDietiUser(getApplicationContext()));
     }
 
     private void saveToken(Response<LoginResponse> response) {
@@ -112,7 +137,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initializeViews() {
         emailEditText = findViewById(R.id.inputEmail);
+        emailTextLayout = findViewById(R.id.emailTextLayout);
         passwordEditText = findViewById(R.id.inputPassword);
+        passwordTextLayout = findViewById(R.id.passwordTextLayout);
 
         loginBtn = findViewById(R.id.loginBtn);
         loginWithGoogleBtn = findViewById(R.id.loginWithGoogleBtn);

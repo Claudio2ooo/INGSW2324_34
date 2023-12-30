@@ -1,6 +1,6 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.auction_timer.AuctionTimerController;
+import it.unina.dietideals24.auction_timer.DownwardAuctionTimerController;
 import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,7 @@ public class DownwardAuctionController {
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
 
-    @Autowired
-    private AuctionTimerController auctionTimerController;
+    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController(this);
 
     @Autowired
     @Qualifier("locallyStoreImageService")
@@ -66,7 +64,7 @@ public class DownwardAuctionController {
             DietiUser owner = dietiUserService.getUserById(downwardAuctionDto.getOwnerId());
             DownwardAuction createdDownwardAuction = downwardAuctionService.save(downwardAuctionDto, owner);
 
-            auctionTimerController.startNewTimer(createdDownwardAuction);
+            downwardAuctionTimerController.startNewTimer(createdDownwardAuction);
 
             return ResponseEntity.ok(createdDownwardAuction);
         } else {
@@ -101,7 +99,7 @@ public class DownwardAuctionController {
             decreaseCurrentPrice(toBeDecreased);
             downwardAuctionService.save(toBeDecreased);
 
-            auctionTimerController.startNewTimer(toBeDecreased);
+            downwardAuctionTimerController.startNewTimer(toBeDecreased);
         }
     }
 

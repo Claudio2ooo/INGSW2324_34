@@ -50,12 +50,14 @@
             android:textSize="35sp" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTextLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:hint="@string/email_label"
             android:theme="@style/CustomTextInputLayout"
+            app:errorTextAppearance="@style/error_appearance"
             app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/round_email_24">
 
@@ -69,12 +71,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTextLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:hint="@string/password_label"
             android:theme="@style/CustomTextInputLayout"
+            app:errorTextAppearance="@style/error_appearance"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/round_lock_24">
 

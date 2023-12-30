@@ -6,11 +6,12 @@ import it.unina.dietideals24.model.DownwardAuction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DownwardAuctionTask extends AuctionTask {
-    @Autowired
-    private DownwardAuctionController downwardAuctionController;
 
-    public DownwardAuctionTask(Auction auction) {
+    private final DownwardAuctionController downwardAuctionController;
+
+    public DownwardAuctionTask(Auction auction, DownwardAuctionController downwardAuctionController) {
         super(auction);
+        this.downwardAuctionController = downwardAuctionController;
     }
 
     @Override

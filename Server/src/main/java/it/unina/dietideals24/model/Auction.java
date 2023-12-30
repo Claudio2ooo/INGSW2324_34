@@ -3,6 +3,7 @@ package it.unina.dietideals24.model;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import java.awt.*;
 import java.math.BigDecimal;
@@ -33,6 +34,7 @@ public class Auction {
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
+    @Cascade(org.hibernate.annotations.CascadeType.DETACH)
     private DietiUser owner;
 }
 

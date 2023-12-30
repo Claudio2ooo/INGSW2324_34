@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import it.unina.dietideals24.R;
+import it.unina.dietideals24.model.Auction;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auction_details);
 
         Long idAuction = getIntent().getLongExtra("id", -1);
-        // TODO if idAuction == -1 -> Error
 
         initializeViews();
 

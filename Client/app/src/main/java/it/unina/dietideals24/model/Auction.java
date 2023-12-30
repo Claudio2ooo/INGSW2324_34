@@ -97,4 +97,19 @@ public class Auction {
     public void setOwner(DietiUser owner) {
         this.owner = owner;
     }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", imageURL='" + imageURL + '\'' +
+                ", startingPrice=" + startingPrice +
+                ", currentPrice=" + currentPrice +
+                ", timerInMilliseconds=" + timerInMilliseconds +
+                ", owner=" + owner +
+                '}';
+    }
 }

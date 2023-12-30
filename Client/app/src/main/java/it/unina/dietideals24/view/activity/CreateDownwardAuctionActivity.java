@@ -26,7 +26,7 @@ import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
 public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
-    private EditText nameEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
+    private EditText nameEditText, descriptionEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
     private ImageView backBtn, imageProduct;
     private Button createAuctionBtn, uploadImageBtn, cancelBtn;
     private AutoCompleteTextView listItemsDropdownMenu;
@@ -88,6 +88,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
         listItemsDropdownMenu = findViewById(R.id.listItemsDropdownMenu);
         nameEditText = findViewById(R.id.inputName);
+        descriptionEditText = findViewById(R.id.inputDescription);
         startingPriceEditText = findViewById(R.id.inputStartingPrice);
         timerEditText = findViewById(R.id.inputTimer);
         decreaseAmountEditText = findViewById(R.id.inputDecreaseAmount);
