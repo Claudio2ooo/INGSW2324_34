@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface IEnglishAuctionRepository extends JpaRepository<EnglishAuction, Long> {
     List<EnglishAuction> findByOwnerId(Long ownerId);
-
     List<EnglishAuction> findByCategory(CategoryEnum category);
+    List<EnglishAuction> findByTitleContainsIgnoreCase(String keyword);
+    List<EnglishAuction> findByDescriptionContainsIgnoreCase(String keyword);
 }

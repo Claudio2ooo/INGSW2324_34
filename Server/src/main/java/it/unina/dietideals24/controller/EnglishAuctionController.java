@@ -58,6 +58,11 @@ public class EnglishAuctionController {
         return englishAuctionService.getEnglishAuctionsByCategory(category);
     }
 
+    @GetMapping("/search/{keyword}")
+    public List<EnglishAuction> searchEnglishAuctionsByKeyword(@PathVariable("keyword") String keyword){
+        return englishAuctionService.searchByKeyword(keyword);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<EnglishAuction> createEnglishAuction(@RequestBody EnglishAuctionDto englishAuctionDto) throws BadRequestException {
         if(dietiUserService.existsById(englishAuctionDto.getOwnerId())){

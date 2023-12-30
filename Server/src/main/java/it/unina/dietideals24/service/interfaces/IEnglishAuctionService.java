@@ -26,4 +26,6 @@ public interface IEnglishAuctionService {
     void linkImage(String englishAuctionImageDirectory, Long id);
 
     void updateCurrentPrice(EnglishAuction targetAuction, BigDecimal newOffer);
+
+    List<EnglishAuction> searchByKeyword(String keyword);
 }

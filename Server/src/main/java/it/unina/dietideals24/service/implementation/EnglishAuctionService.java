@@ -92,4 +92,12 @@ public class EnglishAuctionService implements IEnglishAuctionService {
         targetAuction.setCurrentPrice(newOffer);
         englishAuctionRepository.save(targetAuction);
     }
+
+    @Override
+    public List<EnglishAuction> searchByKeyword(String keyword) {
+        List<EnglishAuction> titleSearch = englishAuctionRepository.findByTitleContainsIgnoreCase(keyword);
+        List<EnglishAuction> descriptionSearch = englishAuctionRepository.findByDescriptionContainsIgnoreCase(keyword);
+        titleSearch.addAll(descriptionSearch);
+        return titleSearch;
+    }
 }
