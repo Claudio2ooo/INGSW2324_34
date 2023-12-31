@@ -89,6 +89,13 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initializeEnglishAuction();
+        initializeDownwardAuction();
+    }
+
     private void initializeViews(View view) {
         searchAuctionEditText = view.findViewById(R.id.inputSeachAuction);
         categoryBtn = view.findViewById(R.id.categoriesBtn);

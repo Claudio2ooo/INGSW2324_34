@@ -9,11 +9,16 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface EnglishAuctionAPI {
     @GET("/english-auctions")
     Call<ArrayList<Auction>> getEnglishAuctions();
 
+    @GET("/english-auctions/{id}")
+    Call<EnglishAuction> getById(@Path("id") Long idAuction);
+
     @POST("/english-auctions/create")
     Call<EnglishAuction> createAuction(@Body EnglishAuctionDto englishAuctionDto);
+
 }

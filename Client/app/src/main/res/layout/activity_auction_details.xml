@@ -78,7 +78,7 @@
                     android:id="@+id/categoryAuction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gategory"
+                    android:text="Category"
                     android:textColor="@color/light_grey"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/titleAuction"
@@ -153,11 +153,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/sellerInfoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Nome Congnome"
+                    android:text="Nome Cognome"
                     android:textColor="@color/yellow"
                     android:textSize="16sp"
                     android:textStyle="bold"

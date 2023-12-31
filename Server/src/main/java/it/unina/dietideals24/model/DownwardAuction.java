@@ -21,7 +21,7 @@ public class DownwardAuction extends Auction{
      */
     public boolean canBeDecreased(){
         //TODO trovare un modo più leggibile di scrivere questo return
-        return getCurrentPrice().subtract(getDecreaseAmount()).compareTo(new BigDecimal(0)) >= 0;
+        return getCurrentPrice().subtract(getDecreaseAmount()).compareTo(new BigDecimal(0)) > 0;
     }
 
     /**

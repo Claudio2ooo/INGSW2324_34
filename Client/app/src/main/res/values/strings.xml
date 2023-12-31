@@ -72,5 +72,6 @@
     <string name="complete_your_profile_label">Completa il tuo profilo!</string>
     <string name="geographical_area">Area Geografica</string>
     <string name="create_another_english_auction_label">Crea un\'altra asta all\'inglese</string>
+    <string name="create_another_downward_auction_label">Crea un\'altra asta al ribasso</string>
     <string name="back_to_home">Torna alla Home</string>
 </resources>

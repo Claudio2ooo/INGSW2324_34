@@ -53,7 +53,7 @@ public class EnglishAuctionController {
         return englishAuctionService.getEnglishAuctionsByOwner(ownerId);
     }
 
-    @GetMapping("{category}")
+    @GetMapping("/category/{category}")
     public List<EnglishAuction> getEnglishAuctionsByCategory(@PathVariable("category") CategoryEnum category) {
         return englishAuctionService.getEnglishAuctionsByCategory(category);
     }

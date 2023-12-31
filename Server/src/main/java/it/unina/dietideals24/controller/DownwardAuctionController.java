@@ -53,7 +53,7 @@ public class DownwardAuctionController {
         return downwardAuctionService.getDownwardAuctionsByOwner(ownerId);
     }
 
-    @GetMapping("{category}")
+    @GetMapping("/category/{category}")
     public List<DownwardAuction> getDownwardAuctionsByCategory(@PathVariable("category") CategoryEnum category) {
         return downwardAuctionService.getDownwardAuctionsByCategory(category);
     }

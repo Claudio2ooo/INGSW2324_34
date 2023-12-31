@@ -1,32 +1,53 @@
 package it.unina.dietideals24.view.activity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
+import it.unina.dietideals24.dto.DownwardAuctionDto;
+import it.unina.dietideals24.enumerations.CategoryEnum;
+import it.unina.dietideals24.model.DownwardAuction;
+import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateDownwardAuctionActivity extends AppCompatActivity {
-
     private EditText nameEditText, descriptionEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
+    private TextInputLayout nameTextLayout, descriptionTextLayout, categoryTextLayout, startingPriceTextLayout, timerTextLayout, decreaseAmountTextLayout, minimumPriceTextLayout;
     private ImageView backBtn, imageProduct;
     private Button createAuctionBtn, uploadImageBtn, cancelBtn;
     private AutoCompleteTextView listItemsDropdownMenu;
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
+    private ProgressBar createAuctionProgressBar;
     private String selectedCategory = null;
 
     @Override
@@ -46,6 +67,118 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build())
         );
+
+        createAuctionBtn.setOnClickListener(v -> {
+            if (isNotEmptyObligatoryFields() && isValidMinimumPrice()){
+                createAuctionProgressBar.setVisibility(View.VISIBLE);
+                createAuction();
+            }
+
+        });
+
+    }
+
+    private boolean isValidMinimumPrice() {
+        BigDecimal startingPrice = new BigDecimal(startingPriceEditText.getText().toString());
+        BigDecimal minimumPrice = new BigDecimal(minimumPriceEditText.getText().toString());
+
+        if (startingPrice.compareTo(minimumPrice) < 0) {
+            minimumPriceTextLayout.setError("Il prezzo minimo deve essere minore del prezzo iniziale");
+            return false;
+        }
+        minimumPriceTextLayout.setErrorEnabled(false);
+        return true;
+    }
+
+    private boolean isNotEmptyObligatoryFields() {
+        String title = nameEditText.getText().toString();
+        String description = descriptionEditText.getText().toString();
+        String startingPrice = startingPriceEditText.getText().toString();
+        String timer = timerEditText.getText().toString();
+        String decreaseAmount = decreaseAmountEditText.getText().toString();
+        String minimumPrice = minimumPriceEditText.getText().toString();
+
+        boolean ret = true;
+
+        if (title.isEmpty()) {
+            nameTextLayout.setError("Questo campo è obbligatorio");
+            ret = false;
+        } else
+            nameTextLayout.setErrorEnabled(false);
+
+        if (description.isEmpty()) {
+            descriptionTextLayout.setError("Questo campo è obbligatorio");
+            ret = false;
+        } else
+            descriptionTextLayout.setErrorEnabled(false);
+
+        if (startingPrice.isEmpty()) {
+            startingPriceTextLayout.setError("Questo campo è obbligatorio");
+            ret = false;
+        } else
+            startingPriceTextLayout.setErrorEnabled(false);
+
+        if (timer.isEmpty()) {
+            timerTextLayout.setError("Questo campo è obbligatorio");
+            ret = false;
+        } else
+            timerTextLayout.setErrorEnabled(false);
+
+        if (Long.parseLong(timer) == 0) {
+            timerTextLayout.setError("Il timer non può essere uguale a 0");
+            ret = false;
+        } else
+            timerTextLayout.setErrorEnabled(false);
+
+        if (decreaseAmount.isEmpty()) {
+            decreaseAmountTextLayout.setError("Questo campo è obbligatorio");
+            ret = false;
+        } else
+            decreaseAmountTextLayout.setErrorEnabled(false);
+
+        if (minimumPrice.isEmpty()) {
+            minimumPriceTextLayout.setError("Questo campo è obbligatorio");
+        } else
+            minimumPriceTextLayout.setErrorEnabled(false);
+
+        if (selectedCategory == null) {
+            categoryTextLayout.setError("Selezionare una categoria");
+            ret = false;
+        } else
+            categoryTextLayout.setErrorEnabled(false);
+
+        return ret;
+    }
+
+    private void createAuction() {
+        DownwardAuctionDto downwardAuctionDto = new DownwardAuctionDto(
+                nameEditText.getText().toString(),
+                descriptionEditText.getText().toString(),
+                CategoryEnum.valueOf(selectedCategory.toUpperCase()),
+                new BigDecimal(startingPriceEditText.getText().toString()),
+                new BigDecimal(startingPriceEditText.getText().toString()),
+                Long.parseLong(timerEditText.getText().toString()) * 1000,
+                new BigDecimal(decreaseAmountEditText.getText().toString()),
+                new BigDecimal(minimumPriceEditText.getText().toString()),
+                LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()
+        );
+
+        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
+        downwardAuctionAPI.createAuction(downwardAuctionDto).enqueue(new Callback<DownwardAuction>() {
+            @Override
+            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
+                createAuctionProgressBar.setVisibility(View.INVISIBLE);
+                showSuccessCreateAuctionDialog("Asta al ribasso \""+downwardAuctionDto.getTitle()+"\" creata con successo");
+            }
+
+            @Override
+            public void onFailure(Call<DownwardAuction> call, Throwable t) {
+                createAuctionProgressBar.setVisibility(View.INVISIBLE);
+                showFailedCreateAuctionDialog("Creazione asta \""+downwardAuctionDto.getTitle()+"\" fallita!");
+
+            }
+        });
+
     }
 
     private void initializeSinglePhotoPickerLauncher() {
@@ -65,13 +198,29 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         cancelBtn = findViewById(R.id.cancelBtn);
         createAuctionBtn = findViewById(R.id.createDownwardAuctionBtn);
 
+        createAuctionProgressBar = findViewById(R.id.createDownwardAuctionProgressBar);
+        createAuctionProgressBar.setVisibility(View.INVISIBLE);
+
         listItemsDropdownMenu = findViewById(R.id.listItemsDropdownMenu);
+        categoryTextLayout = findViewById(R.id.categoryTextLayout);
+
         nameEditText = findViewById(R.id.inputName);
+        nameTextLayout = findViewById(R.id.nameTextLayout);
+
         descriptionEditText = findViewById(R.id.inputDescription);
+        descriptionTextLayout = findViewById(R.id.descriptionTextLayout);
+
         startingPriceEditText = findViewById(R.id.inputStartingPrice);
+        startingPriceTextLayout = findViewById(R.id.startingPriceTextLayout);
+
         timerEditText = findViewById(R.id.inputTimer);
+        timerTextLayout = findViewById(R.id.timerTextLayout);
+
         decreaseAmountEditText = findViewById(R.id.inputDecreaseAmount);
+        decreaseAmountTextLayout = findViewById(R.id.decreaseAmountTextLayout);
+
         minimumPriceEditText = findViewById(R.id.inputMinimumPrice);
+        minimumPriceTextLayout = findViewById(R.id.minimumPriceTextLayout);
 
         initializeCategoryDropdownMenu();
     }
@@ -82,5 +231,76 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categories);
         listItemsDropdownMenu.setAdapter(adapterItemListCategoryDropdownMenu);
         listItemsDropdownMenu.setOnItemClickListener((parent, view, position, id) -> selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position));
+    }
+
+    private void showSuccessCreateAuctionDialog(String messageText) {
+        ConstraintLayout successCreateAuctionConstraintLayout = findViewById(R.id.successCreateAuctionConstraintLayout);
+        View viewSuccessCreateAuctionDialog = LayoutInflater.from(CreateDownwardAuctionActivity.this).inflate(R.layout.success_create_auction_dialog, successCreateAuctionConstraintLayout);
+
+        TextView messageTextView = viewSuccessCreateAuctionDialog.findViewById(R.id.successCreateAuctionText);
+        messageTextView.setText(messageText);
+
+        Button backToCreateAuctionBtn = viewSuccessCreateAuctionDialog.findViewById(R.id.backToCreateAuctionBtn);
+        backToCreateAuctionBtn.setText(getResources().getString(R.string.create_another_downward_auction_label));
+
+        Button backToHomeBtn = viewSuccessCreateAuctionDialog.findViewById(R.id.backToHomeBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateDownwardAuctionActivity.this);
+        builder.setView(viewSuccessCreateAuctionDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToCreateAuctionBtn.setOnClickListener(v -> {
+            clearEditText();
+            alertDialog.dismiss();
+        });
+
+        backToHomeBtn.setOnClickListener(v -> {
+            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainActivity);
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void showFailedCreateAuctionDialog(String messageText) {
+        ConstraintLayout failedCreateAuctionConstraintLayout = findViewById(R.id.failedCreateAuctionConstraintLayout);
+        View viewFailedCreateAuctionDialog = LayoutInflater.from(CreateDownwardAuctionActivity.this).inflate(R.layout.failed_create_auction_dialog, failedCreateAuctionConstraintLayout);
+
+        TextView messageTextView = viewFailedCreateAuctionDialog.findViewById(R.id.failedCreateAuctionText);
+        messageTextView.setText(messageText);
+
+        Button backToCreateAuctionBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToCreateAuctionBtn);
+        backToCreateAuctionBtn.setText(getResources().getString(R.string.create_another_downward_auction_label));
+
+        Button backToHomeBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToHomeBtn);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateDownwardAuctionActivity.this);
+        builder.setView(viewFailedCreateAuctionDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToCreateAuctionBtn.setOnClickListener(v -> alertDialog.dismiss());
+
+        backToHomeBtn.setOnClickListener(v -> {
+            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainActivity);
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void clearEditText() {
+        listItemsDropdownMenu.setText(null);
+        nameEditText.setText(null);
+        descriptionEditText.setText(null);
+        startingPriceEditText.setText(null);
+        timerEditText.setText(null);
+        decreaseAmountEditText.setText(null);
+        minimumPriceEditText.setText(null);
     }
 }

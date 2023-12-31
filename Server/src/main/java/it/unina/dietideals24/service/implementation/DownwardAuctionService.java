@@ -51,8 +51,11 @@ public class DownwardAuctionService implements IDownwardAuctionService {
         boolean exists = downwardAuctionRepository.existsById(id);
         if(!exists){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
+        } else {
+            DownwardAuction toBeDeleted = downwardAuctionRepository.findById(id).get();
+            toBeDeleted.setOwner(null);
+            downwardAuctionRepository.delete(toBeDeleted);
         }
-        downwardAuctionRepository.deleteById(id);
     }
 
     @Override
