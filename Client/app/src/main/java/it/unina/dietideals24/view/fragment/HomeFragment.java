@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.AuctionAdapter;
@@ -22,7 +21,6 @@ import it.unina.dietideals24.adapter.CategoryAdapter;
 import it.unina.dietideals24.entity.CategoryItem;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.retrofit.RetrofitService;
-import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
@@ -37,9 +35,14 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private EditText searchAuctionEditText;
-    private Button categoryBtn, englishAuctionsBtn, downwardAuctionsBtn;
-    private RecyclerView recyclerViewCategories, recyclerViewEnglishAuction, recyclerViewDownwardAuction;
-    private ProgressBar englishAuctionProgressBar, downwardAuctionProgressBar;
+    private Button categoryBtn;
+    private Button englishAuctionsBtn;
+    private Button downwardAuctionsBtn;
+    private RecyclerView recyclerViewCategories;
+    private RecyclerView recyclerViewEnglishAuction;
+    private RecyclerView recyclerViewDownwardAuction;
+    private ProgressBar englishAuctionProgressBar;
+    private ProgressBar downwardAuctionProgressBar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,40 +59,31 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(view);
-        initializeCategories(view);
-        initializeEnglishAuction(view);
-        initializeDownwardAuction(view);
 
-        searchAuctionEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SearchAuctionActivity.class);
-                startActivity(intent);
-            }
+        englishAuctionProgressBar.setVisibility(View.VISIBLE);
+
+        initializeCategories();
+        initializeEnglishAuction();
+        initializeDownwardAuction();
+
+        searchAuctionEditText.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchAuctionActivity.class);
+            startActivity(intent);
         });
 
-        categoryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CategoriesActivity.class);
-                startActivity(intent);
-            }
+        categoryBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CategoriesActivity.class);
+            startActivity(intent);
         });
 
-        englishAuctionsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EnglishAuctionsActivity.class);
-                startActivity(intent);
-            }
+        englishAuctionsBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EnglishAuctionsActivity.class);
+            startActivity(intent);
         });
 
-        downwardAuctionsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), DownwardAuctionsActivity.class);
-                startActivity(intent);
-            }
+        downwardAuctionsBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), DownwardAuctionsActivity.class);
+            startActivity(intent);
         });
 
         return view;
@@ -112,7 +106,7 @@ public class HomeFragment extends Fragment {
         recyclerViewDownwardAuction = view.findViewById(R.id.downwardAuctionsList);
     }
 
-    private void initializeCategories(View view) {
+    private void initializeCategories() {
         ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getFirstSixCategoryItems(getContext(), getActivity());
 
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -121,24 +115,7 @@ public class HomeFragment extends Fragment {
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
-//    private void initializeEnglishAuction(View view) {
-//        // TEST AuctionAdapter
-//        ArrayList<Auction> auctions = new ArrayList<>();
-//        auctions.add(new Auction("Cuffie", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.INFORMATICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Computer", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.INFORMATICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Gioielli", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Chitarra", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Obiettivo", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Monitor", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("TV", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//
-//        recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//
-//        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
-//        recyclerViewEnglishAuction.setAdapter(adapterAuction);
-//    }
-
-    private void initializeEnglishAuction(View view){
+    private void initializeEnglishAuction() {
         recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
@@ -162,24 +139,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-//    private void initializeDownwardAuction(View view) {
-//        // TEST AuctionAdapter
-//        ArrayList<Auction> auctions = new ArrayList<>();
-//        auctions.add(new Auction("Cuffie", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.INFORMATICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Computer", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.INFORMATICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Gioielli", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Chitarra", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Obiettivo", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("Monitor", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/featured", new BigDecimal(42), new BigDecimal(123), 1000L));
-//        auctions.add(new Auction("TV", "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.", CategoryEnum.ELETTRONICA, "https://source.unsplash.com/random", new BigDecimal(42), new BigDecimal(123), 1000L));
-//
-//        recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//
-//        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
-//        recyclerViewDownwardAuction.setAdapter(adapterAuction);
-//    }
-
-    private void initializeDownwardAuction(View view){
+    private void initializeDownwardAuction() {
         recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
@@ -198,7 +158,6 @@ public class HomeFragment extends Fragment {
                 downwardAuctionProgressBar.setVisibility(View.GONE);
                 RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>());
                 recyclerViewDownwardAuction.setAdapter(adapterAuction);
-
             }
         });
     }

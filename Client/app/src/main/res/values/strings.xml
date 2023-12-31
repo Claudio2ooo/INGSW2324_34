@@ -71,4 +71,6 @@
     <string name="failed_sign_in_label">Registrazione Fallita!</string>
     <string name="complete_your_profile_label">Completa il tuo profilo!</string>
     <string name="geographical_area">Area Geografica</string>
+    <string name="create_another_english_auction_label">Crea un\'altra asta all\'inglese</string>
+    <string name="back_to_home">Torna alla Home</string>
 </resources>

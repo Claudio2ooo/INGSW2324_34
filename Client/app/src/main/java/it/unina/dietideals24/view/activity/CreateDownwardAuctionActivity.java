@@ -1,9 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -11,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,40 +37,23 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         initializeSinglePhotoPickerLauncher();
         initializeViews();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
+        cancelBtn.setOnClickListener(v -> finish());
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        uploadImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        uploadImageBtn.setOnClickListener(v ->
                 // Launch the photo picker and let the user choose only images
                 singlePhotoPickerLauncher.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                        .build());
-            }
-        });
+                        .build())
+        );
     }
 
     private void initializeSinglePhotoPickerLauncher() {
-        singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri uri) {
-                if (uri == null) {
-                    Toast.makeText(CreateDownwardAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Glide.with(CreateDownwardAuctionActivity.this).load(uri).into(imageProduct);
-                }
+        singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            if (uri == null) {
+                Toast.makeText(CreateDownwardAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
+            } else {
+                Glide.with(CreateDownwardAuctionActivity.this).load(uri).into(imageProduct);
             }
         });
     }
@@ -102,11 +81,6 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categories);
         listItemsDropdownMenu.setAdapter(adapterItemListCategoryDropdownMenu);
-        listItemsDropdownMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position);
-            }
-        });
+        listItemsDropdownMenu.setOnItemClickListener((parent, view, position, id) -> selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position));
     }
 }

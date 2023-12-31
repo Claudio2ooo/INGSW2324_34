@@ -29,8 +29,16 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private EditText nameEditText, surnameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
-    private TextInputLayout nameTextLayout, surnameTextLayout, emailTextLayout, passwordTextLayout, confirmPasswordTextLayout;
+    private EditText nameEditText;
+    private EditText surnameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText confirmPasswordEditText;
+    private TextInputLayout nameTextLayout;
+    private TextInputLayout surnameTextLayout;
+    private TextInputLayout emailTextLayout;
+    private TextInputLayout passwordTextLayout;
+    private TextInputLayout confirmPasswordTextLayout;
     private Button signInBtn;
     private ImageView backBtn;
     private ProgressBar signInProgressBar;
@@ -50,6 +58,25 @@ public class SignInActivity extends AppCompatActivity {
                 register();
             }
         });
+    }
+
+    private void initializeViews() {
+        nameEditText = findViewById(R.id.inputName);
+        surnameEditText = findViewById(R.id.inputSurname);
+        emailEditText = findViewById(R.id.inputEmail);
+        passwordEditText = findViewById(R.id.inputPassword);
+        confirmPasswordEditText = findViewById(R.id.inputConfirmPassword);
+        nameTextLayout = findViewById(R.id.nameTextLayout);
+        surnameTextLayout = findViewById(R.id.surnameTextLayout);
+        emailTextLayout = findViewById(R.id.emailTextLayout);
+        passwordTextLayout = findViewById(R.id.passwordTextLayout);
+        confirmPasswordTextLayout = findViewById(R.id.confirmPasswordTextLayout);
+
+        signInBtn = findViewById(R.id.signInBtn);
+        backBtn = findViewById(R.id.backBtn);
+
+        signInProgressBar = findViewById(R.id.signInProgressBar);
+        signInProgressBar.setVisibility(View.GONE);
     }
 
     /**
@@ -111,6 +138,7 @@ public class SignInActivity extends AppCompatActivity {
 
     /**
      * checks if the all the fields have been field
+     *
      * @return true if all fields are filled, false otherwise
      */
     private boolean isNotEmptyEditText() {
@@ -122,36 +150,35 @@ public class SignInActivity extends AppCompatActivity {
 
         boolean ret = true; //TODO farlo più bello
 
-        if (name.matches("")) {
+        if (name.isEmpty()) {
             nameTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
-        } else {
-            //nameTextLayout.setErrorEnabled(false);
-        }
-        if (surname.matches("")) {
+        } else
+            nameTextLayout.setErrorEnabled(false);
+
+        if (surname.isEmpty()) {
             surnameTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
-        } else {
+        } else
             surnameTextLayout.setErrorEnabled(false);
-        }
-        if (email.matches("")) {
+
+        if (email.isEmpty()) {
             emailTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
-        } else {
+        } else
             emailTextLayout.setErrorEnabled(false);
-        }
-        if (password.matches("")) {
+
+        if (password.isEmpty()) {
             passwordTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
-        } else {
+        } else
             passwordTextLayout.setErrorEnabled(false);
-        }
-        if (confirmPassword.matches("")) {
+
+        if (confirmPassword.isEmpty()) {
             confirmPasswordTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
-        } else {
+        } else
             confirmPasswordTextLayout.setErrorEnabled(false);
-        }
 
         return ret;
     }
@@ -228,7 +255,7 @@ public class SignInActivity extends AppCompatActivity {
         View viewFailedSignInEmailAlreadyRegisteredDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.failed_sign_in_email_already_registered_dialog, failedSignInEmailAlreadyRegisteredConstraintLayout);
 
         TextView messageTextView = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.messageText);
-        messageTextView.setText("L'email " + emailAlreadyRegistered + " è già registrata!\n Riprova con un'altra email.");
+        messageTextView.setText(String.format("L'email %s è già registrata!\n Riprova con un'altra email.", emailAlreadyRegistered));
 
         Button tryAgainBtn = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.tryAgainBtn);
 
@@ -244,33 +271,18 @@ public class SignInActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void initializeViews() {
-        nameEditText = findViewById(R.id.inputName);
-        surnameEditText = findViewById(R.id.inputSurname);
-        emailEditText = findViewById(R.id.inputEmail);
-        passwordEditText = findViewById(R.id.inputPassword);
-        confirmPasswordEditText = findViewById(R.id.inputConfirmPassword);
-        nameTextLayout = findViewById(R.id.nameTextLayout);
-        surnameTextLayout = findViewById(R.id.surnameTextLayout);
-        emailTextLayout = findViewById(R.id.emailTextLayout);
-        passwordTextLayout = findViewById(R.id.passwordTextLayout);
-        confirmPasswordTextLayout = findViewById(R.id.confirmPasswordTextLayout);
-
-        signInBtn = findViewById(R.id.signInBtn);
-        backBtn = findViewById(R.id.backBtn);
-
-        signInProgressBar = findViewById(R.id.signInProgressBar);
-        signInProgressBar.setVisibility(View.GONE);
+    private void clearEditText() {
+        nameEditText.setText(null);
+        surnameEditText.setText(null);
+        emailEditText.setText(null);
+        passwordEditText.setText(null);
+        confirmPasswordEditText.setText(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        nameEditText.setText(null);
-        surnameEditText.setText(null);
-        emailEditText.setText(null);
-        passwordEditText.setText(null);
-        confirmPasswordEditText.setText(null);
+        clearEditText();
     }
 }
