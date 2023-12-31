@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface EnglishAuctionAPI {
     @GET("/english-auctions")
-    Call<ArrayList<Auction>> getEnglishAuctions();
+    Call<ArrayList<EnglishAuction>> getEnglishAuctions();
 
     @GET("/english-auctions/{id}")
     Call<EnglishAuction> getById(@Path("id") Long idAuction);

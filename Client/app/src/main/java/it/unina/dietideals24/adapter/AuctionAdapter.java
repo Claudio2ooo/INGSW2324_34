@@ -2,6 +2,7 @@ package it.unina.dietideals24.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Auction;
+import it.unina.dietideals24.model.DownwardAuction;
+import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
@@ -59,6 +62,10 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             public void onClick(View v) {
                 Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
                 intent.putExtra("id", auctions.get(holder.getAdapterPosition()).getId());
+                if (auctions.get(holder.getAdapterPosition()) instanceof EnglishAuction)
+                    intent.putExtra("type", "ENGLISH");
+                else if (auctions.get(holder.getAdapterPosition()) instanceof DownwardAuction)
+                    intent.putExtra("type", "DOWNWARD");
                 context.startActivity(intent);
             }
         });

@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 
 public interface DownwardAuctionAPI {
     @GET("/downward-auctions")
-    Call<ArrayList<Auction>> getDownwardAuctions();
+    Call<ArrayList<DownwardAuction>> getDownwardAuctions();
 
     @GET("/downward-auctions/{id}")
     Call<DownwardAuction> getById(@Path("id") Long idAuction);

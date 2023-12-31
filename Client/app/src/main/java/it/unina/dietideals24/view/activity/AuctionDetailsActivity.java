@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
@@ -26,6 +28,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
     private ImageView backBtn, image;
     private TextView title, categoryName, description, currentPrice, timer, sellerInfoText;
+    private TextInputLayout offerTextLayout;
     private EditText offerEditText;
     private Button makeAnOfferBtn;
     private ConstraintLayout sellerInfoBtn;
@@ -44,10 +47,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         initializeViews();
 
         Long idAuction = getIntent().getLongExtra("id", -1);
-//        if (getIntent().getStringExtra("type").equals("ENGLISH"))
-//            getEnglishAuction(idAuction);
-//        else if (getIntent().getStringExtra("type").equals("DOWNWARD"))
-//            getDownwardAuction(idAuction);
+        if (getIntent().getStringExtra("type").equals("ENGLISH"))
+            getEnglishAuction(idAuction);
+        else if (getIntent().getStringExtra("type").equals("DOWNWARD"))
+            getDownwardAuction(idAuction);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +76,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         timer.setText(String.format(auction.getTimerInMilliseconds().toString()));
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
-
+        if (auction instanceof EnglishAuction)
+            offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
+        else
+            offerTextLayout.setHint(auction.getCurrentPrice().toString());
     }
 
     private void getDownwardAuction(Long idAuction) {
@@ -126,6 +132,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         currentPrice = findViewById(R.id.currentPriceAuction);
         timer = findViewById(R.id.timerAuction);
         offerEditText = findViewById(R.id.inputAnOffer);
+        offerTextLayout = findViewById(R.id.offerTextLayout);
         makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
         backBtn = findViewById(R.id.backBtn);
         sellerInfoBtn = findViewById(R.id.sellerInfo);
