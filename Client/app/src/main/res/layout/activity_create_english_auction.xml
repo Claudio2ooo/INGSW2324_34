@@ -114,15 +114,15 @@
                 android:layout_marginBottom="8dp"
                 android:hint="@string/product_name_label"
                 android:theme="@style/CustomTextInputLayout"
-                app:errorTextAppearance="@style/error_appearance"
                 app:endIconMode="clear_text"
+                app:errorTextAppearance="@style/error_appearance"
                 app:startIconDrawable="@drawable/round_person_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -133,17 +133,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="@string/description_label"
+                android:hint="@string/description_product_label"
                 android:theme="@style/CustomTextInputLayout"
-                app:errorTextAppearance="@style/error_appearance"
                 app:endIconMode="clear_text"
+                app:errorTextAppearance="@style/error_appearance"
                 app:startIconDrawable="@drawable/round_message_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>

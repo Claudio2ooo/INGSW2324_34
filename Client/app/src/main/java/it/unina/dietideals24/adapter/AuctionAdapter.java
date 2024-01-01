@@ -2,7 +2,6 @@ package it.unina.dietideals24.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
+import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
 import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
@@ -54,20 +54,17 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         holder.title.setText(auctions.get(holder.getAdapterPosition()).getTitle());
         holder.categoryName.setText(auctions.get(holder.getAdapterPosition()).getCategory().toString());
-        holder.currentPrice.setText(auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString());
-        holder.timer.setText(auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds().toString());
+        holder.currentPrice.setText(String.format("€%s", auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString()));
+        holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds()));
 
-        holder.showAuctionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
-                intent.putExtra("id", auctions.get(holder.getAdapterPosition()).getId());
-                if (auctions.get(holder.getAdapterPosition()) instanceof EnglishAuction)
-                    intent.putExtra("type", "ENGLISH");
-                else if (auctions.get(holder.getAdapterPosition()) instanceof DownwardAuction)
-                    intent.putExtra("type", "DOWNWARD");
-                context.startActivity(intent);
-            }
+        holder.showAuctionBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
+            intent.putExtra("id", auctions.get(holder.getAdapterPosition()).getId());
+            if (auctions.get(holder.getAdapterPosition()) instanceof EnglishAuction)
+                intent.putExtra("type", "ENGLISH");
+            else if (auctions.get(holder.getAdapterPosition()) instanceof DownwardAuction)
+                intent.putExtra("type", "DOWNWARD");
+            context.startActivity(intent);
         });
     }
 
@@ -78,7 +75,10 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
     public class AuctionViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView title, categoryName, currentPrice, timer;
+        TextView title;
+        TextView categoryName;
+        TextView currentPrice;
+        TextView timer;
         Button showAuctionBtn;
 
         public AuctionViewHolder(@NonNull View itemView) {

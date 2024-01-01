@@ -1,7 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +18,7 @@ public class SellerInfoActivity extends AppCompatActivity {
 
         initializeViews();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void initializeViews() {

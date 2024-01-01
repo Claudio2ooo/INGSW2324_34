@@ -30,6 +30,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.NotificationViewHolder holder, int position) {
 
+        holder.deleteBtn.setOnClickListener(v -> notifications.remove(holder.getAdapterPosition()));
+
+        if (notifications.get(holder.getAdapterPosition()).getState().toString().equals("VINTA")) {
+            holder.stateTextView.setText("VINTA");
+            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.green_pistachio, context.getTheme()));
+        } else if (notifications.get(holder.getAdapterPosition()).getState().toString().equals("PERSA")) {
+            holder.stateTextView.setText("PERSA");
+            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
+        } else {
+            holder.stateTextView.setText("FALLITA");
+            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.yellow, context.getTheme()));
+        }
     }
 
     @Override
@@ -38,16 +50,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
-        ImageView image, delete;
-        TextView title, price;
+        ImageView image;
+        ImageView deleteBtn;
+        TextView titleTextView;
+        TextView priceTextView;
+        TextView stateTextView;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.imageItem);
-            title = itemView.findViewById(R.id.titleItemNotification);
-            price = itemView.findViewById(R.id.priceItemNotification);
-            delete = itemView.findViewById(R.id.deleteNotificationBtn);
+            titleTextView = itemView.findViewById(R.id.titleItemNotification);
+            priceTextView = itemView.findViewById(R.id.priceItemNotification);
+            deleteBtn = itemView.findViewById(R.id.deleteNotificationBtn);
+            stateTextView = itemView.findViewById(R.id.stateText);
         }
     }
 }

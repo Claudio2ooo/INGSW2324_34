@@ -2,7 +2,6 @@ package it.unina.dietideals24.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +19,7 @@ import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,19 +52,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         else if (getIntent().getStringExtra("type").equals("DOWNWARD"))
             getDownwardAuction(idAuction);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
 
-        sellerInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SellerInfoActivity.class);
-                startActivity(intent);
-            }
+        sellerInfoBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), SellerInfoActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -72,8 +64,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         title.setText(auction.getTitle());
         categoryName.setText(auction.getCategory().toString());
         description.setText(auction.getDescription());
-        currentPrice.setText(String.format(auction.getCurrentPrice().toString()));
-        timer.setText(String.format(auction.getTimerInMilliseconds().toString()));
+        currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
+        timer.setText(String.format(ConvertSecondsToHourMinuteSeconds.formatSeconds(auction.getTimerInMilliseconds())));
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
         if (auction instanceof EnglishAuction)
@@ -107,7 +99,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         englishAuctionAPI.getById(idAuction).enqueue(new Callback<EnglishAuction>() {
             @Override
             public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     auction = response.body();
                     assert auction != null;
                     initializeFields(auction);
@@ -121,8 +113,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void initializeViews() {
         image = findViewById(R.id.imageAcution);

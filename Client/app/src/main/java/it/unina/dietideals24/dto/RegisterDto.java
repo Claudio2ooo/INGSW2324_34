@@ -4,6 +4,14 @@ public class RegisterDto {
     private String name;
     private String surname;
     private String email;
+    private String password;
+
+    public RegisterDto(String name, String surname, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
 
     public String getName() {
         return name;
@@ -34,15 +42,6 @@ public class RegisterDto {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private String password;
-
-    public RegisterDto(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
         this.password = password;
     }
 }

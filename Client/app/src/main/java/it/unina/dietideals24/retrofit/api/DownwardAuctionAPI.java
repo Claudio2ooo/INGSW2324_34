@@ -1,11 +1,8 @@
 package it.unina.dietideals24.retrofit.api;
 
-import android.media.tv.AitInfo;
-
 import java.util.ArrayList;
 
 import it.unina.dietideals24.dto.DownwardAuctionDto;
-import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,5 +19,4 @@ public interface DownwardAuctionAPI {
 
     @POST("/downward-auctions/create")
     Call<DownwardAuction> createAuction(@Body DownwardAuctionDto downwardAuctionDto);
-
 }

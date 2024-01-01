@@ -41,10 +41,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateDownwardAuctionActivity extends AppCompatActivity {
-    private EditText nameEditText, descriptionEditText, startingPriceEditText, timerEditText, decreaseAmountEditText, minimumPriceEditText;
-    private TextInputLayout nameTextLayout, descriptionTextLayout, categoryTextLayout, startingPriceTextLayout, timerTextLayout, decreaseAmountTextLayout, minimumPriceTextLayout;
-    private ImageView backBtn, imageProduct;
-    private Button createAuctionBtn, uploadImageBtn, cancelBtn;
+    private EditText nameEditText;
+    private EditText descriptionEditText;
+    private EditText startingPriceEditText;
+    private EditText timerEditText;
+    private EditText decreaseAmountEditText;
+    private EditText minimumPriceEditText;
+    private TextInputLayout nameTextLayout;
+    private TextInputLayout descriptionTextLayout;
+    private TextInputLayout categoryTextLayout;
+    private TextInputLayout startingPriceTextLayout;
+    private TextInputLayout timerTextLayout;
+    private TextInputLayout decreaseAmountTextLayout;
+    private TextInputLayout minimumPriceTextLayout;
+    private ImageView backBtn;
+    private ImageView imageProduct;
+    private Button createAuctionBtn;
+    private Button uploadImageBtn;
+    private Button cancelBtn;
     private AutoCompleteTextView listItemsDropdownMenu;
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
     private ProgressBar createAuctionProgressBar;
@@ -69,7 +83,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         );
 
         createAuctionBtn.setOnClickListener(v -> {
-            if (isNotEmptyObligatoryFields() && isValidMinimumPrice()){
+            if (isNotEmptyObligatoryFields() && isValidMinimumPrice()) {
                 createAuctionProgressBar.setVisibility(View.VISIBLE);
                 createAuction();
             }
@@ -168,13 +182,13 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
                 createAuctionProgressBar.setVisibility(View.INVISIBLE);
-                showSuccessCreateAuctionDialog("Asta al ribasso \""+downwardAuctionDto.getTitle()+"\" creata con successo");
+                showSuccessCreateAuctionDialog("Asta al ribasso \"" + downwardAuctionDto.getTitle() + "\" creata con successo");
             }
 
             @Override
             public void onFailure(Call<DownwardAuction> call, Throwable t) {
                 createAuctionProgressBar.setVisibility(View.INVISIBLE);
-                showFailedCreateAuctionDialog("Creazione asta \""+downwardAuctionDto.getTitle()+"\" fallita!");
+                showFailedCreateAuctionDialog("Creazione asta \"" + downwardAuctionDto.getTitle() + "\" fallita!");
 
             }
         });
