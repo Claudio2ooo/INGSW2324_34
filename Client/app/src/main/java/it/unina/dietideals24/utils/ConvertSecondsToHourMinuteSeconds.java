@@ -9,12 +9,15 @@ public class ConvertSecondsToHourMinuteSeconds {
      * @return the interval formatted in hh:mm:ss
      */
     public static String formatSeconds(Long timeInSeconds) {
-        long hours = timeInSeconds / 60;
-        hours = hours / 60;
+        long days = timeInSeconds / 86400;
+        long hours = (timeInSeconds / 3600) % 24;
         long secondsLeft = timeInSeconds % 60;
-        long minutes = hours % 60;
+        long minutes = (timeInSeconds /60) % 60;
 
-        return hours + "h:" + minutes + "m" + secondsLeft + "s";
+        if (days > 0)
+            return days + "d:" + minutes + "m" + secondsLeft + "s";
+        else
+            return hours + "h:" + minutes + "m" + secondsLeft + "s";
     }
 
 /*

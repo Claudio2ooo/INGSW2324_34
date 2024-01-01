@@ -126,7 +126,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:gravity="center_vertical"
+                                    android:gravity="center_vertical|center_horizontal"
                                     android:text="1h:20m:36s"
                                     android:textSize="14sp" />
                             </LinearLayout>
