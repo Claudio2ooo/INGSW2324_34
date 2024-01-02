@@ -2,6 +2,7 @@ package it.unina.dietideals24.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.sql.Timestamp;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Auction;
@@ -65,13 +68,30 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         categoryName.setText(auction.getCategory().toString());
         description.setText(auction.getDescription());
         currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
-        timer.setText(String.format(ConvertSecondsToHourMinuteSeconds.formatSeconds(auction.getTimerInMilliseconds())));
+        startTimer();
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
         if (auction instanceof EnglishAuction)
             offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
         else
             offerTextLayout.setHint(auction.getCurrentPrice().toString());
+    }
+
+    private void startTimer() {
+        Timestamp creation = new Timestamp(auction.getCreatedAt().getTime());
+        Timestamp deadline = new Timestamp(creation.getTime()+auction.getTimerInMilliseconds());
+        new CountDownTimer(deadline.getTime()-System.currentTimeMillis(), 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished/1000));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
     }
 
     private void getDownwardAuction(Long idAuction) {

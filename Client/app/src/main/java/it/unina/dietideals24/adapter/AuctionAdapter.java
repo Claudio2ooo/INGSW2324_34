@@ -2,6 +2,7 @@ package it.unina.dietideals24.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
@@ -29,16 +31,26 @@ import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
     ArrayList<Auction> auctions;
     Context context;
+    int orientation;
+    int layout;
+    private static final int VERTICAL = 0;
+    private static final int HORIZONTAL = 1;
 
-    public AuctionAdapter(ArrayList<Auction> auctions) {
+    public AuctionAdapter(ArrayList<Auction> auctions, int orientation) {
         this.auctions = auctions;
+        this.orientation = orientation;
     }
 
     @NonNull
     @Override
     public AuctionAdapter.AuctionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.auction_item, parent, false);
+        if (orientation == VERTICAL)
+            layout = R.layout.auction_item;
+        else if (orientation == HORIZONTAL)
+            layout = R.layout.auction_item_horizontal;
+
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new AuctionAdapter.AuctionViewHolder(inflate);
     }
 
@@ -55,7 +67,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         holder.title.setText(auctions.get(holder.getAdapterPosition()).getTitle());
         holder.categoryName.setText(auctions.get(holder.getAdapterPosition()).getCategory().toString());
         holder.currentPrice.setText(String.format("€%s", auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString()));
-        holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds()));
+        if(!holder.timerStarted)
+            startTimer(holder);
 
         holder.showAuctionBtn.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
@@ -67,6 +80,27 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             context.startActivity(intent);
         });
     }
+
+    private void startTimer(AuctionAdapter.AuctionViewHolder holder) {
+        holder.timerStarted = true;
+        Timestamp creation = new Timestamp(auctions.get(holder.getAdapterPosition()).getCreatedAt().getTime());
+        Timestamp deadline = new Timestamp(creation.getTime()+auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds());
+
+        new CountDownTimer(deadline.getTime()-System.currentTimeMillis(), 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished/1000));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -80,6 +114,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         TextView currentPrice;
         TextView timer;
         Button showAuctionBtn;
+        boolean timerStarted;
 
         public AuctionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,8 +124,11 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             categoryName = itemView.findViewById(R.id.categoryName);
             currentPrice = itemView.findViewById(R.id.currentPrice);
             timer = itemView.findViewById(R.id.timer);
+            timerStarted = false;
 
             showAuctionBtn = itemView.findViewById(R.id.showAuctionBtn);
         }
     }
+
+
 }

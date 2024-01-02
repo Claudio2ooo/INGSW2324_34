@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewDownwardAuction;
     private ProgressBar englishAuctionProgressBar;
     private ProgressBar downwardAuctionProgressBar;
+    private static final int VERTICAL = 0;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -134,14 +135,16 @@ public class HomeFragment extends Fragment {
                 ArrayList<Auction> auctions = new ArrayList<>(response.body());
 
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
+                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
                 recyclerViewEnglishAuction.setAdapter(adapterAuction);
             }
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                ArrayList<Auction> auctions = new ArrayList<>();
+
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>());
+                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), VERTICAL);
                 recyclerViewEnglishAuction.setAdapter(adapterAuction);
             }
         });
@@ -158,14 +161,16 @@ public class HomeFragment extends Fragment {
                 ArrayList<Auction> auctions = new ArrayList<>(response.body());
 
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions);
+                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
                 recyclerViewDownwardAuction.setAdapter(adapterAuction);
             }
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
+                ArrayList<Auction> auctions = new ArrayList<>();
+
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>());
+                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), VERTICAL);
                 recyclerViewDownwardAuction.setAdapter(adapterAuction);
             }
         });

@@ -1,6 +1,7 @@
 package it.unina.dietideals24.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import it.unina.dietideals24.enumerations.CategoryEnum;
 
@@ -13,10 +14,11 @@ public class Auction {
     private BigDecimal startingPrice;
     private BigDecimal currentPrice;
     private Long timerInMilliseconds;
+    private Date createdAt;
 
     private DietiUser owner;
 
-    public Auction(String title, String description, CategoryEnum category, String imageURL, BigDecimal startingPrice, BigDecimal currentPrice, Long timerInMilliseconds) {
+    public Auction(String title, String description, CategoryEnum category, String imageURL, BigDecimal startingPrice, BigDecimal currentPrice, Long timerInMilliseconds, Date createdAt) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -24,6 +26,7 @@ public class Auction {
         this.startingPrice = startingPrice;
         this.currentPrice = currentPrice;
         this.timerInMilliseconds = timerInMilliseconds;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -90,6 +93,10 @@ public class Auction {
         this.timerInMilliseconds = timerInMilliseconds;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     public DietiUser getOwner() {
         return owner;
     }
@@ -112,4 +119,5 @@ public class Auction {
                 ", owner=" + owner +
                 '}';
     }
+
 }

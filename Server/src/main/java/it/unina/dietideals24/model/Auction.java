@@ -4,11 +4,13 @@ import it.unina.dietideals24.enumeration.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.awt.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Currency;
+import java.util.Date;
 
 
 @Data
@@ -31,6 +33,10 @@ public class Auction {
     private BigDecimal currentPrice;
     @Column(name = "timer")
     private Long timerInMilliseconds;
+    
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
