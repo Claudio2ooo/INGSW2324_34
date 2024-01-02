@@ -4,6 +4,7 @@
     <string name="categories">Categorie</string>
     <string name="english_auctions_label">Aste all\'inglese</string>
     <string name="downward_auctions_label">Aste al ribasso</string>
+    <string name="category_label">Categoria</string>
 
     <!-- String for item menu -->
     <string name="home">Home</string>

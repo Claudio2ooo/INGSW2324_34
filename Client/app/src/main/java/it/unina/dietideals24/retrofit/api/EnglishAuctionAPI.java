@@ -3,6 +3,7 @@ package it.unina.dietideals24.retrofit.api;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.dto.EnglishAuctionDto;
+import it.unina.dietideals24.enumerations.CategoryEnum;
 import it.unina.dietideals24.model.EnglishAuction;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,9 +15,13 @@ public interface EnglishAuctionAPI {
     @GET("/english-auctions")
     Call<ArrayList<EnglishAuction>> getEnglishAuctions();
 
+    @GET("/english-auctions/catgory/{category}")
+    Call<ArrayList<EnglishAuction>> getByCategory(@Path("category") CategoryEnum category);
+
     @GET("/english-auctions/{id}")
     Call<EnglishAuction> getById(@Path("id") Long idAuction);
 
     @POST("/english-auctions/create")
     Call<EnglishAuction> createAuction(@Body EnglishAuctionDto englishAuctionDto);
+
 }
