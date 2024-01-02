@@ -16,6 +16,8 @@ public class ConvertSecondsToHourMinuteSeconds {
 
         if (days > 0)
             return days + "d:" + minutes + "m" + secondsLeft + "s";
+        else if (hours == 0)
+            return minutes + "m:" + secondsLeft + "s";
         else
             return hours + "h:" + minutes + "m" + secondsLeft + "s";
     }
