@@ -36,17 +36,10 @@ public class EnglishAuctionsActivity extends AppCompatActivity {
         initializeViews();
         initializeEnglishAuctions();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void initializeEnglishAuctions() {
-        recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getEnglishAuctions().enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
@@ -54,17 +47,21 @@ public class EnglishAuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions = new ArrayList<>(response.body());
 
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, HORIZONTAL);
-                recyclerViewEnglishAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(auctions);
             }
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), HORIZONTAL);
-                recyclerViewEnglishAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(null);
             }
         });
+    }
+
+    private void initializeAuctionAdapter(ArrayList<Auction> auctions) {
+        recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, HORIZONTAL);
+        recyclerViewEnglishAuction.setAdapter(adapterAuction);
     }
 
     private void initializeViews() {

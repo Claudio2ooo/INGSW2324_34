@@ -30,9 +30,12 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText;
-    private TextInputLayout emailTextLayout, passwordTextLayout;
-    private Button loginBtn, loginWithGoogleBtn;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private TextInputLayout emailTextLayout;
+    private TextInputLayout passwordTextLayout;
+    private Button loginBtn;
+    private Button loginWithGoogleBtn;
     private TextView signInBtn;
     private ProgressBar loginProgressBar;
 
@@ -80,10 +83,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        if (email.equals("test") && password.equals("test")) {
-            Intent signInActivity = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(signInActivity);
-        }
 
         LoginDto loginDto = new LoginDto(email, password);
         DietiUserAuthAPI dietiUserAuthAPI = RetrofitService.getRetrofitInstance().create(DietiUserAuthAPI.class);

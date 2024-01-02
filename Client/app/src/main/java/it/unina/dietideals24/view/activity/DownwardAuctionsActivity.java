@@ -36,17 +36,10 @@ public class DownwardAuctionsActivity extends AppCompatActivity {
         initializeViews();
         initializeDownwardAuction();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void initializeDownwardAuction() {
-        recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getDownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
@@ -54,17 +47,21 @@ public class DownwardAuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions = new ArrayList<>(response.body());
 
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, HORIZONTAL);
-                recyclerViewDownwardAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(auctions);
             }
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), HORIZONTAL);
-                recyclerViewDownwardAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(null);
             }
         });
+    }
+
+    private void initializeAuctionAdapter(ArrayList<Auction> auctions) {
+        recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, HORIZONTAL);
+        recyclerViewDownwardAuction.setAdapter(adapterAuction);
     }
 
     private void initializeViews() {
@@ -73,6 +70,5 @@ public class DownwardAuctionsActivity extends AppCompatActivity {
 
         downwardAuctionProgressBar = findViewById(R.id.downwardAuctionProgressBar);
         downwardAuctionProgressBar.setVisibility(View.VISIBLE);
-
     }
 }

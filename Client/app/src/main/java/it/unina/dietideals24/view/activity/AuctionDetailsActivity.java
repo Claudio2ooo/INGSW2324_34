@@ -29,8 +29,14 @@ import retrofit2.Response;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
 
-    private ImageView backBtn, image;
-    private TextView title, categoryName, description, currentPrice, timer, sellerInfoText;
+    private ImageView backBtn;
+    private ImageView image;
+    private TextView title;
+    private TextView categoryName;
+    private TextView description;
+    private TextView currentPrice;
+    private TextView timer;
+    private TextView sellerInfoText;
     private TextInputLayout offerTextLayout;
     private EditText offerEditText;
     private Button makeAnOfferBtn;
@@ -79,12 +85,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
     private void startTimer() {
         Timestamp creation = new Timestamp(auction.getCreatedAt().getTime());
-        Timestamp deadline = new Timestamp(creation.getTime()+auction.getTimerInMilliseconds());
-        new CountDownTimer(deadline.getTime()-System.currentTimeMillis(), 1000) {
-
+        Timestamp deadline = new Timestamp(creation.getTime() + auction.getTimerInMilliseconds());
+        new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished/1000));
+                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
             }
 
             @Override

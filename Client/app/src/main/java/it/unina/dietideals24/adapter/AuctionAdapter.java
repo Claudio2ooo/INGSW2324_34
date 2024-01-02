@@ -67,7 +67,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         holder.title.setText(auctions.get(holder.getAdapterPosition()).getTitle());
         holder.categoryName.setText(auctions.get(holder.getAdapterPosition()).getCategory().toString());
         holder.currentPrice.setText(String.format("€%s", auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString()));
-        if(!holder.timerStarted)
+        if (!holder.timerStarted)
             startTimer(holder);
 
         holder.showAuctionBtn.setOnClickListener(v -> {
@@ -84,13 +84,12 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     private void startTimer(AuctionAdapter.AuctionViewHolder holder) {
         holder.timerStarted = true;
         Timestamp creation = new Timestamp(auctions.get(holder.getAdapterPosition()).getCreatedAt().getTime());
-        Timestamp deadline = new Timestamp(creation.getTime()+auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds());
+        Timestamp deadline = new Timestamp(creation.getTime() + auctions.get(holder.getAdapterPosition()).getTimerInMilliseconds());
 
-        new CountDownTimer(deadline.getTime()-System.currentTimeMillis(), 1000) {
-
+        new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished/1000));
+                holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
             }
 
             @Override
@@ -99,8 +98,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             }
         }.start();
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -129,6 +126,4 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             showAuctionBtn = itemView.findViewById(R.id.showAuctionBtn);
         }
     }
-
-
 }
