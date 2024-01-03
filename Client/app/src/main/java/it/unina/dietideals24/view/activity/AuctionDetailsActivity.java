@@ -10,19 +10,28 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 
 import it.unina.dietideals24.R;
+import it.unina.dietideals24.adapter.SellerAdapter;
+import it.unina.dietideals24.enumerations.CategoryEnum;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
+import it.unina.dietideals24.model.Offer;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,12 +50,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private EditText offerEditText;
     private Button makeAnOfferBtn;
     private ConstraintLayout sellerInfoBtn;
-
-    public void setAuction(Auction auction) {
-        this.auction = auction;
-    }
+    private RecyclerView recyclerViewOfferrers;
 
     private Auction auction;
+    private ArrayList<Offer> offerrers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
