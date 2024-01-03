@@ -50,7 +50,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         else if (orientation == HORIZONTAL)
             layout = R.layout.auction_item_horizontal;
 
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+        View inflate = LayoutInflater.from(context).inflate(layout, parent, false);
         return new AuctionAdapter.AuctionViewHolder(inflate);
     }
 

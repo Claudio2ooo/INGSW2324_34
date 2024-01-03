@@ -181,7 +181,7 @@
                     android:id="@+id/messageCompleteYourProfileText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_corners_background_dark"
+                    android:background="@drawable/rounded_corners_background_dark_outline"
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="@string/complete_your_profile_label"

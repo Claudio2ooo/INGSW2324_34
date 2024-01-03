@@ -15,14 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import it.unina.dietideals24.R;
-import it.unina.dietideals24.adapter.SellerAdapter;
-import it.unina.dietideals24.enumerations.CategoryEnum;
+import it.unina.dietideals24.adapter.OfferAdapter;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
@@ -30,8 +27,8 @@ import it.unina.dietideals24.model.Offer;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.retrofit.api.OfferAPI;
 import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
-import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,15 +60,19 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         initializeViews();
 
         Long idAuction = getIntent().getLongExtra("id", -1);
-        if (getIntent().getStringExtra("type").equals("ENGLISH"))
+        if (getIntent().getStringExtra("type").equals("ENGLISH")) {
             getEnglishAuction(idAuction);
-        else if (getIntent().getStringExtra("type").equals("DOWNWARD"))
+            getOfferrersEnglishAuction(idAuction);
+        } else if (getIntent().getStringExtra("type").equals("DOWNWARD")) {
             getDownwardAuction(idAuction);
+            getOfferrersDownwardAuction(idAuction);
+        }
 
         backBtn.setOnClickListener(v -> finish());
 
         sellerInfoBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), SellerInfoActivity.class);
+            intent.putExtra("id", auction.getOwner().getId());
             startActivity(intent);
         });
     }
@@ -106,26 +107,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         }.start();
     }
 
-    private void getDownwardAuction(Long idAuction) {
-        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
-            @Override
-            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
-                if (response.code() == 200) {
-                    auction = response.body();
-                    assert auction != null;
-                    initializeFields(auction);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DownwardAuction> call, Throwable t) {
-                //TODO messaggio "l'asta non è più disponibile"
-                finish();
-            }
-        });
-    }
-
     private void getEnglishAuction(Long idAuction) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getById(idAuction).enqueue(new Callback<EnglishAuction>() {
@@ -146,6 +127,68 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void getDownwardAuction(Long idAuction) {
+        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
+        downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
+            @Override
+            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
+                if (response.code() == 200) {
+                    auction = response.body();
+                    assert auction != null;
+                    initializeFields(auction);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DownwardAuction> call, Throwable t) {
+                //TODO messaggio "l'asta non è più disponibile"
+                finish();
+            }
+        });
+    }
+
+    private void getOfferrersEnglishAuction(Long idAuction) {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.getOffersByEnglishAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
+                if (response.code() == 200) {
+                    offerrers = response.body();
+                    initializeOfferrers();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getOfferrersDownwardAuction(Long idAuction) {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.getOffersByDownwardAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
+                if (response.code() == 200) {
+                    offerrers = response.body();
+                    initializeOfferrers();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void initializeOfferrers() {
+        recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
+        recyclerViewOfferrers.setAdapter(sellerAdapter);
+    }
+
     private void initializeViews() {
         image = findViewById(R.id.imageAcution);
         title = findViewById(R.id.titleAuction);
@@ -159,5 +202,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         sellerInfoBtn = findViewById(R.id.sellerInfo);
         sellerInfoText = findViewById(R.id.sellerInfoText);
+        recyclerViewOfferrers = findViewById(R.id.offerrersList);
     }
 }

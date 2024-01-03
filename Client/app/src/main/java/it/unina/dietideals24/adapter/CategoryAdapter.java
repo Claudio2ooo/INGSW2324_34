@@ -34,9 +34,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         View inflate;
         if (isRound)
-            inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_round_item, parent, false);
+            inflate = LayoutInflater.from(context).inflate(R.layout.category_round_item, parent, false);
         else
-            inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_square_item, parent, false);
+            inflate = LayoutInflater.from(context).inflate(R.layout.category_square_item, parent, false);
 
         return new CategoryViewHolder(inflate);
     }
