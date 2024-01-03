@@ -28,7 +28,7 @@
                 android:src="@drawable/round_arrow_back_24" />
 
             <TextView
-                android:id="@+id/categoryTextView"
+                android:id="@+id/categoryTitleTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"

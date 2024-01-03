@@ -2,7 +2,6 @@ package it.unina.dietideals24.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.sax.EndElementListener;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -46,7 +45,7 @@ public class AuctionsActivity extends AppCompatActivity {
         String typeOfAuction = intent.getExtras().getString("typeOfAuction");
         String category = intent.getExtras().getString("category");
 
-        if (category.equals("none")){
+        if (category.equals("none")) {
             if (typeOfAuction.equals("English"))
                 initializeEnglishAuctions();
             else
@@ -61,7 +60,7 @@ public class AuctionsActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> finish());
     }
 
-    private void initializeDownwardAuctionsByCategory(CategoryEnum category){
+    private void initializeDownwardAuctionsByCategory(CategoryEnum category) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
@@ -69,7 +68,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions;
 
                 if (response.body() == null)
-                    auctions= new ArrayList<>();
+                    auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 
@@ -83,11 +82,11 @@ public class AuctionsActivity extends AppCompatActivity {
         });
 
         progressBar.setVisibility(View.GONE);
-        String title = "Aste al ribasso: "+category.name().toLowerCase();
+        String title = "Aste al ribasso: " + category.name().toLowerCase();
         titleText.setText(title);
     }
 
-    private void initializeEnglishAuctionsByCategory(CategoryEnum category){
+    private void initializeEnglishAuctionsByCategory(CategoryEnum category) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
@@ -95,7 +94,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions;
 
                 if (response.body() == null)
-                    auctions= new ArrayList<>();
+                    auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 
@@ -109,7 +108,7 @@ public class AuctionsActivity extends AppCompatActivity {
         });
 
         progressBar.setVisibility(View.GONE);
-        String title = "Aste all'inglese: "+category.name().toLowerCase();
+        String title = "Aste all'inglese: " + category.name().toLowerCase();
         titleText.setText(title);
     }
 
@@ -121,7 +120,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions;
 
                 if (response.body() == null)
-                    auctions= new ArrayList<>();
+                    auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 
@@ -148,7 +147,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions;
 
                 if (response.body() == null)
-                    auctions= new ArrayList<>();
+                    auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 

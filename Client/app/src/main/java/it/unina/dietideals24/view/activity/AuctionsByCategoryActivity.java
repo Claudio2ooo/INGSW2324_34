@@ -23,13 +23,14 @@ import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuctionsByCategoryActivity extends AppCompatActivity {
     private ImageView backBtn;
-    private TextView categoryTextView;
+    private TextView categoryTitleTextView;
     private Button englishAuctionsBtn;
     private Button downwardAuctionsBtn;
     private ProgressBar englishAuctionProgressBar;
@@ -64,11 +65,11 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
     }
 
     private void initializeAuctions(CategoryEnum category) {
-        initializeEnglishAuctions(category);
-        initializeDownwardAuctions(category);
+        initializeEnglishAuctionsByCategory(category);
+        initializeDownwardAuctionsByCategory(category);
     }
 
-    private void initializeDownwardAuctions(CategoryEnum category) {
+    private void initializeDownwardAuctionsByCategory(CategoryEnum category) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
@@ -93,7 +94,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     }
 
-    private void initializeEnglishAuctions(CategoryEnum category) {
+    private void initializeEnglishAuctionsByCategory(CategoryEnum category) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
@@ -104,7 +105,6 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
                     auctions= new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
-
 
                 englishAuctionProgressBar.setVisibility(View.INVISIBLE);
                 initializeAuctionAdapter(auctions, recyclerViewEnglishAuction);
@@ -127,8 +127,8 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeViews(CategoryEnum category) {
         backBtn = findViewById(R.id.backBtn);
-        categoryTextView = findViewById(R.id.categoryTextView);
-        categoryTextView.setText(category.name());
+        categoryTitleTextView = findViewById(R.id.categoryTitleTextView);
+        categoryTitleTextView.setText(CategoryArrayListInitializer.capitalize(category.name()));
 
         englishAuctionsBtn = findViewById(R.id.englishAuctionsBtn);
         downwardAuctionsBtn = findViewById(R.id.downwardAuctionsBtn);

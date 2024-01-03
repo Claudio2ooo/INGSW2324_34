@@ -123,61 +123,61 @@ public class HomeFragment extends Fragment {
         ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getFirstSixCategoryItems(getContext(), getActivity());
 
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-
         RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter = new CategoryAdapter(categories, true);
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
     private void initializeEnglishAuction() {
-        recyclerViewEnglishAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getEnglishAuctions().enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
-                ArrayList<Auction> auctions = new ArrayList<>(response.body());
+                ArrayList<Auction> auctions;
+
+                if (response.body() == null)
+                    auctions = new ArrayList<>();
+                else
+                    auctions = new ArrayList<>(response.body());
 
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
-                recyclerViewEnglishAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(auctions, recyclerViewEnglishAuction);
             }
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
-                ArrayList<Auction> auctions = new ArrayList<>();
-
                 englishAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), VERTICAL);
-                recyclerViewEnglishAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(new ArrayList<>(), recyclerViewEnglishAuction);
             }
         });
-
     }
 
     private void initializeDownwardAuction() {
-        recyclerViewDownwardAuction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getDownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
                 ArrayList<Auction> auctions;
+
                 if (response.body() == null)
                     auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
-                recyclerViewDownwardAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(auctions, recyclerViewDownwardAuction);
             }
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
                 downwardAuctionProgressBar.setVisibility(View.GONE);
-                RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), VERTICAL);
-                recyclerViewDownwardAuction.setAdapter(adapterAuction);
+                initializeAuctionAdapter(new ArrayList<>(), recyclerViewDownwardAuction);
             }
         });
+    }
+
+    private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
+        recyclerView.setAdapter(adapterAuction);
     }
 }
