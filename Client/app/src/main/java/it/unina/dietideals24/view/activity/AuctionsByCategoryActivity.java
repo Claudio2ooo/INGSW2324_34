@@ -1,5 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,18 +41,25 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_english_auctions);
-        CategoryEnum category = CategoryEnum.valueOf(savedInstanceState.getString("category"));
+        setContentView(R.layout.activity_auctions_by_category);
+
+        CategoryEnum category = CategoryEnum.valueOf(getIntent().getExtras().getString("category").toUpperCase());
 
         initializeViews(category);
         initializeAuctions(category);
 
         backBtn.setOnClickListener(v -> finish());
         englishAuctionsBtn.setOnClickListener(v -> {
-            //TODO passaggio ad activity con solo english auction
+            Intent intent = new Intent(getApplicationContext(), AuctionsActivity.class);
+            intent.putExtra("typeOfAuction", "English");
+            intent.putExtra("category", category.name());
+            startActivity(intent);
         });
         downwardAuctionsBtn.setOnClickListener(v -> {
-            //TODO passaggio ad activity con solo downward auction
+            Intent intent = new Intent(getApplicationContext(), AuctionsActivity.class);
+            intent.putExtra("typeOfAuction", "Downward");
+            intent.putExtra("category", category.name());
+            startActivity(intent);
         });
     }
 
@@ -65,7 +73,12 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
         downwardAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
-                ArrayList<Auction> auctions = new ArrayList<>(response.body());
+                ArrayList<Auction> auctions;
+
+                if (response.body() == null)
+                    auctions = new ArrayList<>();
+                else
+                    auctions = new ArrayList<>(response.body());
 
                 downwardAuctionProgressBar.setVisibility(View.INVISIBLE);
                 initializeAuctionAdapter(auctions, recyclerViewDownwardAuction);
@@ -85,7 +98,13 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
         englishAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
-                ArrayList<Auction> auctions = new ArrayList<>(response.body());
+                ArrayList<Auction> auctions;
+
+                if (response.body() == null)
+                    auctions= new ArrayList<>();
+                else
+                    auctions = new ArrayList<>(response.body());
+
 
                 englishAuctionProgressBar.setVisibility(View.INVISIBLE);
                 initializeAuctionAdapter(auctions, recyclerViewEnglishAuction);

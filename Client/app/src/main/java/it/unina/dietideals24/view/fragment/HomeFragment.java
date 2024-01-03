@@ -26,9 +26,8 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
+import it.unina.dietideals24.view.activity.AuctionsActivity;
 import it.unina.dietideals24.view.activity.CategoriesActivity;
-import it.unina.dietideals24.view.activity.DownwardAuctionsActivity;
-import it.unina.dietideals24.view.activity.EnglishAuctionsActivity;
 import it.unina.dietideals24.view.activity.SearchAuctionActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,12 +79,16 @@ public class HomeFragment extends Fragment {
         });
 
         englishAuctionsBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), EnglishAuctionsActivity.class);
+            Intent intent = new Intent(getContext(), AuctionsActivity.class);
+            intent.putExtra("typeOfAuction", "English");
+            intent.putExtra("category", "none");
             startActivity(intent);
         });
 
         downwardAuctionsBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), DownwardAuctionsActivity.class);
+            Intent intent = new Intent(getContext(), AuctionsActivity.class);
+            intent.putExtra("typeOfAuction", "Downward");
+            intent.putExtra("category", "none");
             startActivity(intent);
         });
 
@@ -158,7 +161,11 @@ public class HomeFragment extends Fragment {
         downwardAuctionAPI.getDownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
-                ArrayList<Auction> auctions = new ArrayList<>(response.body());
+                ArrayList<Auction> auctions;
+                if (response.body() == null)
+                    auctions = new ArrayList<>();
+                else
+                    auctions = new ArrayList<>(response.body());
 
                 downwardAuctionProgressBar.setVisibility(View.GONE);
                 RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
@@ -167,8 +174,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
-                ArrayList<Auction> auctions = new ArrayList<>();
-
                 downwardAuctionProgressBar.setVisibility(View.GONE);
                 RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(new ArrayList<>(), VERTICAL);
                 recyclerViewDownwardAuction.setAdapter(adapterAuction);

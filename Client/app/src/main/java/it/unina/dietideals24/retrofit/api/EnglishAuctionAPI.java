@@ -15,7 +15,7 @@ public interface EnglishAuctionAPI {
     @GET("/english-auctions")
     Call<ArrayList<EnglishAuction>> getEnglishAuctions();
 
-    @GET("/english-auctions/catgory/{category}")
+    @GET("/english-auctions/category/{category}")
     Call<ArrayList<EnglishAuction>> getByCategory(@Path("category") CategoryEnum category);
 
     @GET("/english-auctions/{id}")
