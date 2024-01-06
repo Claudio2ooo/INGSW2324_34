@@ -38,11 +38,15 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginWithGoogleBtn;
     private TextView signInBtn;
     private ProgressBar loginProgressBar;
+    private TokenManagement tokenManagement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        tokenManagement = TokenManagement.getInstance(getApplicationContext());
+        checkIfUserLogged();
 
         initializeViews();
 
@@ -57,6 +61,12 @@ public class LoginActivity extends AppCompatActivity {
             Intent signInActivity = new Intent(getApplicationContext(), SignInActivity.class);
             startActivity(signInActivity);
         });
+    }
+
+    private void checkIfUserLogged() {
+        if (!TokenManagement.getToken().isEmpty()) {
+            openMainActivity();
+        }
     }
 
     private boolean isNotEmptyFields() {
@@ -94,9 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginProgressBar.setVisibility(View.GONE);
                     saveToken(response);
                     saveCurrentUser(response);
-
-                    Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(mainActivity);
+                    openMainActivity();
                 } else {
                     loginProgressBar.setVisibility(View.GONE);
                     showFailedLoginDialog();
@@ -116,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveToken(Response<LoginResponse> response) {
-        TokenManagement tokenManagement = TokenManagement.getInstance(getApplicationContext());
         tokenManagement.setToken(response.body().getToken());
     }
 
@@ -136,6 +143,11 @@ public class LoginActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    private void openMainActivity() {
+        Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainActivity);
     }
 
     private void initializeViews() {
