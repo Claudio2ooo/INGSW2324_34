@@ -5,6 +5,7 @@ import it.unina.dietideals24.model.DownwardAuction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -12,4 +13,8 @@ public interface IDownwardAuctionRepository extends JpaRepository<DownwardAuctio
     List<DownwardAuction> findByOwnerId(Long ownerId);
 
     List<DownwardAuction> findByCategory(CategoryEnum category);
+
+    List<DownwardAuction> findByDescriptionContainsIgnoreCase(String keyword);
+
+    List<DownwardAuction> findByTitleContainsIgnoreCase(String keyword);
 }

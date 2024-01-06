@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewDownwardAuction;
     private ProgressBar englishAuctionProgressBar;
     private ProgressBar downwardAuctionProgressBar;
-    private static final int VERTICAL = 0;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -177,7 +176,7 @@ public class HomeFragment extends Fragment {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.VERTICAL);
         recyclerView.setAdapter(adapterAuction);
     }
 }

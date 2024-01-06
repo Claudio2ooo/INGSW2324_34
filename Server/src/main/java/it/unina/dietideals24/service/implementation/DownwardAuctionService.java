@@ -4,6 +4,7 @@ import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.model.DownwardAuction;
+import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.repository.IDownwardAuctionRepository;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,5 +91,13 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     @Override
     public void save(DownwardAuction toBeDecreased) {
         downwardAuctionRepository.save(toBeDecreased);
+    }
+
+    @Override
+    public List<DownwardAuction> getByKeyword(String keyword) {
+        List<DownwardAuction> foundAuctions = new ArrayList<>();
+        foundAuctions.addAll(downwardAuctionRepository.findByTitleContainsIgnoreCase(keyword));
+        foundAuctions.addAll(downwardAuctionRepository.findByDescriptionContainsIgnoreCase(keyword));
+        return foundAuctions;
     }
 }

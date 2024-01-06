@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,10 +95,10 @@ public class EnglishAuctionService implements IEnglishAuctionService {
     }
 
     @Override
-    public List<EnglishAuction> searchByKeyword(String keyword) {
-        List<EnglishAuction> titleSearch = englishAuctionRepository.findByTitleContainsIgnoreCase(keyword);
-        List<EnglishAuction> descriptionSearch = englishAuctionRepository.findByDescriptionContainsIgnoreCase(keyword);
-        titleSearch.addAll(descriptionSearch);
-        return titleSearch;
+    public List<EnglishAuction> getByKeyword(String keyword) {
+        List<EnglishAuction> foundAuctions = new ArrayList<>();
+        foundAuctions.addAll(englishAuctionRepository.findByTitleContainsIgnoreCase(keyword));
+        foundAuctions.addAll(englishAuctionRepository.findByDescriptionContainsIgnoreCase(keyword));
+        return foundAuctions;
     }
 }

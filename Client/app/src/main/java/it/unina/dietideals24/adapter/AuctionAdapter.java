@@ -33,12 +33,20 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     Context context;
     int orientation;
     int layout;
-    private static final int VERTICAL = 0;
-    private static final int HORIZONTAL = 1;
+    public static final int VERTICAL = 0;
+    public static final int HORIZONTAL = 1;
 
+    /**
+     * Constructor of AuctionAdapter
+     * @param auctions list of auctions to put into the Adapter
+     * @param orientation orientation of the Adapter to use, use public constants AuctionAdapter.HORIZONTAL or AuctionAdapter.VERTICAL
+     */
     public AuctionAdapter(ArrayList<Auction> auctions, int orientation) {
         this.auctions = auctions;
-        this.orientation = orientation;
+        if (orientation != 0 && orientation != 1)
+            this.orientation = VERTICAL;
+        else
+            this.orientation = orientation;
     }
 
     @NonNull

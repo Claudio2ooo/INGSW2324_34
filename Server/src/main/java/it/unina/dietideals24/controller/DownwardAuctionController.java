@@ -58,6 +58,11 @@ public class DownwardAuctionController {
         return downwardAuctionService.getDownwardAuctionsByCategory(category);
     }
 
+    @GetMapping("/search/{keyword}")
+    public List<DownwardAuction> getDownwardAuctionsByKeyword(@PathVariable("keyword") String keyword){
+        return downwardAuctionService.getByKeyword(keyword);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<DownwardAuction> createDownwardAuction(@RequestBody DownwardAuctionDto downwardAuctionDto) throws BadRequestException {
         if(dietiUserService.existsById(downwardAuctionDto.getOwnerId())){

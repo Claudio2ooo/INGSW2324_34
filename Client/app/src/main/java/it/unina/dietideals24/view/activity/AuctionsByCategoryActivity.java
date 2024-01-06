@@ -37,7 +37,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
     private ProgressBar downwardAuctionProgressBar;
     private RecyclerView recyclerViewEnglishAuction;
     private RecyclerView recyclerViewDownwardAuction;
-    private static final int VERTICAL = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, VERTICAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.VERTICAL);
         recyclerView.setAdapter(adapterAuction);
     }
 

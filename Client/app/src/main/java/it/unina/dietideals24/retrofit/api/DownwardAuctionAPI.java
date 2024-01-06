@@ -21,7 +21,11 @@ public interface DownwardAuctionAPI {
     @GET("/downward-auctions/{id}")
     Call<DownwardAuction> getById(@Path("id") Long idAuction);
 
+    @GET("/downward-auctions/search/{keyword}")
+    Call<ArrayList<DownwardAuction>> getByKeyword(@Path("keyword") String keyword);
+
     @POST("/downward-auctions/create")
     Call<DownwardAuction> createAuction(@Body DownwardAuctionDto downwardAuctionDto);
+
 
 }

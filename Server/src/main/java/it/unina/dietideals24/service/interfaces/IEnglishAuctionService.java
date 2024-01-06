@@ -27,5 +27,5 @@ public interface IEnglishAuctionService {
 
     void updateCurrentPrice(EnglishAuction targetAuction, BigDecimal newOffer);
 
-    List<EnglishAuction> searchByKeyword(String keyword);
+    List<EnglishAuction> getByKeyword(String keyword);
 }

@@ -59,8 +59,8 @@ public class EnglishAuctionController {
     }
 
     @GetMapping("/search/{keyword}")
-    public List<EnglishAuction> searchEnglishAuctionsByKeyword(@PathVariable("keyword") String keyword){
-        return englishAuctionService.searchByKeyword(keyword);
+    public List<EnglishAuction> getEnglishAuctionsByKeyword(@PathVariable("keyword") String keyword){
+        return englishAuctionService.getByKeyword(keyword);
     }
 
     @PostMapping("/create")

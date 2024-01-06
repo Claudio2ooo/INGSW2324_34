@@ -25,4 +25,6 @@ public interface IDownwardAuctionService {
     void linkImage(String downwardAuctionImageDirectory, Long id);
 
     void save(DownwardAuction toBeDecreased);
+
+    List<DownwardAuction> getByKeyword(String keyword);
 }

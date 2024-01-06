@@ -21,7 +21,11 @@ public interface EnglishAuctionAPI {
     @GET("/english-auctions/{id}")
     Call<EnglishAuction> getById(@Path("id") Long idAuction);
 
+    @GET("/english-auctions/search/{keyword}")
+    Call<ArrayList<EnglishAuction>> getByKeyword(@Path("keyword") String keyword);
+
     @POST("/english-auctions/create")
     Call<EnglishAuction> createAuction(@Body EnglishAuctionDto englishAuctionDto);
+
 
 }
