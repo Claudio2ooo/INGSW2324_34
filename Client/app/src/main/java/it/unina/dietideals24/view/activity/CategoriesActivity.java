@@ -50,7 +50,9 @@ public class CategoriesActivity extends AppCompatActivity {
 
         listItemsDropdownMenu.setOnItemClickListener((parent, view, position, id) -> {
             selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position);
-            showCategoryView(selectedCategory, position);
+            if (selectedCategory != null) {
+                showCategoryView(selectedCategory);
+            }
         });
     }
 
@@ -64,11 +66,16 @@ public class CategoriesActivity extends AppCompatActivity {
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
-    private void showCategoryView(String selectedCategory, int position) {
+    private void showCategoryView(String selectedCategory) {
         if (categories.size() < 2)
             initializeCategories();
 
-        CategoryItem categoryItem = categories.get(position);
+        int index;
+        for (index = 0; index < categories.size(); index++) {
+            if (categories.get(index).getName().equals(selectedCategory))
+                break;
+        }
+        CategoryItem categoryItem = categories.get(index);
 
         categories.clear();
         categories.add(categoryItem);
