@@ -1,8 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -34,12 +32,7 @@ public class CategoriesActivity extends AppCompatActivity {
         initializeViews();
         initializeCategories();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void initializeViews() {
@@ -50,17 +43,14 @@ public class CategoriesActivity extends AppCompatActivity {
     }
 
     private void initializeCategoryDropdownMenu() {
-        ArrayList<String> categories = CategoryArrayListInitializer.getAllCategoryNames();
+        ArrayList<String> categoriesDropdownMenu = CategoryArrayListInitializer.getAllCategoryNames();
 
-        ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categories);
+        ArrayAdapter<String> adapterItemListCategoryDropdownMenu = new ArrayAdapter<>(this, R.layout.category_item_dropdown_menu, categoriesDropdownMenu);
         listItemsDropdownMenu.setAdapter(adapterItemListCategoryDropdownMenu);
 
-        listItemsDropdownMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position);
-                ShowCategoryView(selectedCategory, position);
-            }
+        listItemsDropdownMenu.setOnItemClickListener((parent, view, position, id) -> {
+            selectedCategory = adapterItemListCategoryDropdownMenu.getItem(position);
+            showCategoryView(selectedCategory, position);
         });
     }
 
@@ -70,11 +60,11 @@ public class CategoriesActivity extends AppCompatActivity {
         RecyclerView recyclerViewCategories = findViewById(R.id.categoryList);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this, 3));
 
-        categoryAdapter = new CategoryAdapter(categories, false);
+        categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.ShapeEnum.SQUARE);
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
-    private void ShowCategoryView(String selectedCategory, int position) {
+    private void showCategoryView(String selectedCategory, int position) {
         if (categories.size() < 2)
             initializeCategories();
 

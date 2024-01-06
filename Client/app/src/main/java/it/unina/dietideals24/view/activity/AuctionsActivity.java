@@ -33,7 +33,6 @@ public class AuctionsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +166,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.HORIZONTAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.OrientationEnum.HORIZONTAL);
         recyclerView.setAdapter(adapterAuction);
     }
 

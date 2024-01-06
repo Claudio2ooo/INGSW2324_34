@@ -102,7 +102,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
                 ArrayList<Auction> auctions;
 
                 if (response.body() == null)
-                    auctions= new ArrayList<>();
+                    auctions = new ArrayList<>();
                 else
                     auctions = new ArrayList<>(response.body());
 
@@ -121,7 +121,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.VERTICAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.OrientationEnum.VERTICAL);
         recyclerView.setAdapter(adapterAuction);
     }
 

@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
         ArrayList<CategoryItem> categories = CategoryArrayListInitializer.getFirstSixCategoryItems(getContext(), getActivity());
 
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter = new CategoryAdapter(categories, true);
+        RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.ShapeEnum.ROUND);
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 
@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.VERTICAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.OrientationEnum.VERTICAL);
         recyclerView.setAdapter(adapterAuction);
     }
 }

@@ -2,22 +2,18 @@ package it.unina.dietideals24.view.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +47,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> finish());
 
         searchAuctionEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId==EditorInfo.IME_ACTION_SEARCH && !isEmpty(searchAuctionEditText)) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && !isEmpty(searchAuctionEditText)) {
                 performSearch();
                 return true;
             } else
@@ -103,18 +99,20 @@ public class SearchAuctionActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     foundAuctions.addAll(response.body());
                 }
-                Collections.sort(foundAuctions);
-                initializeAuctionAdapter((ArrayList<Auction>) foundAuctions, auctionsRecyclerView);
-                searchProgressBar.setVisibility(View.GONE);
+                finalizeSearch();
             }
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
-                Collections.sort(foundAuctions);
-                initializeAuctionAdapter((ArrayList<Auction>) foundAuctions, auctionsRecyclerView);
-                searchProgressBar.setVisibility(View.GONE);
+                finalizeSearch();
             }
         });
+    }
+
+    private void finalizeSearch() {
+        Collections.sort(foundAuctions);
+        initializeAuctionAdapter((ArrayList<Auction>) foundAuctions, auctionsRecyclerView);
+        searchProgressBar.setVisibility(View.GONE);
     }
 
     private boolean isEmpty(EditText editText) {
@@ -123,7 +121,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.HORIZONTAL);
+        RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.OrientationEnum.HORIZONTAL);
         recyclerView.setAdapter(adapterAuction);
     }
 

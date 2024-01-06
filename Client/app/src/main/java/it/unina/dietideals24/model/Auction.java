@@ -5,7 +5,7 @@ import java.util.Date;
 
 import it.unina.dietideals24.enumerations.CategoryEnum;
 
-public class Auction implements Comparable<Auction>{
+public class Auction implements Comparable<Auction> {
     private Long id;
     private String title;
     private String description;
@@ -122,6 +122,6 @@ public class Auction implements Comparable<Auction>{
 
     @Override
     public int compareTo(Auction other) {
-        return Long.compare(this.getCreatedAt().getTime()+this.timerInMilliseconds, other.getCreatedAt().getTime()+other.getTimerInMilliseconds());
+        return Long.compare(this.getCreatedAt().getTime() + this.timerInMilliseconds, other.getCreatedAt().getTime() + other.getTimerInMilliseconds());
     }
 }

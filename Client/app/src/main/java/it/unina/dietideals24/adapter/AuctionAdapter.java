@@ -31,31 +31,30 @@ import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
     ArrayList<Auction> auctions;
     Context context;
-    int orientation;
     int layout;
-    public static final int VERTICAL = 0;
-    public static final int HORIZONTAL = 1;
+
+    public enum OrientationEnum {VERTICAL, HORIZONTAL}
+
+    OrientationEnum orientation;
 
     /**
      * Constructor of AuctionAdapter
-     * @param auctions list of auctions to put into the Adapter
-     * @param orientation orientation of the Adapter to use, use public constants AuctionAdapter.HORIZONTAL or AuctionAdapter.VERTICAL
+     *
+     * @param auctions    list of auctions to put into the Adapter
+     * @param orientation orientation of the Adapter to use, use public (static) enum OrientationEnum with constants VERTICAL or HORIZONTAL
      */
-    public AuctionAdapter(ArrayList<Auction> auctions, int orientation) {
+    public AuctionAdapter(ArrayList<Auction> auctions, OrientationEnum orientation) {
         this.auctions = auctions;
-        if (orientation != 0 && orientation != 1)
-            this.orientation = VERTICAL;
-        else
-            this.orientation = orientation;
+        this.orientation = orientation;
     }
 
     @NonNull
     @Override
     public AuctionAdapter.AuctionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        if (orientation == VERTICAL)
+        if (orientation.equals(OrientationEnum.VERTICAL))
             layout = R.layout.auction_item;
-        else if (orientation == HORIZONTAL)
+        else if (orientation.equals(OrientationEnum.HORIZONTAL))
             layout = R.layout.auction_item_horizontal;
 
         View inflate = LayoutInflater.from(context).inflate(layout, parent, false);
