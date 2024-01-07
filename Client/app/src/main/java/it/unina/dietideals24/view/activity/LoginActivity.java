@@ -64,8 +64,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfUserLogged() {
-        if (!TokenManagement.getToken().isEmpty()) {
+        if (!TokenManagement.isExpired()) {
             openMainActivity();
+        } else {
+            TokenManagement.deleteToken();
+            LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
         }
     }
 
@@ -124,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveToken(Response<LoginResponse> response) {
-        tokenManagement.setToken(response.body().getToken());
+        tokenManagement.setToken(response.body().getToken(), response.body().getExpiresIn());
     }
 
     private void showFailedLoginDialog() {

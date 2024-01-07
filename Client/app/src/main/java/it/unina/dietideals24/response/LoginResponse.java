@@ -13,4 +13,7 @@ public class LoginResponse {
     public DietiUser getDietiUser(){
         return dietiUser;
     }
+    public Long getExpiresIn() {
+        return expiresIn;
+    }
 }
