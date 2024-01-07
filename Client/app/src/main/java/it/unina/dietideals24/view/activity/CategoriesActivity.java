@@ -1,10 +1,20 @@
 package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +34,7 @@ public class CategoriesActivity extends AppCompatActivity {
     private AutoCompleteTextView listItemsDropdownMenu;
     private String selectedCategory = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +50,7 @@ public class CategoriesActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
 
         listItemsDropdownMenu = findViewById(R.id.listItemsDropdownMenu);
+
         initializeCategoryDropdownMenu();
     }
 
@@ -54,6 +66,37 @@ public class CategoriesActivity extends AppCompatActivity {
                 showCategoryView(selectedCategory);
             }
         });
+
+        listItemsDropdownMenu.addTextChangedListener(new TextWatcher() {
+            private final Handler handler = new Handler();
+            private Runnable runnable;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //not needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //not needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isEmpty(listItemsDropdownMenu)) {
+                    if (runnable != null) {
+                        handler.removeCallbacks(runnable);
+                    }
+
+                    runnable = () -> listItemsDropdownMenu.showDropDown();
+                    handler.postDelayed(runnable, 20);
+                }
+            }
+        });
+
+    }
+
+    private boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     private void initializeCategories() {
