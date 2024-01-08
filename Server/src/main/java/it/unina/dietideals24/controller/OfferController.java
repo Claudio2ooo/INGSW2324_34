@@ -54,7 +54,7 @@ public class OfferController {
     }
 
     @PostMapping("/english/{id}")
-    public ResponseEntity<Offer> makeOfferForEnglishAuction(@PathVariable("id") Long englishAuctionId, @RequestBody BigDecimal newOffer) throws BadRequestException {
+    public ResponseEntity<String> makeOfferForEnglishAuction(@PathVariable("id") Long englishAuctionId, @RequestBody BigDecimal newOffer) throws BadRequestException {
         EnglishAuction targetAuction = englishAuctionService.getEnglishAuctionById(englishAuctionId);
         if(offerIsBetter(targetAuction, newOffer)){
             Offer betterOffer = new Offer(
@@ -66,7 +66,7 @@ public class OfferController {
             englishAuctionService.updateCurrentPrice(targetAuction, newOffer);
             englishAuctionTimerController.restartOngoingEnglishTimer(targetAuction, (EnglishAuctionService) englishAuctionService);
 
-            return ResponseEntity.ok(savedOffer);
+            return ResponseEntity.ok("Offerta piazzata!");
         } else {
             throw new BadRequestException("Offer is not valid, current price is higher");
         }
@@ -75,8 +75,10 @@ public class OfferController {
 
     @PostMapping("/downward/{id}")
     public ResponseEntity<String> makeOfferForDownwardAuction(@PathVariable("id") Long downwardAuctionId) throws BadRequestException {
+        //TODO IMPLEMENTARE BENE QUESTO METODO
+
         DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(downwardAuctionId);
-        //TODO finalizza acquisto di asta ribasso
+
         downwardAuctionService.deleteDownwardAuctionById(downwardAuctionId);
 
         return ResponseEntity.ok("Congratulazioni!");

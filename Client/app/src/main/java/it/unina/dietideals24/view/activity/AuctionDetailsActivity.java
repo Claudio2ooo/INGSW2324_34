@@ -3,6 +3,7 @@ package it.unina.dietideals24.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -61,9 +63,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
         Long idAuction = getIntent().getLongExtra("id", -1);
         if (getIntent().getStringExtra("type").equals("ENGLISH")) {
+            makeAnOfferBtn.setText(R.string.make_an_offer_label);
             getEnglishAuction(idAuction);
             getOfferrersEnglishAuction(idAuction);
         } else if (getIntent().getStringExtra("type").equals("DOWNWARD")) {
+            makeAnOfferBtn.setText(R.string.buy_label);
             getDownwardAuction(idAuction);
             getOfferrersDownwardAuction(idAuction);
         }
@@ -75,6 +79,55 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             intent.putExtra("id", auction.getOwner().getId());
             startActivity(intent);
         });
+
+        makeAnOfferBtn.setOnClickListener(v -> {
+            if (auction instanceof EnglishAuction)
+                makeEnglishOffer();
+            else if (auction instanceof DownwardAuction)
+                makeDownwardOffer();
+        });
+    }
+
+    private void makeDownwardOffer() {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.makeDownwardOffer(auction.getId()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void makeEnglishOffer() {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.makeEnglishOffer(auction.getId(), new BigDecimal(offerEditText.getText().toString())).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+        refreshActivity();
+    }
+
+    private void refreshActivity() {
+//        finish();
+//        overridePendingTransition(0, 0);
+//        startActivity(getIntent());
+//        overridePendingTransition(0, 0);
+        // ^commentato perché quando refresha fa vedere i valori di default, lascio per testare
+
+        //questo invece è più veloce e si vedono per meno tempo i valori di default
+        recreate();
     }
 
     private void initializeFields(Auction auction) {
@@ -85,10 +138,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         startTimer();
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
-        if (auction instanceof EnglishAuction)
+        if (auction instanceof EnglishAuction) {
             offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
+            BigDecimal newOffer = auction.getCurrentPrice().add(((EnglishAuction) auction).getIncreaseAmount());
+            offerEditText.setText(String.format(newOffer.toString()));
+        }
         else
-            offerTextLayout.setHint(auction.getCurrentPrice().toString());
+            offerEditText.setText(String.format(auction.getCurrentPrice().toString()));
     }
 
     private void startTimer() {
@@ -197,6 +253,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         currentPrice = findViewById(R.id.currentPriceAuction);
         timer = findViewById(R.id.timerAuction);
         offerEditText = findViewById(R.id.inputAnOffer);
+        offerEditText.setFocusable(false);
         offerTextLayout = findViewById(R.id.offerTextLayout);
         makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
         backBtn = findViewById(R.id.backBtn);

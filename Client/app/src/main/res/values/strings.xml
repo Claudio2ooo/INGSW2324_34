@@ -75,4 +75,5 @@
     <string name="create_another_english_auction_label">Crea un\'altra asta all\'inglese</string>
     <string name="create_another_downward_auction_label">Crea un\'altra asta al ribasso</string>
     <string name="back_to_home">Torna alla Home</string>
+    <string name="buy_label">Acquista</string>
 </resources>
