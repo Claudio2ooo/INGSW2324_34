@@ -64,10 +64,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfUserLogged() {
-        if (!TokenManagement.isExpired()) {
+        if (!TokenManagement.getToken().isEmpty() && !TokenManagement.isExpired()) {
             openMainActivity();
         } else {
-            TokenManagement.deleteToken();
+            TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
         }
     }

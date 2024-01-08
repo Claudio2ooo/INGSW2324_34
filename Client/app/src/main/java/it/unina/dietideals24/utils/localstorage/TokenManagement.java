@@ -7,7 +7,7 @@ public class TokenManagement {
     private static TokenManagement token = null;
     private static SharedPreferences sharedPreferences = null;
     private static final String TOKEN_KEY = "token";
-    private static final String EXPIRATION ="expiration";
+    private static final String EXPIRATION_KEY = "expiration";
 
     private TokenManagement(Context context) {
         sharedPreferences = context.getSharedPreferences("token_data", Context.MODE_PRIVATE);
@@ -22,7 +22,7 @@ public class TokenManagement {
 
     public void setToken(String token, long expiresIn) {
         sharedPreferences.edit().putString(TOKEN_KEY, token).apply();
-        sharedPreferences.edit().putLong(EXPIRATION, System.currentTimeMillis()+expiresIn).apply();
+        sharedPreferences.edit().putLong(EXPIRATION_KEY, System.currentTimeMillis() + expiresIn).apply();
     }
 
     public static String getToken() {
@@ -31,17 +31,15 @@ public class TokenManagement {
         return sharedPreferences.getString(TOKEN_KEY, "");
     }
 
-    public static void deleteToken() {
+    public static void deleteTokenData() {
         if (sharedPreferences != null)
-            sharedPreferences.edit().remove(TOKEN_KEY).apply();
+            sharedPreferences.edit().clear().apply();
     }
 
     public static boolean isExpired() {
-        if (sharedPreferences != null) {
-            if (sharedPreferences.getLong(EXPIRATION, 0) < System.currentTimeMillis())
-                return true;
-            return false;
-        }
+        if (sharedPreferences != null)
+            return sharedPreferences.getLong(EXPIRATION_KEY, 0) < System.currentTimeMillis();
+
         return true;
     }
 }

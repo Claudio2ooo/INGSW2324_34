@@ -4,17 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +27,6 @@ public class CategoriesActivity extends AppCompatActivity {
     private ImageView backBtn;
     private AutoCompleteTextView listItemsDropdownMenu;
     private String selectedCategory = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +63,7 @@ public class CategoriesActivity extends AppCompatActivity {
         listItemsDropdownMenu.addTextChangedListener(new TextWatcher() {
             private final Handler handler = new Handler();
             private Runnable runnable;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 //not needed

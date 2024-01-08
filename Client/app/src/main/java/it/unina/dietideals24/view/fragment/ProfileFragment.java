@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
         changePasswordBtn.setOnClickListener(v -> showChangePasswordDialog(view));
 
         logOutBtn.setOnClickListener(v -> {
-            TokenManagement.deleteToken();
+            TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getActivity());
 
             Intent loginActivity = new Intent(getActivity(), LoginActivity.class);
