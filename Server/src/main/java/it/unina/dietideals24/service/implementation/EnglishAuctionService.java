@@ -1,6 +1,5 @@
 package it.unina.dietideals24.service.implementation;
 
-import it.unina.dietideals24.auction_timer.EnglishAuctionTask;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
@@ -9,13 +8,13 @@ import it.unina.dietideals24.repository.IEnglishAuctionRepository;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +54,7 @@ public class EnglishAuctionService implements IEnglishAuctionService {
         if(!exists){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EnglishAuction not found");
         } else {
-            EnglishAuction toBeDeleted = englishAuctionRepository.findById(id).get();
-            toBeDeleted.setOwner(null);
-            englishAuctionRepository.delete(toBeDeleted);
+            englishAuctionRepository.deleteById(id);
         }
     }
 
@@ -91,6 +88,7 @@ public class EnglishAuctionService implements IEnglishAuctionService {
     @Override
     public void updateCurrentPrice(EnglishAuction targetAuction, BigDecimal newOffer) {
         targetAuction.setCurrentPrice(newOffer);
+        targetAuction.setCreatedAt(new Date(System.currentTimeMillis()));
         englishAuctionRepository.save(targetAuction);
     }
 

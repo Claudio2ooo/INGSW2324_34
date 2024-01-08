@@ -4,7 +4,6 @@ import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.model.DownwardAuction;
-import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.repository.IDownwardAuctionRepository;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,10 +7,9 @@ import java.util.TimerTask;
 
 @Getter
 public abstract class AuctionTask extends TimerTask {
-    private final Auction auction;
+    private Auction auction;
 
     protected AuctionTask(Auction auction){
-        super();
         this.auction = auction;
     }
 

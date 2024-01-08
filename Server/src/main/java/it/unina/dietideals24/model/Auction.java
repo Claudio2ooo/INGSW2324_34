@@ -3,14 +3,13 @@ package it.unina.dietideals24.model;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
 
 import java.awt.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -35,12 +34,11 @@ public class Auction {
     private Long timerInMilliseconds;
     
     @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
+    @Column(name = "created_at")
     private Date createdAt;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
-    @Cascade(org.hibernate.annotations.CascadeType.DETACH)
     private DietiUser owner;
 }
 

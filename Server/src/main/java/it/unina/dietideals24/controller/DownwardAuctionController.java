@@ -31,7 +31,7 @@ public class DownwardAuctionController {
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
 
-    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController(this);
+    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController();
 
     @Autowired
     @Qualifier("locallyStoreImageService")
@@ -83,7 +83,7 @@ public class DownwardAuctionController {
             try{
                 imageService.saveImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id, image);
                 downwardAuctionService.linkImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id);
-                return new ResponseEntity<>("Aucton image updated!", HttpStatus.OK);
+                return new ResponseEntity<>("Auction image updated!", HttpStatus.OK);
             } catch (IOException e){
                 return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);
             }

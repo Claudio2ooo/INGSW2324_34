@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DownwardAuctionTask extends AuctionTask {
 
-    private final DownwardAuctionController downwardAuctionController;
+    @Autowired
+    private DownwardAuctionController downwardAuctionController;
 
-    public DownwardAuctionTask(Auction auction, DownwardAuctionController downwardAuctionController) {
+    public DownwardAuctionTask(Auction auction) {
         super(auction);
-        this.downwardAuctionController = downwardAuctionController;
     }
 
     @Override

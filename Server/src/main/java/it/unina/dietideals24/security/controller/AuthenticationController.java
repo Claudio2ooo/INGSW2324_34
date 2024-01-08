@@ -1,6 +1,5 @@
 package it.unina.dietideals24.security.controller;
 
-import io.micrometer.observation.GlobalObservationConvention;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.repository.IDietiUserRepository;
 import it.unina.dietideals24.security.dto.LoginDto;

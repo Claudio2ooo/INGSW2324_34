@@ -1,22 +1,13 @@
 package it.unina.dietideals24.auction_timer;
 
-import it.unina.dietideals24.controller.DownwardAuctionController;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
-import it.unina.dietideals24.model.EnglishAuction;
 
 import java.util.HashMap;
 import java.util.Timer;
 
 public class DownwardAuctionTimerController {
-    HashMap<Long, Timer> downwardAuctionTimers = new HashMap<>();
-    private final DownwardAuctionController downwardAuctionController;
-
-    public DownwardAuctionTimerController(DownwardAuctionController downwardAuctionController) {
-        this.downwardAuctionController = downwardAuctionController;
-    }
-
-
+    private final static HashMap<Long, Timer> downwardAuctionTimers = new HashMap<>();
 
     /**
      * Starts a timer for an auction
@@ -27,7 +18,7 @@ public class DownwardAuctionTimerController {
         long countdownInMilliseconds = auction.getTimerInMilliseconds();
 
         Timer timer = new Timer();
-        timer.schedule(new DownwardAuctionTask(auction, downwardAuctionController), countdownInMilliseconds);
+        timer.schedule(new DownwardAuctionTask(auction), countdownInMilliseconds);
         downwardAuctionTimers.put(position, timer);
     }
 

@@ -1,9 +1,12 @@
 package it.unina.dietideals24.controller;
 
+import it.unina.dietideals24.auction_timer.DownwardAuctionTimerController;
+import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.model.Offer;
+import it.unina.dietideals24.service.implementation.EnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.IOfferService;
@@ -32,6 +35,9 @@ public class OfferController {
     @Qualifier("mainDownwardAuctionService")
     private IDownwardAuctionService downwardAuctionService;
 
+    private final EnglishAuctionTimerController englishAuctionTimerController = new EnglishAuctionTimerController();
+    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController();
+
     @GetMapping("english/{id}")
     public List<Offer> getOffersByEnglishAuctionId(@PathVariable("id") Long englishAuctionId) {
         return offerService.getOffersByEnglishAuctionId(englishAuctionId);
@@ -47,8 +53,8 @@ public class OfferController {
         return offerService.getOffersByOffererId(offererId);
     }
 
-    @PostMapping("/english_auctions")
-    public ResponseEntity<Offer> makeOfferForEnglishAuction(@PathVariable("id") Long englishAuctionId, @RequestParam BigDecimal newOffer) throws BadRequestException {
+    @PostMapping("/english/{id}")
+    public ResponseEntity<Offer> makeOfferForEnglishAuction(@PathVariable("id") Long englishAuctionId, @RequestBody BigDecimal newOffer) throws BadRequestException {
         EnglishAuction targetAuction = englishAuctionService.getEnglishAuctionById(englishAuctionId);
         if(offerIsBetter(targetAuction, newOffer)){
             Offer betterOffer = new Offer(
@@ -58,8 +64,7 @@ public class OfferController {
             );
             Offer savedOffer = offerService.save(betterOffer);
             englishAuctionService.updateCurrentPrice(targetAuction, newOffer);
-            //TODO FIX
-            //auctionTimerController.restartOngoingEnglishTimer(targetAuction);
+            englishAuctionTimerController.restartOngoingEnglishTimer(targetAuction, (EnglishAuctionService) englishAuctionService);
 
             return ResponseEntity.ok(savedOffer);
         } else {
@@ -68,21 +73,13 @@ public class OfferController {
 
     }
 
-    @PostMapping("/downward_auction")
-    public ResponseEntity<Offer> makeOfferForDownwardAuction(@PathVariable("id") Long downwardAuctionId, @RequestParam BigDecimal newOffer) throws BadRequestException {
+    @PostMapping("/downward/{id}")
+    public ResponseEntity<String> makeOfferForDownwardAuction(@PathVariable("id") Long downwardAuctionId) throws BadRequestException {
         DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(downwardAuctionId);
-        if(offerIsBetter(targetAuction, newOffer)){
-            Offer betterOffer = new Offer(
-                    newOffer,
-                    targetAuction.getOwner(),
-                    targetAuction
-            );
-            Offer savedOffer = offerService.save(betterOffer);
-            //TODO finalizza acquisto di asta ribasso
-            return ResponseEntity.ok(savedOffer);
-        } else {
-            throw new BadRequestException("Offer is not valid, current price is higher");
-        }
+        //TODO finalizza acquisto di asta ribasso
+        downwardAuctionService.deleteDownwardAuctionById(downwardAuctionId);
+
+        return ResponseEntity.ok("Congratulazioni!");
     }
 
     private boolean offerIsBetter(Auction targetAuction, BigDecimal newOffer) {

@@ -2,11 +2,12 @@ package it.unina.dietideals24.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Currency;
 
 @Data
 @Entity
@@ -25,6 +26,7 @@ public class Offer {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "english_auction_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_ENGLISH_AUCTION"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private EnglishAuction targetEnglishAuction;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -43,5 +45,9 @@ public class Offer {
         this.offerer = offerer;
         this.targetDownwardAuction = targetDownwardAuction;
         this.timestamp = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
+    }
+
+    public Offer(){
+
     }
 }

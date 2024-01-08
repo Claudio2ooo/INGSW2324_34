@@ -1,7 +1,6 @@
 package it.unina.dietideals24.model;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
