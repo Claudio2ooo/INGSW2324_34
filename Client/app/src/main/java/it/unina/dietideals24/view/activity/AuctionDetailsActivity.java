@@ -19,9 +19,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.OfferAdapter;
+import it.unina.dietideals24.dto.OfferDto;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
@@ -31,6 +33,7 @@ import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
 import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,7 +55,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewOfferrers;
 
     private Auction auction;
-    private ArrayList<Offer> offerrers;
+    private ArrayList<Offer> offerrers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void makeDownwardOffer() {
+        OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
+
         OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeDownwardOffer(auction.getId()).enqueue(new Callback<String>() {
+        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -103,9 +108,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void makeEnglishOffer() {
+        OfferDto offerDto = new OfferDto(new BigDecimal(offerEditText.getText().toString()), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
+
         OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeEnglishOffer(auction.getId(), new BigDecimal(offerEditText.getText().toString())).enqueue(new Callback<String>() {
+        offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -208,15 +217,17 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.getOffersByEnglishAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
             @Override
             public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
+                Log.d("OFFERS", response.body().toString());
                 if (response.code() == 200) {
-                    offerrers = response.body();
+                    if (response.body() != null)
+                        offerrers.addAll(response.body());
                     initializeOfferrers();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
-
+                Log.e("ERRORE", t.toString());
             }
         });
     }
@@ -227,7 +238,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
                 if (response.code() == 200) {
-                    offerrers = response.body();
+                    if (response.body() != null)
+                        offerrers.addAll(response.body());
                     initializeOfferrers();
                 }
             }
@@ -240,6 +252,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void initializeOfferrers() {
+        Log.d("OFFERS", offerrers.toString());
+
         recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
         recyclerViewOfferrers.setAdapter(sellerAdapter);

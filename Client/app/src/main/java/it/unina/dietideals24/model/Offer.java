@@ -1,13 +1,13 @@
 package it.unina.dietideals24.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Offer {
     private Long id;
     private BigDecimal amount;
-    private LocalDateTime timestamp;
-
+    private Timestamp timestamp;
     private DietiUser offerer;
     private EnglishAuction targetEnglishAuction;
     private DownwardAuction targetDownwardAuction;
@@ -16,7 +16,16 @@ public class Offer {
         this.amount = amount;
         this.offerer = offerer;
         this.targetEnglishAuction = targetEnglishAuction;
-        // this.timestamp = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Offer(Long id, BigDecimal amount, Timestamp timestamp, DietiUser offerer, EnglishAuction targetEnglishAuction, DownwardAuction targetDownwardAuction) {
+        this.id = id;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.offerer = offerer;
+        this.targetEnglishAuction = targetEnglishAuction;
+        this.targetDownwardAuction = targetDownwardAuction;
     }
 
     public Offer(BigDecimal amount, DietiUser offerer, DownwardAuction targetDownwardAuction) {
@@ -42,11 +51,11 @@ public class Offer {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

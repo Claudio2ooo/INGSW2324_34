@@ -2,10 +2,12 @@ package it.unina.dietideals24.auction_timer;
 
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
+import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
 import java.util.Timer;
 
+@Controller
 public class DownwardAuctionTimerController {
     private final static HashMap<Long, Timer> downwardAuctionTimers = new HashMap<>();
 
@@ -18,7 +20,10 @@ public class DownwardAuctionTimerController {
         long countdownInMilliseconds = auction.getTimerInMilliseconds();
 
         Timer timer = new Timer();
-        timer.schedule(new DownwardAuctionTask(auction), countdownInMilliseconds);
+        DownwardAuctionTask downwardAuctionTask = new DownwardAuctionTask();
+        downwardAuctionTask.setAuction(auction);
+
+        timer.schedule(downwardAuctionTask, countdownInMilliseconds);
         downwardAuctionTimers.put(position, timer);
     }
 

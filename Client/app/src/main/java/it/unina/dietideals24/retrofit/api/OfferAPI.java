@@ -3,6 +3,7 @@ package it.unina.dietideals24.retrofit.api;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import it.unina.dietideals24.dto.OfferDto;
 import it.unina.dietideals24.model.Offer;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,9 +18,9 @@ public interface OfferAPI {
     @GET("/offers/downward/{id}")
     Call<ArrayList<Offer>> getOffersByDownwardAuctionId(@Path("id") Long downwardAuctionId);
 
-    @POST("/offers/english/{id}")
-    Call<String> makeEnglishOffer(@Path("id") Long id, @Body BigDecimal bigDecimal);
+    @POST("/offers/english")
+    Call<String> makeEnglishOffer(@Body OfferDto offerDto);
 
-    @POST("/offers/downward/{id}")
-    Call<String> makeDownwardOffer(@Path("id") Long id);
+    @POST("/offers/downward")
+    Call<String> makeDownwardOffer(@Body OfferDto offerDto);
 }

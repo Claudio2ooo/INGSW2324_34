@@ -2,11 +2,10 @@ package it.unina.dietideals24.controller;
 
 import it.unina.dietideals24.auction_timer.DownwardAuctionTimerController;
 import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
-import it.unina.dietideals24.model.Auction;
-import it.unina.dietideals24.model.DownwardAuction;
-import it.unina.dietideals24.model.EnglishAuction;
-import it.unina.dietideals24.model.Offer;
+import it.unina.dietideals24.dto.OfferDto;
+import it.unina.dietideals24.model.*;
 import it.unina.dietideals24.service.implementation.EnglishAuctionService;
+import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.IOfferService;
@@ -35,15 +34,22 @@ public class OfferController {
     @Qualifier("mainDownwardAuctionService")
     private IDownwardAuctionService downwardAuctionService;
 
-    private final EnglishAuctionTimerController englishAuctionTimerController = new EnglishAuctionTimerController();
-    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController();
+    @Autowired
+    @Qualifier("mainDietiUserService")
+    private IDietiUserService dietiUserService;
 
-    @GetMapping("english/{id}")
+    @Autowired
+    private EnglishAuctionTimerController englishAuctionTimerController;
+
+    @Autowired
+    private DownwardAuctionTimerController downwardAuctionTimerController;
+
+    @GetMapping("/english/{id}")
     public List<Offer> getOffersByEnglishAuctionId(@PathVariable("id") Long englishAuctionId) {
         return offerService.getOffersByEnglishAuctionId(englishAuctionId);
     }
 
-    @GetMapping("downward/{id}")
+    @GetMapping("/downward/{id}")
     public List<Offer> getOffersByDownwardAuctionId(@PathVariable("id") Long downwardAuctionId) {
         return offerService.getOffersByDownwardAuctionId(downwardAuctionId);
     }
@@ -53,33 +59,35 @@ public class OfferController {
         return offerService.getOffersByOffererId(offererId);
     }
 
-    @PostMapping("/english/{id}")
-    public ResponseEntity<String> makeOfferForEnglishAuction(@PathVariable("id") Long englishAuctionId, @RequestBody BigDecimal newOffer) throws BadRequestException {
-        EnglishAuction targetAuction = englishAuctionService.getEnglishAuctionById(englishAuctionId);
-        if(offerIsBetter(targetAuction, newOffer)){
+    @PostMapping("/english")
+    public ResponseEntity<Offer> makeOfferForEnglishAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
+        EnglishAuction targetAuction = englishAuctionService.getEnglishAuctionById(offerDto.getAuctionId());
+        DietiUser offerer = dietiUserService.getUserById(offerDto.getOffererId());
+        if(offerIsBetter(targetAuction, offerDto.getAmount())){
             Offer betterOffer = new Offer(
-                    newOffer,
-                    targetAuction.getOwner(),
+                    offerDto.getAmount(),
+                    offerer,
                     targetAuction
             );
             Offer savedOffer = offerService.save(betterOffer);
-            englishAuctionService.updateCurrentPrice(targetAuction, newOffer);
-            englishAuctionTimerController.restartOngoingEnglishTimer(targetAuction, (EnglishAuctionService) englishAuctionService);
+            englishAuctionService.updateCurrentPrice(targetAuction, offerDto.getAmount());
+            englishAuctionTimerController.restartOngoingEnglishTimer(targetAuction);
 
-            return ResponseEntity.ok("Offerta piazzata!");
+            return ResponseEntity.ok(savedOffer);
         } else {
             throw new BadRequestException("Offer is not valid, current price is higher");
         }
 
     }
 
-    @PostMapping("/downward/{id}")
-    public ResponseEntity<String> makeOfferForDownwardAuction(@PathVariable("id") Long downwardAuctionId) throws BadRequestException {
+    @PostMapping("/downward")
+    public ResponseEntity<String> makeOfferForDownwardAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
         //TODO IMPLEMENTARE BENE QUESTO METODO
 
-        DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(downwardAuctionId);
+        DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(offerDto.getAuctionId());
+        //NOTIFICA A UTENTE
 
-        downwardAuctionService.deleteDownwardAuctionById(downwardAuctionId);
+        downwardAuctionService.deleteDownwardAuctionById(offerDto.getAuctionId());
 
         return ResponseEntity.ok("Congratulazioni!");
     }

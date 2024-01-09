@@ -31,7 +31,8 @@ public class DownwardAuctionController {
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
 
-    private final DownwardAuctionTimerController downwardAuctionTimerController = new DownwardAuctionTimerController();
+    @Autowired
+    private DownwardAuctionTimerController downwardAuctionTimerController;
 
     @Autowired
     @Qualifier("locallyStoreImageService")

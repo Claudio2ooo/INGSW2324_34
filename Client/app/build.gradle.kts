@@ -57,4 +57,7 @@ dependencies {
     // Login
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
+    // Swipe to Refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
 }

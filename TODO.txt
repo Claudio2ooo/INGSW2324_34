@@ -1,0 +1,42 @@
+FINALIZZAZIONE ACQUISTI
+    Aste all'inglese:
+        - finisce il timer
+        - il timer richiama una funzione di un'altra classe:
+            finalizza acquisto
+                - crea notifiche
+                    - perdenti
+                    - vincenti
+                    - possessore asta
+                - rimuove asta e relative offerte dal db
+
+    Aste al ribasso:
+        - acquisto finalizzato con pulsante
+        - DownwardAuctionController richiama una funziona di un'altra classe:
+            finallizza acquisto:
+                - crea notifica:
+                    - acquirente
+                    - possessore asta
+                - rimuove asta
+OFFERTE
+    Popup vari
+    usare email censurata invece di nome e cognome
+    colorare di verde l'offerta vincente
+    rimuovere la sezione offerenti in caso di asta di Asta al Ribasso
+
+Notifiche
+    servizio in background che controlla ogni tot minuti se sono presenti nuove notifiche relative all'utente
+        nuove notifiche:
+            determinate da una variabile che viene aggiornata nel momento in cui la notifica viene inviata
+        le notifiche vengono cancellate dal db solo nel momento in cui l'utente clicca la X
+
+Ottimizzazione:
+    Passare aste tra i fragment (forse, da vedere)
+    Limitare il numero di query, usando un attributo Timestamp lastQuery o simili che viene confrontato con il Timestamp corrente per verificare se sono passati almeno tot minuti
+    Consentire all'utente di forzare una query (sempre con un certo limite) tramite uno swipe
+
+Login con Google
+
+Test
+
+Google Analitycs
+

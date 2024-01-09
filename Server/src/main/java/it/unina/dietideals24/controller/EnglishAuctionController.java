@@ -32,7 +32,8 @@ public class EnglishAuctionController {
     @Qualifier("mainDietiUserService")
     private IDietiUserService dietiUserService;
 
-    private final EnglishAuctionTimerController englishAuctionTimerController = new EnglishAuctionTimerController();
+    @Autowired
+    private EnglishAuctionTimerController englishAuctionTimerController;
 
     @Autowired
     @Qualifier("locallyStoreImageService")
@@ -70,7 +71,7 @@ public class EnglishAuctionController {
             DietiUser owner = dietiUserService.getUserById(englishAuctionDto.getOwnerId());
             EnglishAuction createdEnglishAuction = englishAuctionService.save(englishAuctionDto, owner);
 
-            englishAuctionTimerController.startNewTimer(createdEnglishAuction, (EnglishAuctionService) englishAuctionService);
+            englishAuctionTimerController.startNewTimer(createdEnglishAuction);
 
             return ResponseEntity.ok(createdEnglishAuction);
         } else {

@@ -2,6 +2,7 @@ package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
@@ -61,8 +62,9 @@ public class CategoriesActivity extends AppCompatActivity {
         });
 
         listItemsDropdownMenu.addTextChangedListener(new TextWatcher() {
-            private final Handler handler = new Handler();
+            private final Handler handler = new Handler(getMainLooper());
             private Runnable runnable;
+
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,7 +83,10 @@ public class CategoriesActivity extends AppCompatActivity {
                         handler.removeCallbacks(runnable);
                     }
 
-                    runnable = () -> listItemsDropdownMenu.showDropDown();
+                    runnable = () -> {
+                        listItemsDropdownMenu.showDropDown();
+                        initializeCategories();
+                    };
                     handler.postDelayed(runnable, 20);
                 }
             }

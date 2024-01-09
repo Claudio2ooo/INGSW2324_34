@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private EditText searchAuctionEditText;
     private Button categoryBtn;
     private Button englishAuctionsBtn;
@@ -91,6 +93,13 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO REFRESHARE ASTE
+            }
+        });
+
         return view;
     }
 
@@ -102,6 +111,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+
         searchAuctionEditText = view.findViewById(R.id.inputSeachAuction);
         categoryBtn = view.findViewById(R.id.categoriesBtn);
         englishAuctionsBtn = view.findViewById(R.id.englishAuctionsBtn);

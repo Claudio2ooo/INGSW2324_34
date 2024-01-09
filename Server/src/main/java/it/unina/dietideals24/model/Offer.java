@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,7 +17,7 @@ public class Offer {
     )
     private Long id;
     private BigDecimal amount;
-    private LocalDateTime timestamp;
+    private Timestamp timestamp;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "offerer_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
@@ -31,20 +30,21 @@ public class Offer {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "downward_auction_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DOWNWARD_AUCTION"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private DownwardAuction targetDownwardAuction;
 
     public Offer(BigDecimal amount, DietiUser offerer, EnglishAuction targetEnglishAuction){
         this.amount = amount;
         this.offerer = offerer;
         this.targetEnglishAuction = targetEnglishAuction;
-        this.timestamp = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public Offer(BigDecimal amount, DietiUser offerer, DownwardAuction targetDownwardAuction) {
         this.amount = amount;
         this.offerer = offerer;
         this.targetDownwardAuction = targetDownwardAuction;
-        this.timestamp = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public Offer(){
