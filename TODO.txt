@@ -19,8 +19,8 @@ FINALIZZAZIONE ACQUISTI
                 - rimuove asta
 OFFERTE
     Popup vari
-    usare email censurata invece di nome e cognome
-    colorare di verde l'offerta vincente
+    usare email censurata invece di nome e cognome FATTO
+    colorare di verde l'offerta vincente FATTO
     rimuovere la sezione offerenti in caso di asta di Asta al Ribasso
 
 Notifiche

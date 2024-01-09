@@ -76,4 +76,6 @@
     <string name="create_another_downward_auction_label">Crea un\'altra asta al ribasso</string>
     <string name="back_to_home">Torna alla Home</string>
     <string name="buy_label">Acquista</string>
+    <string name="seller_label">Venditore:</string>
+    <string name="the_seller_did_not_provide_any_other_information_label">Il venditore non ha fornito altre informazioni</string>
 </resources>

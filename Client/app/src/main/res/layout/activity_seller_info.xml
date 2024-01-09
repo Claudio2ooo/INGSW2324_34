@@ -81,7 +81,7 @@
                     android:paddingBottom="16dp">
 
                     <TextView
-                        android:id="@+id/textView7"
+                        android:id="@+id/sellerFullNameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Nome Cognome"
@@ -94,7 +94,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/geographicalAreaSellerText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -105,7 +105,7 @@
                         app:drawableStartCompat="@drawable/outline_location_on_40"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                        app:layout_constraintTop_toBottomOf="@+id/sellerFullNameText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +116,7 @@
                     android:paddingBottom="16dp">
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/titleSectionBiographySeller"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -128,7 +128,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/biographySellerText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -136,8 +136,8 @@
                         android:text="@string/lorem_ipsum"
                         android:textColor="@color/light_grey"
                         android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/textView12"
-                        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                        app:layout_constraintStart_toStartOf="@+id/titleSectionBiographySeller"
+                        app:layout_constraintTop_toBottomOf="@+id/titleSectionBiographySeller" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,7 +149,7 @@
                     android:paddingBottom="16dp">
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/titleSectionLinksSeller"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -161,7 +161,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/linksSellerText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:autoLink="web"
@@ -173,9 +173,20 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                        app:layout_constraintTop_toBottomOf="@+id/titleSectionLinksSeller" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/messageNoInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_background_dark_outline"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/the_seller_did_not_provide_any_other_information_label"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -10,4 +10,6 @@ public interface DietiUserAPI {
     @GET("/users/email/{email}")
     Call<DietiUser> getUserByEmail(@Path("email") String email);
 
+    @GET("/users/{id}")
+    Call<DietiUser> getUserById(@Path("id") Long id);
 }

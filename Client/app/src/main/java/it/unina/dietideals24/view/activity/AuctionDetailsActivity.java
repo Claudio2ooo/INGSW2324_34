@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.OfferAdapter;
@@ -108,8 +108,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void makeEnglishOffer() {
         OfferDto offerDto = new OfferDto(new BigDecimal(offerEditText.getText().toString()), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
 
@@ -139,7 +137,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         recreate();
     }
 
-    private void initializeFields(Auction auction) {
+    private void initializeFields() {
         title.setText(auction.getTitle());
         categoryName.setText(auction.getCategory().toString());
         description.setText(auction.getDescription());
@@ -151,8 +149,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
             BigDecimal newOffer = auction.getCurrentPrice().add(((EnglishAuction) auction).getIncreaseAmount());
             offerEditText.setText(String.format(newOffer.toString()));
-        }
-        else
+        } else
             offerEditText.setText(String.format(auction.getCurrentPrice().toString()));
     }
 
@@ -180,7 +177,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     auction = response.body();
                     assert auction != null;
-                    initializeFields(auction);
+                    initializeFields();
                 }
             }
 
@@ -200,7 +197,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     auction = response.body();
                     assert auction != null;
-                    initializeFields(auction);
+                    initializeFields();
                 }
             }
 
@@ -252,8 +249,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void initializeOfferrers() {
-        Log.d("OFFERS", offerrers.toString());
-
+        Collections.reverse(offerrers);
         recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
         recyclerViewOfferrers.setAdapter(sellerAdapter);
