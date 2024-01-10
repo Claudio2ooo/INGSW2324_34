@@ -27,4 +27,6 @@ public interface IDownwardAuctionService {
     void save(DownwardAuction toBeDecreased);
 
     List<DownwardAuction> getByKeyword(String keyword);
+
+    void decreaseCurrentPrice(Long id);
 }
