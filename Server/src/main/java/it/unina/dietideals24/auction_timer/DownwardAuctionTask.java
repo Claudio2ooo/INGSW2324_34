@@ -1,12 +1,9 @@
 package it.unina.dietideals24.auction_timer;
 
-import it.unina.dietideals24.controller.DownwardAuctionController;
-import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
+import it.unina.dietideals24.service.implementation.DownwardAuctionService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.TimerTask;
 
@@ -14,21 +11,24 @@ import java.util.TimerTask;
 @Setter
 public class DownwardAuctionTask extends TimerTask {
 
-    @Autowired
-    private DownwardAuctionController downwardAuctionController;
-    private Auction auction;
+    private DownwardAuctionService downwardAuctionService;
+    private DownwardAuction downwardAuction;
 
+    public DownwardAuctionTask(DownwardAuctionService downwardAuctionService, DownwardAuction downwardAuction) {
+        this.downwardAuctionService = downwardAuctionService;
+        this.downwardAuction = downwardAuction;
+    }
 
     @Override
     public void run() {
-        DownwardAuction downwardAuction = (DownwardAuction) getAuction();
+        DownwardAuction downwardAuction = getDownwardAuction();
 
         if(downwardAuction.canBeDecreased()){
-            downwardAuctionController.decreaseCurrentPrice(getAuction().getId());
-            cancel();
+            downwardAuctionService.decreaseCurrentPrice(getDownwardAuction().getId());
+            downwardAuction.decreaseCurrentPrice();
         } else {
             //TODO inviare notifica al venditore
-            downwardAuctionController.deleteDownwardAuction(getAuction().getId());
+            downwardAuctionService.deleteDownwardAuctionById(getDownwardAuction().getId());
             cancel();
         }
 

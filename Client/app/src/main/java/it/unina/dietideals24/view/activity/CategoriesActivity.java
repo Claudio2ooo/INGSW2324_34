@@ -2,7 +2,6 @@ package it.unina.dietideals24.view.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;

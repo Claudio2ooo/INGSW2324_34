@@ -55,7 +55,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private Button makeAnOfferBtn;
     private ConstraintLayout sellerInfoBtn;
     private RecyclerView recyclerViewOfferrers;
-
+    private ConstraintLayout offerersConstraintLayout;
     private Auction auction;
     private ArrayList<Offer> offerrers = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         } else if (getIntent().getStringExtra("type").equals("DOWNWARD")) {
             makeAnOfferBtn.setText(R.string.buy_label);
             getDownwardAuction(idAuction);
-            getOfferrersDownwardAuction(idAuction);
+            hideOfferersSection();
         }
 
         backBtn.setOnClickListener(v -> finish());
@@ -91,6 +91,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             else if (auction instanceof DownwardAuction)
                 makeDownwardOffer();
         });
+    }
+
+    private void hideOfferersSection() {
+        offerersConstraintLayout.setVisibility(View.INVISIBLE);
     }
 
     private void makeDownwardOffer() {
@@ -231,26 +235,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void getOfferrersDownwardAuction(Long idAuction) {
-        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.getOffersByDownwardAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
-                if (response.code() == 200) {
-                    if (response.body() != null) {
-                        offerrers.addAll(response.body());
-                        initializeOfferrers();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
-
-            }
-        });
-    }
-
     private void initializeOfferrers() {
         if (offerrers.isEmpty()) {
             messageNoOfferrers.setVisibility(View.VISIBLE);
@@ -279,6 +263,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         sellerInfoBtn = findViewById(R.id.sellerInfo);
         sellerInfoText = findViewById(R.id.sellerInfoText);
         recyclerViewOfferrers = findViewById(R.id.offerrersList);
+        offerersConstraintLayout = findViewById(R.id.offerrersConstraintLayout);
 
         messageNoOfferrers = findViewById(R.id.messageNoOfferrers);
         messageNoOfferrers.setVisibility(View.GONE);

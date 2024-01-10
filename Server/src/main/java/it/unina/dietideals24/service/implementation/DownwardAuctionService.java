@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,7 @@ public class DownwardAuctionService implements IDownwardAuctionService {
         downwardAuction.setCurrentPrice(downwardAuctionDto.getCurrentPrice());
         downwardAuction.setStartingPrice(downwardAuctionDto.getStartingPrice());
         downwardAuction.setDecreaseAmount(downwardAuctionDto.getDecreaseAmount());
-        downwardAuction.setMinimumPrice(downwardAuction.getMinimumPrice());
+        downwardAuction.setMinimumPrice(downwardAuctionDto.getMinimumPrice());
         downwardAuction.setOwner(owner);
 
         return downwardAuctionRepository.save(downwardAuction);
@@ -98,5 +99,21 @@ public class DownwardAuctionService implements IDownwardAuctionService {
         foundAuctions.addAll(downwardAuctionRepository.findByTitleContainsIgnoreCase(keyword));
         foundAuctions.addAll(downwardAuctionRepository.findByDescriptionContainsIgnoreCase(keyword));
         return foundAuctions;
+    }
+
+    public void decreaseCurrentPrice(Long id) {
+        if(existsById(id)){
+            DownwardAuction toBeDecreased = getDownwardAuctionById(id);
+            decreaseCurrentPrice(toBeDecreased);
+            toBeDecreased.setCreatedAt(new Date(System.currentTimeMillis()));
+            save(toBeDecreased);
+        }
+    }
+
+    private void decreaseCurrentPrice(DownwardAuction toBeDecreased) {
+        toBeDecreased.setCurrentPrice(
+                toBeDecreased
+                        .getCurrentPrice()
+                        .subtract(toBeDecreased.getDecreaseAmount()));
     }
 }

@@ -2,7 +2,6 @@ package it.unina.dietideals24.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Offer {
     private Long id;

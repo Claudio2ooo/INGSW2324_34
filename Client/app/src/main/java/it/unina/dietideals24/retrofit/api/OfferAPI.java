@@ -1,6 +1,5 @@
 package it.unina.dietideals24.retrofit.api;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.dto.OfferDto;

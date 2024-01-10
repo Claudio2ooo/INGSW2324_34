@@ -4,7 +4,6 @@ import it.unina.dietideals24.auction_timer.DownwardAuctionTimerController;
 import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
 import it.unina.dietideals24.dto.OfferDto;
 import it.unina.dietideals24.model.*;
-import it.unina.dietideals24.service.implementation.EnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;

@@ -4,12 +4,10 @@ import it.unina.dietideals24.enumeration.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
 
 import java.awt.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 
 @Data

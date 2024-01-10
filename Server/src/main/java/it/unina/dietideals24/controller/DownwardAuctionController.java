@@ -99,20 +99,5 @@ public class DownwardAuctionController {
         //TODO implementare metodo che manda notifica a venditore per asta al ribasso fallita
     }
 
-    public void decreaseCurrentPrice(Long id) {
-        if(downwardAuctionService.existsById(id)){
-            DownwardAuction toBeDecreased = downwardAuctionService.getDownwardAuctionById(id);
-            decreaseCurrentPrice(toBeDecreased);
-            downwardAuctionService.save(toBeDecreased);
 
-            downwardAuctionTimerController.startNewTimer(toBeDecreased);
-        }
-    }
-
-    private void decreaseCurrentPrice(DownwardAuction toBeDecreased) {
-        toBeDecreased.setCurrentPrice(
-                toBeDecreased
-                        .getCurrentPrice()
-                        .subtract(toBeDecreased.getDecreaseAmount()));
-    }
 }
