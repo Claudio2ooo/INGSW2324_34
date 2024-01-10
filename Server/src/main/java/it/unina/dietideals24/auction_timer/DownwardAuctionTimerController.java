@@ -2,6 +2,7 @@ package it.unina.dietideals24.auction_timer;
 
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.service.implementation.DownwardAuctionService;
+import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ public class DownwardAuctionTimerController {
 
     @Autowired
     @Qualifier("mainDownwardAuctionService")
-    private DownwardAuctionService downwardAuctionService;
+    private IDownwardAuctionService downwardAuctionService;
 
 
 

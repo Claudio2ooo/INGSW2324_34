@@ -12,9 +12,9 @@ FINALIZZAZIONE ACQUISTI
     Aste al ribasso:
         - acquisto finalizzato con pulsante
         - DownwardAuctionController richiama una funziona di un'altra classe:
-            finallizza acquisto:
+            finalizza acquisto:
                 - crea notifica:
-                    - acquirente
+                    - acquirente (RETTIFICA, non necessario, per l'acquirente basta un popup al momento dell'acquisto)
                     - possessore asta
                 - rimuove asta
 OFFERTE

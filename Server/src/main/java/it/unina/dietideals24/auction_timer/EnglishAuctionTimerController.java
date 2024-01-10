@@ -3,6 +3,7 @@ package it.unina.dietideals24.auction_timer;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.service.implementation.EnglishAuctionService;
+import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class EnglishAuctionTimerController {
 
     @Autowired
     @Qualifier("mainEnglishAuctionService")
-    private EnglishAuctionService englishAuctionService;
+    private IEnglishAuctionService englishAuctionService;
 
 
     /**
