@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private TextView currentPrice;
     private TextView timer;
     private TextView sellerInfoText;
+    private TextView messageNoOfferrers;
     private TextInputLayout offerTextLayout;
     private EditText offerEditText;
     private Button makeAnOfferBtn;
@@ -235,9 +237,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
                 if (response.code() == 200) {
-                    if (response.body() != null)
+                    if (response.body() != null) {
                         offerrers.addAll(response.body());
-                    initializeOfferrers();
+                        initializeOfferrers();
+                    }
                 }
             }
 
@@ -249,6 +252,12 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void initializeOfferrers() {
+        if (offerrers.isEmpty()) {
+            messageNoOfferrers.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        messageNoOfferrers.setVisibility(View.GONE);
         Collections.reverse(offerrers);
         recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
@@ -270,5 +279,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         sellerInfoBtn = findViewById(R.id.sellerInfo);
         sellerInfoText = findViewById(R.id.sellerInfoText);
         recyclerViewOfferrers = findViewById(R.id.offerrersList);
+
+        messageNoOfferrers = findViewById(R.id.messageNoOfferrers);
+        messageNoOfferrers.setVisibility(View.GONE);
     }
 }
