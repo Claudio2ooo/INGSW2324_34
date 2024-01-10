@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auctionDetailsConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".view.activity.AuctionDetailsActivity">
 
     <ScrollView
@@ -315,11 +315,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@drawable/rounded_corners_top_background_dark"
         android:elevation="10dp"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/auctionDetailsConstraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -331,7 +332,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:hint="200 + 1"
+            android:hint="200 + 50"
             android:theme="@style/CustomTextInputLayout"
             app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/round_euro_24">

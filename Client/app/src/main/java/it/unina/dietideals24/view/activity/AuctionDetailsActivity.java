@@ -94,7 +94,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void hideOfferersSection() {
-        offerersConstraintLayout.setVisibility(View.INVISIBLE);
+        offerersConstraintLayout.setVisibility(View.GONE);
     }
 
     private void makeDownwardOffer() {
@@ -155,8 +155,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
             BigDecimal newOffer = auction.getCurrentPrice().add(((EnglishAuction) auction).getIncreaseAmount());
             offerEditText.setText(String.format(newOffer.toString()));
-        } else
+        } else {
             offerEditText.setText(String.format(auction.getCurrentPrice().toString()));
+            offerTextLayout.setHint("Prezzo");
+        }
     }
 
     private void startTimer() {
