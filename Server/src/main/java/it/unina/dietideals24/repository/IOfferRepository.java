@@ -1,5 +1,6 @@
 package it.unina.dietideals24.repository;
 
+import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.model.Offer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,8 @@ public interface IOfferRepository extends JpaRepository<Offer, Long> {
     List<Offer> findByTargetDownwardAuctionId(Long downwardAuctionId);
 
     List<Offer> findByOffererId(Long offererId);
+
+    List<DietiUser> findDistinctOfferersByTargetEnglishAuctionIdOrderByAmountAsc(Long id);
+
+    DietiUser findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(Long id);
 }

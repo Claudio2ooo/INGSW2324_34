@@ -1,5 +1,7 @@
 package it.unina.dietideals24.service.implementation;
 
+import it.unina.dietideals24.model.DietiUser;
+import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.model.Offer;
 import it.unina.dietideals24.repository.IOfferRepository;
 import it.unina.dietideals24.service.interfaces.IOfferService;
@@ -33,5 +35,19 @@ public class OfferService implements IOfferService {
     @Override
     public Offer save(Offer betterOffer) {
         return offerRepository.save(betterOffer);
+    }
+
+    @Override
+    public List<DietiUser> getLosers(EnglishAuction englishAuction) {
+        List<DietiUser> losers = offerRepository.findDistinctOfferersByTargetEnglishAuctionIdOrderByAmountAsc(englishAuction.getId());
+        DietiUser winner = offerRepository.findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
+        losers.remove(winner);
+        return losers;
+    }
+
+    @Override
+    public DietiUser getWinner(EnglishAuction englishAuction) {
+        DietiUser winner = offerRepository.findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
+        return winner;
     }
 }

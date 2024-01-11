@@ -25,4 +25,14 @@ public class NotificationService implements INotificationService {
     public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
     }
+
+    @Override
+    public void saveAll(List<Notification> notifications) {
+        notificationRepository.saveAll(notifications);
+    }
+
+    @Override
+    public void save(Notification notification) {
+        notificationRepository.save(notification);
+    }
 }

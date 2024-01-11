@@ -8,4 +8,8 @@ public interface INotificationService {
     List<Notification> getNotificationsByReceiverId(Long receiverId);
 
     void deleteNotification(Long id);
+
+    void saveAll(List<Notification> notifications);
+
+    void save(Notification notification);
 }

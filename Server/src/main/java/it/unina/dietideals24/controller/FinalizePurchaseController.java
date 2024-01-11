@@ -1,13 +1,19 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.model.DownwardAuction;
-import it.unina.dietideals24.model.EnglishAuction;
+import it.unina.dietideals24.enumeration.StateEnum;
+import it.unina.dietideals24.model.*;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.INotificationService;
+import it.unina.dietideals24.service.interfaces.IOfferService;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+
+import javax.swing.plaf.nimbus.State;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class FinalizePurchaseController {
@@ -24,9 +30,33 @@ public class FinalizePurchaseController {
     @Qualifier("mainNotificationService")
     private INotificationService notificationService;
 
-    public void finalizeEnglishAuction(EnglishAuction englishAuction){
-        createNotifications(englishAuction);
+    @Autowired
+    @Qualifier("mainOfferService")
+    private IOfferService offerService;
+
+    public void finalizeAuction(EnglishAuction englishAuction){
+        if (noOffersReceived(englishAuction))
+            createFailedAuctionNotification(englishAuction);
+        else
+            createNotifications(englishAuction);
         removeAuction(englishAuction);
+    }
+
+    private void createFailedAuctionNotification(EnglishAuction englishAuction) {
+        DietiUser owner = englishAuction.getOwner();
+        Notification failedAuctionNotification = new Notification(
+                StateEnum.FALLITA,
+                owner,
+                englishAuction.getTitle(),
+                englishAuction.getImageURL()
+        );
+
+        System.out.println("Failed english auction notification: "+failedAuctionNotification);
+        notificationService.save(failedAuctionNotification);
+    }
+
+    private boolean noOffersReceived(EnglishAuction englishAuction) {
+        return englishAuction.getCurrentPrice().equals(englishAuction.getStartingPrice());
     }
 
     private void removeAuction(EnglishAuction englishAuction) {
@@ -34,12 +64,55 @@ public class FinalizePurchaseController {
     }
 
     private void createNotifications(EnglishAuction englishAuction) {
-        //TODO creaNotifichePerdenti
-        //TODO creaNotificheVincenti
-        //TODO creaNotificheProprietario
+        createLosersNotification(englishAuction);
+        createWinnerNotification(englishAuction);
+        createOwnerNotification(englishAuction);
     }
 
-    public void finalizeDownwardAuction(DownwardAuction downwardAuction){
+    private void createOwnerNotification(Auction auction){
+        DietiUser owner = auction.getOwner();
+        Notification ownerNotification = new Notification(
+                StateEnum.CONCLUSA,
+                owner,
+                auction.getTitle(),
+                auction.getImageURL()
+        );
+
+        System.out.println("Owner notification: "+ownerNotification);
+        notificationService.save(ownerNotification);
+    }
+
+    private void createWinnerNotification(EnglishAuction englishAuction){
+        DietiUser winner = offerService.getWinner(englishAuction);
+        Notification winnerNotification = new Notification(
+                StateEnum.VINTA,
+                winner,
+                englishAuction.getTitle(),
+                englishAuction.getImageURL()
+        );
+
+        System.out.println("Winner notification: "+winnerNotification);
+        notificationService.save(winnerNotification);
+    }
+
+    private void createLosersNotification(EnglishAuction englishAuction){
+        List<DietiUser> losers = offerService.getLosers(englishAuction);
+        List<Notification> losersNotification = new ArrayList<>();
+
+        for (DietiUser l: losers) {
+            losersNotification.add(new Notification(
+                    StateEnum.PERSA,
+                    l,
+                    englishAuction.getTitle(),
+                    englishAuction.getImageURL())
+            );
+        }
+
+        System.out.println(losersNotification);
+        notificationService.saveAll(losersNotification);
+    }
+
+    public void finalizeAuction(DownwardAuction downwardAuction){
         createNotifications(downwardAuction);
         removeAuction(downwardAuction);
     }
@@ -49,6 +122,6 @@ public class FinalizePurchaseController {
     }
 
     private void createNotifications(DownwardAuction downwardAuction){
-        //TODO creaNotificheProprietario
+        createOwnerNotification(downwardAuction);
     }
 }

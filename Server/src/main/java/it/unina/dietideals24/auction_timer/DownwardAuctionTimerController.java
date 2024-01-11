@@ -1,5 +1,6 @@
 package it.unina.dietideals24.auction_timer;
 
+import it.unina.dietideals24.controller.FinalizePurchaseController;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.service.implementation.DownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
@@ -18,6 +19,9 @@ public class DownwardAuctionTimerController {
     @Qualifier("mainDownwardAuctionService")
     private IDownwardAuctionService downwardAuctionService;
 
+    @Autowired
+    private FinalizePurchaseController finalizePurchaseController;
+
 
 
     /**
@@ -29,7 +33,7 @@ public class DownwardAuctionTimerController {
         long countdownInMilliseconds = downwardAuction.getTimerInMilliseconds();
 
         Timer timer = new Timer();
-        DownwardAuctionTask downwardAuctionTask = new DownwardAuctionTask(downwardAuctionService, downwardAuction);
+        DownwardAuctionTask downwardAuctionTask = new DownwardAuctionTask(finalizePurchaseController, downwardAuctionService, downwardAuction);
 
         timer.scheduleAtFixedRate(downwardAuctionTask, countdownInMilliseconds, countdownInMilliseconds);
         downwardAuctionTimers.put(position, timer);

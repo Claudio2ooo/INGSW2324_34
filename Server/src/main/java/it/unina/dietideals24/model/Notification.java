@@ -29,4 +29,11 @@ public class Notification {
 
     private String titleOfTheAuction;
     private String imageUrlOfTheAuction;
+
+    public Notification(StateEnum state, DietiUser receiver, String titleOfTheAuction, String imageUrlOfTheAuction) {
+        this.state = state;
+        this.receiver = receiver;
+        this.titleOfTheAuction = titleOfTheAuction;
+        this.imageUrlOfTheAuction = imageUrlOfTheAuction;
+    }
 }

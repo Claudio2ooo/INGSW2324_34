@@ -1,8 +1,8 @@
 package it.unina.dietideals24.auction_timer;
 
+import it.unina.dietideals24.controller.FinalizePurchaseController;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.EnglishAuction;
-import it.unina.dietideals24.service.implementation.EnglishAuctionService;
 import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,18 +19,20 @@ public class EnglishAuctionTimerController {
     @Qualifier("mainEnglishAuctionService")
     private IEnglishAuctionService englishAuctionService;
 
+    @Autowired
+    private FinalizePurchaseController finalizePurchaseController;
 
     /**
      * Starts a timer for an auction
      * @param auction auction whose timer starts
      */
-    public void startNewTimer(Auction auction){
+    public void startNewTimer(EnglishAuction auction){
         Long auctionId = auction.getId();
         long countdownInMilliseconds = auction.getTimerInMilliseconds();
 
         Timer timer = new Timer();
 
-        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(englishAuctionService, auction);
+        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, englishAuctionService, auction);
         timer.schedule(englishAuctionTask, countdownInMilliseconds);
 
         englishAuctionTimers.put(auctionId, timer);
@@ -50,7 +52,7 @@ public class EnglishAuctionTimerController {
 
         toBeRestarted = new Timer();
 
-        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(englishAuctionService, englishAuction);
+        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, englishAuctionService, englishAuction);
 
         toBeRestarted.schedule(englishAuctionTask, countdownInMilliseconds);
         System.out.println("Timer restarted for english auction "+ englishAuction.getTitle());
