@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/failedCreateAuctionConstraintLayout"
+    android:id="@+id/failedOfferConstraintLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_corners_background"
@@ -25,28 +25,21 @@
             android:src="@drawable/round_error_100" />
 
         <TextView
-            android:id="@+id/failedCreateAuctionText"
+            android:id="@+id/failedOfferText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Messaggio"
+            android:text="@string/dynamic_text"
             android:textAlignment="center"
             android:textColor="@color/yellow"
             android:textSize="30sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/backToCreateAuctionBtn"
+            android:id="@+id/backToAuctionBtn"
             style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dynamic_text" />
-
-        <Button
-            android:id="@+id/backToHomeBtn"
-            style="@style/CustomButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/back_to_home" />
+            android:text="@string/back_to_auction" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

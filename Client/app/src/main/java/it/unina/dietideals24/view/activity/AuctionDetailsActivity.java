@@ -1,21 +1,27 @@
 package it.unina.dietideals24.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -87,10 +93,91 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
         makeAnOfferBtn.setOnClickListener(v -> {
             if (auction instanceof EnglishAuction)
-                makeEnglishOffer();
+                showEnglishAuctionConfirmOfferDialog();
             else if (auction instanceof DownwardAuction)
-                makeDownwardOffer();
+                showDownwardAuctionConfirmOfferDialog();
         });
+    }
+
+    private void showFailedOfferDialog(String errorMessage){
+        ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.failedOfferConstraintLayout);
+        View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.failed_offer_dialog, failedOfferConstraintLayout);
+
+        Button backToAuctionButton = findViewById(R.id.backToAuctionBtn);
+
+        TextView errorText = findViewById(R.id.failedOfferText);
+        errorText.setText(errorMessage);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
+        builder.setView(viewFailedOfferDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToAuctionButton.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void showDownwardAuctionConfirmOfferDialog(){
+        ConstraintLayout confirmOfferConstraintLayout = findViewById(R.id.confirmOfferConstraintLayout);
+        View viewConfirmOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.offer_confirm_dialog, confirmOfferConstraintLayout);
+
+        Button confirmOfferButton = findViewById(R.id.confirmOfferButton);
+        Button cancelOfferButton = findViewById(R.id.cancelOfferButton);
+
+        TextView confirmOfferTitleText = findViewById(R.id.confirmOfferTitleText);
+        confirmOfferTitleText.setText("Acquista");
+
+        TextView confirmOfferText = findViewById(R.id.confirmOfferText);
+        String confirmOffer = "Sicuro di voler acquistare "+auction.getTitle()+" per "+auction.getCurrentPrice()+"€?";
+        confirmOfferText.setText(confirmOffer);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
+        builder.setView(viewConfirmOfferDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        confirmOfferButton.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            makeDownwardOffer();
+        });
+
+        cancelOfferButton.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+
+    }
+
+    private void showEnglishAuctionConfirmOfferDialog() {
+        ConstraintLayout confirmOfferConstraintLayout = findViewById(R.id.confirmOfferConstraintLayout);
+        View viewConfirmOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.offer_confirm_dialog, confirmOfferConstraintLayout);
+
+        Button confirmOfferButton = findViewById(R.id.confirmOfferButton);
+        Button cancelOfferButton = findViewById(R.id.cancelOfferButton);
+
+        TextView confirmOfferText = findViewById(R.id.confirmOfferText);
+        String confirmOffer = "Sicuro di voler offire "+offerEditText.getText().toString()+"€?";
+        confirmOfferText.setText(confirmOffer);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
+        builder.setView(viewConfirmOfferDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        confirmOfferButton.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            makeEnglishOffer();
+        });
+
+        cancelOfferButton.setOnClickListener(v -> alertDialog.dismiss());
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
     }
 
     private void hideOfferersSection() {

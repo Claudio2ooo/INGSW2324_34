@@ -79,4 +79,8 @@
     <string name="seller_label">Venditore:</string>
     <string name="the_seller_did_not_provide_any_other_information_label">Il venditore non ha fornito altre informazioni</string>
     <string name="there_are_no_offerrers_make_an_offer_label">Non ci sono offerenti!\n Fai un\'offerta!</string>
+    <string name="dynamic_text">Testo Dinamico</string>
+    <string name="confirm_offer_label">Conferma offerta</string>
+    <string name="confirm_label">Conferma</string>
+    <string name="back_to_auction">Torna all\'asta</string>
 </resources>
