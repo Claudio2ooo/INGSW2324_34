@@ -16,7 +16,7 @@ public interface IOfferRepository extends JpaRepository<Offer, Long> {
 
     List<Offer> findByOffererId(Long offererId);
 
-    List<DietiUser> findDistinctOfferersByTargetEnglishAuctionIdOrderByAmountAsc(Long id);
+    List<Offer> findDistinctByTargetEnglishAuctionIdOrderByAmountAsc(Long id);
 
-    DietiUser findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(Long id);
+    Offer findFirstDistinctByTargetEnglishAuctionIdOrderByAmountDesc(Long id);
 }

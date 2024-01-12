@@ -5,6 +5,7 @@ import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.model.Offer;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IOfferService {
 
@@ -16,7 +17,7 @@ public interface IOfferService {
 
     Offer save(Offer betterOffer);
 
-    List<DietiUser> getLosers(EnglishAuction englishAuction);
+    Set<DietiUser> getLosers(EnglishAuction englishAuction);
 
     DietiUser getWinner(EnglishAuction englishAuction);
 }

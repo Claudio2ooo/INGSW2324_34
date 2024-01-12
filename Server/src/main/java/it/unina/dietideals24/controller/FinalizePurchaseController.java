@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class FinalizePurchaseController {
@@ -96,7 +97,7 @@ public class FinalizePurchaseController {
     }
 
     private void createLosersNotification(EnglishAuction englishAuction){
-        List<DietiUser> losers = offerService.getLosers(englishAuction);
+        Set<DietiUser> losers = offerService.getLosers(englishAuction);
         List<Notification> losersNotification = new ArrayList<>();
 
         for (DietiUser l: losers) {

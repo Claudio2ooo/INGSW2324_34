@@ -14,19 +14,16 @@ import java.util.TimerTask;
 public class EnglishAuctionTask extends TimerTask {
 
     private FinalizePurchaseController finalizePurchaseController;
-    private IEnglishAuctionService englishAuctionService;
     private EnglishAuction auction;
 
-    public EnglishAuctionTask(FinalizePurchaseController finalizePurchaseController, IEnglishAuctionService englishAuctionService, EnglishAuction auction) {
+    public EnglishAuctionTask(FinalizePurchaseController finalizePurchaseController, EnglishAuction auction) {
         this.finalizePurchaseController = finalizePurchaseController;
-        this.englishAuctionService = englishAuctionService;
         this.auction = auction;
     }
 
     @Override
     public void run() {
         finalizePurchaseController.finalizeAuction(auction);
-        englishAuctionService.deleteEnglishAuctionById(getAuction().getId());
         cancel(); //buona pratica metterlo alla fine anche se non strettamente necessario
     }
 }

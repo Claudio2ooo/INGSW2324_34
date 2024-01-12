@@ -15,7 +15,7 @@ public class Notification {
     private Long id;
     private StateEnum state;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "receiver_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
     private DietiUser receiver;
 

@@ -16,10 +16,6 @@ public class EnglishAuctionTimerController {
     private static final HashMap<Long, Timer> englishAuctionTimers = new HashMap<>();
 
     @Autowired
-    @Qualifier("mainEnglishAuctionService")
-    private IEnglishAuctionService englishAuctionService;
-
-    @Autowired
     private FinalizePurchaseController finalizePurchaseController;
 
     /**
@@ -32,7 +28,7 @@ public class EnglishAuctionTimerController {
 
         Timer timer = new Timer();
 
-        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, englishAuctionService, auction);
+        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, auction);
         timer.schedule(englishAuctionTask, countdownInMilliseconds);
 
         englishAuctionTimers.put(auctionId, timer);
@@ -52,7 +48,7 @@ public class EnglishAuctionTimerController {
 
         toBeRestarted = new Timer();
 
-        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, englishAuctionService, englishAuction);
+        EnglishAuctionTask englishAuctionTask = new EnglishAuctionTask(finalizePurchaseController, englishAuction);
 
         toBeRestarted.schedule(englishAuctionTask, countdownInMilliseconds);
         System.out.println("Timer restarted for english auction "+ englishAuction.getTitle());

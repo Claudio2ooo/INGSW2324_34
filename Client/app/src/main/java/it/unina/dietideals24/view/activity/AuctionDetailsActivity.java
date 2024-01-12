@@ -156,10 +156,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         ConstraintLayout confirmOfferConstraintLayout = findViewById(R.id.confirmOfferConstraintLayout);
         View viewConfirmOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.offer_confirm_dialog, confirmOfferConstraintLayout);
 
-        Button confirmOfferButton = findViewById(R.id.confirmOfferButton);
-        Button cancelOfferButton = findViewById(R.id.cancelOfferButton);
+        Button confirmOfferButton = viewConfirmOfferDialog.findViewById(R.id.confirmOfferButton);
+        Button cancelOfferButton = viewConfirmOfferDialog.findViewById(R.id.cancelOfferButton);
 
-        TextView confirmOfferText = findViewById(R.id.confirmOfferText);
+        TextView confirmOfferText = viewConfirmOfferDialog.findViewById(R.id.confirmOfferText);
         String confirmOffer = "Sicuro di voler offire "+offerEditText.getText().toString()+"€?";
         confirmOfferText.setText(confirmOffer);
 
@@ -168,8 +168,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         final AlertDialog alertDialog = builder.create();
 
         confirmOfferButton.setOnClickListener(v -> {
-            alertDialog.dismiss();
             makeEnglishOffer();
+            alertDialog.dismiss();
         });
 
         cancelOfferButton.setOnClickListener(v -> alertDialog.dismiss());

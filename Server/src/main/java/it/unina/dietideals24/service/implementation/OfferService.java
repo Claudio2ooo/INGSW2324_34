@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Qualifier("mainOfferService")
@@ -38,16 +41,22 @@ public class OfferService implements IOfferService {
     }
 
     @Override
-    public List<DietiUser> getLosers(EnglishAuction englishAuction) {
-        List<DietiUser> losers = offerRepository.findDistinctOfferersByTargetEnglishAuctionIdOrderByAmountAsc(englishAuction.getId());
-        DietiUser winner = offerRepository.findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
-        losers.remove(winner);
+    public Set<DietiUser> getLosers(EnglishAuction englishAuction) {
+        List<Offer> losersOffers = offerRepository.findDistinctByTargetEnglishAuctionIdOrderByAmountAsc(englishAuction.getId());
+        Set<DietiUser> losers = new HashSet<>();
+
+        for (Offer o: losersOffers) {
+            losers.add(o.getOfferer());
+        }
+
+        Offer winnerOffer = offerRepository.findFirstDistinctByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
+        losers.remove(winnerOffer.getOfferer());
         return losers;
     }
 
     @Override
     public DietiUser getWinner(EnglishAuction englishAuction) {
-        DietiUser winner = offerRepository.findFirstDistinctOfferersByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
-        return winner;
+        Offer winnerOffer = offerRepository.findFirstDistinctByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
+        return winnerOffer.getOfferer();
     }
 }
