@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.w3c.dom.Text;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -99,13 +97,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void showFailedOfferDialog(String errorMessage){
+    private void showFailedOfferDialog(String errorMessage) {
         ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.failedOfferConstraintLayout);
         View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.failed_offer_dialog, failedOfferConstraintLayout);
 
-        Button backToAuctionButton = findViewById(R.id.backToAuctionBtn);
+        Button backToAuctionButton = viewFailedOfferDialog.findViewById(R.id.backToAuctionBtn);
 
-        TextView errorText = findViewById(R.id.failedOfferText);
+        TextView errorText = viewFailedOfferDialog.findViewById(R.id.failedOfferText);
         errorText.setText(errorMessage);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
@@ -120,18 +118,18 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void showDownwardAuctionConfirmOfferDialog(){
+    private void showDownwardAuctionConfirmOfferDialog() {
         ConstraintLayout confirmOfferConstraintLayout = findViewById(R.id.confirmOfferConstraintLayout);
         View viewConfirmOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.offer_confirm_dialog, confirmOfferConstraintLayout);
 
-        Button confirmOfferButton = findViewById(R.id.confirmOfferButton);
-        Button cancelOfferButton = findViewById(R.id.cancelOfferButton);
+        Button confirmOfferButton = viewConfirmOfferDialog.findViewById(R.id.confirmOfferButton);
+        Button cancelOfferButton = viewConfirmOfferDialog.findViewById(R.id.cancelOfferButton);
 
-        TextView confirmOfferTitleText = findViewById(R.id.confirmOfferTitleText);
+        TextView confirmOfferTitleText = viewConfirmOfferDialog.findViewById(R.id.confirmOfferTitleText);
         confirmOfferTitleText.setText("Acquista");
 
-        TextView confirmOfferText = findViewById(R.id.confirmOfferText);
-        String confirmOffer = "Sicuro di voler acquistare "+auction.getTitle()+" per "+auction.getCurrentPrice()+"€?";
+        TextView confirmOfferText = viewConfirmOfferDialog.findViewById(R.id.confirmOfferText);
+        String confirmOffer = "Sicuro di voler acquistare " + auction.getTitle() + " per " + auction.getCurrentPrice() + "€?";
         confirmOfferText.setText(confirmOffer);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
@@ -139,8 +137,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         final AlertDialog alertDialog = builder.create();
 
         confirmOfferButton.setOnClickListener(v -> {
-            alertDialog.dismiss();
             makeDownwardOffer();
+            alertDialog.dismiss();
         });
 
         cancelOfferButton.setOnClickListener(v -> alertDialog.dismiss());
@@ -149,7 +147,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
-
     }
 
     private void showEnglishAuctionConfirmOfferDialog() {
@@ -160,7 +157,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         Button cancelOfferButton = viewConfirmOfferDialog.findViewById(R.id.cancelOfferButton);
 
         TextView confirmOfferText = viewConfirmOfferDialog.findViewById(R.id.confirmOfferText);
-        String confirmOffer = "Sicuro di voler offire "+offerEditText.getText().toString()+"€?";
+        String confirmOffer = "Sicuro di voler offire " + offerEditText.getText().toString() + "€?";
         confirmOfferText.setText(confirmOffer);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
