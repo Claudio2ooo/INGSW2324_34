@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.PushNotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.SellerInfoActivity"
             android:exported="false" />
         <activity
@@ -56,9 +59,10 @@
             android:name=".view.activity.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.activity.AuctionsByCategoryActivity"
+        <activity
+            android:name=".view.activity.AuctionsByCategoryActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

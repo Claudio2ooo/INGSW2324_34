@@ -109,7 +109,7 @@ public class FinalizePurchaseController {
             );
         }
 
-        System.out.println(losersNotification);
+        System.out.println("Losers notifications: "+losersNotification);
         notificationService.saveAll(losersNotification);
     }
 
