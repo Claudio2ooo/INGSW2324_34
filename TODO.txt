@@ -17,6 +17,7 @@ FINALIZZAZIONE ACQUISTI FATTO
                     - acquirente (RETTIFICA, non necessario, per l'acquirente basta un popup al momento dell'acquisto)
                     - possessore asta
                 - rimuove asta
+
 OFFERTE QUASI FATTO
     Popup vari DA IMPLEMENTARE solo quella per offerta fallita, ho evitato perché se usiamo Rxjava3 dobbiamo rifare la logica delle query
     usare email censurata invece di nome e cognome FATTO
@@ -30,6 +31,7 @@ Notifiche
         le notifiche vengono cancellate dal db solo nel momento in cui l'utente clicca la X
 
     idea: https://developer.android.com/training/run-background-service/create-service
+    idea migliore(sti cazz 'e deprecat): https://developer.android.com/topic/libraries/architecture/workmanager
 
 Ottimizzazione:
     Passare aste tra i fragment (forse, da vedere)

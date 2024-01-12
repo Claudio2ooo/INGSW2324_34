@@ -1,9 +1,9 @@
 package it.unina.dietideals24.view.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import it.unina.dietideals24.R;
 
