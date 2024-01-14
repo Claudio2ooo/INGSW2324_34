@@ -193,7 +193,7 @@ public class ProfileFragment extends Fragment {
             for (String link : localDietiUser.getLinks()) {
                 links.append(link);
             }
-            linksText.setText(links);
+            linksText.setText(removeSquareBrackets(links.toString()));
         }
     }
 
@@ -219,7 +219,7 @@ public class ProfileFragment extends Fragment {
 
         inputLinksEditText = viewEditProfileDialog.findViewById(R.id.inputLinks);
         if (!localDietiUser.getLinks().isEmpty())
-            inputLinksEditText.setText(localDietiUser.getLinks().toString());
+            inputLinksEditText.setText(removeSquareBrackets(localDietiUser.getLinks().toString()));
     }
 
     /**
@@ -241,5 +241,12 @@ public class ProfileFragment extends Fragment {
      */
     private void updateLocalDietiUser() {
         LocalDietiUser.setLocalDietiUser(getActivity(), getNewDietiUser());
+    }
+
+    /**
+     * This method remove square brackets when printing an array
+     */
+    private String removeSquareBrackets(String str) {
+        return str.replaceAll("\\[|\\]", "");
     }
 }
