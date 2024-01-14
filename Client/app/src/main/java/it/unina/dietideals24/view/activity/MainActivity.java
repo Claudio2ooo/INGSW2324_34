@@ -13,9 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
+
+import java.time.Period;
+import java.util.concurrent.TimeUnit;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
+import it.unina.dietideals24.service.PushNotificationWorker;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
 import it.unina.dietideals24.view.fragment.HomeFragment;
 import it.unina.dietideals24.view.fragment.NotificationFragment;
@@ -31,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         replaceFragment(new HomeFragment(), "HOME");
+
+        startNotificationWorker();
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
 
@@ -51,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         backButtonManagement();
+    }
+
+    private void startNotificationWorker() {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED) //eseguito solo se connesso a internet
+                .setRequiresBatteryNotLow(true)                //eseguito solo se batteria carica abbastanza
+                .build();
+
+        PeriodicWorkRequest pushNotificationWorker = new PeriodicWorkRequest.Builder(PushNotificationWorker.class, 15, TimeUnit.MINUTES)
+                .setInitialDelay(10, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .addTag("pushNotifications")
+                .setInputData(new Data.Builder()
+                        .putLong("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId())
+                        .build())
+                .build();
+        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);
     }
 
     private void replaceFragment(Fragment fragment, String tag) {

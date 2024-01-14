@@ -20,6 +20,8 @@ import retrofit2.Response;
 
 public class PushNotificationService extends Service {
 
+    //TODO eliminare questa classe se usiamo i Worker
+
     private static Runnable runnable = null;
     private Handler handler = new Handler();
     private NotificationAPI notificationAPI;

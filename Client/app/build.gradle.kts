@@ -60,4 +60,6 @@ dependencies {
     // Swipe to Refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
+    // Worker per processi in background
+    implementation ("androidx.work:work-runtime:2.9.0")
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.work.WorkManager;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
+            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificatonWorker");
         }
     }
 

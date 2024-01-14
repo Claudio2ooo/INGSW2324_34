@@ -11,4 +11,7 @@ public interface NotificationAPI {
 
     @GET("/notifications/receiver/{id}")
     Call<List<Notification>> getNotificationByReceiverId(@Path("id") Long receiverId);
+
+    @GET("/notifications/reciever/{id}/push")
+    Call<List<Notification>> getPushNotificationByReceiverId(@Path("id") Long receiverId);
 }
