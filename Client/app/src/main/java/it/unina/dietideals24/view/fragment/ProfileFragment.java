@@ -19,6 +19,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 
@@ -81,6 +82,7 @@ public class ProfileFragment extends Fragment {
         logOutBtn.setOnClickListener(v -> {
             TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getActivity());
+            WorkManager.getInstance(getActivity()).cancelUniqueWork("pushNotificationWorker");
 
             Intent loginActivity = new Intent(getActivity(), LoginActivity.class);
             startActivity(loginActivity);
