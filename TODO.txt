@@ -24,7 +24,7 @@ OFFERTE QUASI FATTO
     colorare di verde l'offerta vincente FATTO
     rimuovere la sezione offerenti in caso di asta di Asta al Ribasso FATTO
 
-Notifiche
+Notifiche FATTO
     servizio in background che controlla ogni tot minuti se sono presenti nuove notifiche relative all'utente
         nuove notifiche:
             determinate da una variabile che viene aggiornata nel momento in cui la notifica viene inviata
@@ -43,4 +43,10 @@ Login con Google
 Test
 
 Google Analitycs
+
+Fragment con aste
+
+Salvare modifiche utente
+
+immagini
 
