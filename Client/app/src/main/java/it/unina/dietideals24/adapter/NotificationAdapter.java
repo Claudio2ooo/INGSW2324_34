@@ -1,6 +1,7 @@
 package it.unina.dietideals24.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,32 +46,33 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         switch (notifications.get(holder.getAdapterPosition()).getState()) {
             case VINTA -> {
                 holder.stateTextView.setText(StateEnum.VINTA.toString());
-                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.green_pistachio, context.getTheme()));
+                holder.stateTextView.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green_pistachio, context.getTheme())));
             }
             case PERSA -> {
                 holder.stateTextView.setText(StateEnum.PERSA.toString());
-                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
+                holder.stateTextView.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.red_rose, context.getTheme())));
             }
             case FALLITA -> {
                 holder.stateTextView.setText(StateEnum.FALLITA.toString());
-                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
+                holder.stateTextView.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.red_rose, context.getTheme())));
             }
             case CONCLUSA -> {
                 holder.stateTextView.setText(StateEnum.CONCLUSA.toString());
-                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.yellow, context.getTheme()));
+                holder.stateTextView.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow, context.getTheme())));
             }
         }
+
         holder.titleTextView.setText(notifications.get(holder.getAdapterPosition()).getTitleOfTheAuction());
-        holder.priceTextView.setText(String.format(notifications.get(holder.getAdapterPosition()).getFinalPrice().toString()));
+        holder.priceTextView.setText(String.format("€%s", notifications.get(holder.getAdapterPosition()).getFinalPrice().toString()));
     }
 
     private void deleteNotification(int adapterPosition) {
-        notifications.remove(adapterPosition);
         NotificationAPI notificationAPI = RetrofitService.getRetrofitInstance().create(NotificationAPI.class);
         notificationAPI.deleteNotificationById(notifications.get(adapterPosition).getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
+                notifications.remove(adapterPosition);
+                notifyItemRemoved(adapterPosition);
             }
 
             @Override

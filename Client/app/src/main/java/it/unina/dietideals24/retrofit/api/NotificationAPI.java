@@ -17,5 +17,5 @@ public interface NotificationAPI {
     Call<List<Notification>> getPushNotificationByReceiverId(@Path("id") Long receiverId);
 
     @DELETE("/notifications/{id}")
-    Call<Void> deleteNotificationById(Long id);
+    Call<Void> deleteNotificationById(@Path("id") Long id);
 }

@@ -74,16 +74,19 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         holder.title.setText(auctions.get(holder.getAdapterPosition()).getTitle());
         holder.categoryName.setText(auctions.get(holder.getAdapterPosition()).getCategory().toString());
         holder.currentPrice.setText(String.format("€%s", auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString()));
+
         if (!holder.timerStarted)
             startTimer(holder);
 
         holder.showAuctionBtn.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), AuctionDetailsActivity.class);
             intent.putExtra("id", auctions.get(holder.getAdapterPosition()).getId());
+
             if (auctions.get(holder.getAdapterPosition()) instanceof EnglishAuction)
                 intent.putExtra("type", "ENGLISH");
             else if (auctions.get(holder.getAdapterPosition()) instanceof DownwardAuction)
                 intent.putExtra("type", "DOWNWARD");
+
             context.startActivity(intent);
         });
     }
@@ -101,7 +104,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
             @Override
             public void onFinish() {
-
+                auctions.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
             }
         }.start();
     }

@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
-            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificatonWorker");
+            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificationWorker");
         }
     }
 

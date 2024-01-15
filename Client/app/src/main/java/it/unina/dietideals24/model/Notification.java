@@ -7,16 +7,11 @@ import it.unina.dietideals24.enumerations.StateEnum;
 public class Notification {
     private Long id;
     private StateEnum state;
-
     private DietiUser receiver;
     private String titleOfTheAuction;
     private String imageUrlOfTheAuction;
     private BigDecimal finalPrice;
     private boolean pushed;
-
-    public Notification(StateEnum state) {
-        this.state = state;
-    }
 
     public Long getId() {
         return id;
