@@ -51,7 +51,9 @@ public class EnglishAuctionController {
 
     @GetMapping("owner/{id}")
     public List<EnglishAuction> getEnglishAuctionsByOwner(@PathVariable("id") Long ownerId) {
-        return englishAuctionService.getEnglishAuctionsByOwner(ownerId);
+        List<EnglishAuction> englishAuctions = englishAuctionService.getEnglishAuctionsByOwner(ownerId);
+        System.out.println(englishAuctions);
+        return englishAuctions;
     }
 
     @GetMapping("/category/{category}")

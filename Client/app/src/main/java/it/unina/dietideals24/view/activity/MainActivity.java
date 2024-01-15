@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 .setRequiresBatteryNotLow(true)                //eseguito solo se batteria carica abbastanza
                 .build();
 
-        PeriodicWorkRequest pushNotificationWorker = new PeriodicWorkRequest.Builder(PushNotificationWorker.class, 15, TimeUnit.MINUTES)
-                .setInitialDelay(10, TimeUnit.MINUTES)
+        PeriodicWorkRequest pushNotificationWorker = new PeriodicWorkRequest.Builder(PushNotificationWorker.class, 1, TimeUnit.MINUTES)
+                .setInitialDelay(1, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .addTag("pushNotifications")
                 .setInputData(new Data.Builder()

@@ -11,3 +11,7 @@ Jsrc/main/java/it/unina/dietideals24/controller/NotificationController.java,9\6
 Nsrc/main/java/it/unina/dietideals24/controller/FinalizePurchaseController.java,9\1\91fb953b9e552e96e010f89eb9da7de35a5947aa
 z
 Jsrc/main/java/it/unina/dietideals24/auction_timer/DownwardAuctionTask.java,1\4\142c2b197e7264808d271c6e0ccf6a2ac4e5be3e
+|
+Lsrc/main/java/it/unina/dietideals24/controller/EnglishAuctionController.java,b/2/b25c131ce7153856ed274d8880d04c5c17bfbb54
+s
+Csrc/main/java/it/unina/dietideals24/controller/OfferController.java,a/b/ab07db502d43184f14dda2e00298cf9f2c58d225

@@ -24,6 +24,9 @@ public interface DownwardAuctionAPI {
     @GET("/downward-auctions/search/{keyword}")
     Call<ArrayList<DownwardAuction>> getByKeyword(@Path("keyword") String keyword);
 
+    @GET("/downward-auctions/owner/{id}")
+    Call<ArrayList<DownwardAuction>> getDownwardAuctionsByOwnerId(@Path("id") Long id);
+
     @POST("/downward-auctions/create")
     Call<DownwardAuction> createAuction(@Body DownwardAuctionDto downwardAuctionDto);
 

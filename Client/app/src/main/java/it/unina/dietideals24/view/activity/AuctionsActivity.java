@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.AuctionAdapter;
@@ -22,6 +24,8 @@ import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.retrofit.api.OfferAPI;
+import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,10 +49,12 @@ public class AuctionsActivity extends AppCompatActivity {
         String category = intent.getExtras().getString("category");
 
         if (category.equals("none")) {
-            if (typeOfAuction.equals("English"))
-                initializeEnglishAuctions();
-            else
-                initializeDownwardAuctions();
+            switch (typeOfAuction) {
+                case "English" -> initializeEnglishAuctions();
+                case "Downward" -> initializeDownwardAuctions();
+                case "Yours" -> initializeYourAuctions();
+                case "YourOffers" -> initializeYourOffers();
+            }
         } else {
             if (typeOfAuction.equals("English"))
                 initializeEnglishAuctionsByCategory(CategoryEnum.valueOf(category.toUpperCase()));
@@ -57,6 +63,73 @@ public class AuctionsActivity extends AppCompatActivity {
         }
 
         backBtn.setOnClickListener(v -> finish());
+    }
+
+    private void initializeYourOffers() {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.getAuctionsByOffererId(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()).enqueue(new Callback<ArrayList<EnglishAuction>>() {
+            @Override
+            public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
+                if (response.body() != null)
+                    initializeAuctionAdapter(new ArrayList<>(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+
+            }
+        });
+
+        progressBar.setVisibility(View.GONE);
+        String title = "Le tue offerte";
+        titleText.setText(title);
+    }
+
+    private void initializeYourAuctions() {
+        ArrayList<Auction> auctions = new ArrayList<>();
+        initializeYourEnglishAuctions(auctions);
+    }
+
+    private void initializeYourEnglishAuctions(ArrayList<Auction> auctions) {
+        EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
+        englishAuctionAPI.getEnglishAuctionsByOwnerId(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()).enqueue(new Callback<ArrayList<EnglishAuction>>() {
+            @Override
+            public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
+                if (response.body() != null) {
+                    auctions.addAll(response.body());
+                    initializeYourDownwardAuctions(auctions);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                initializeYourDownwardAuctions(auctions);
+            }
+        });
+    }
+
+    private void initializeYourDownwardAuctions(ArrayList<Auction> auctions) {
+        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
+        downwardAuctionAPI.getDownwardAuctionsByOwnerId(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()).enqueue(new Callback<ArrayList<DownwardAuction>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
+                if (response.body() != null) {
+                    auctions.addAll(response.body());
+                    Collections.sort(auctions);
+                    initializeAuctionAdapter(auctions);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
+                Collections.sort(auctions);
+                initializeAuctionAdapter(auctions);
+            }
+        });
+
+        progressBar.setVisibility(View.GONE);
+        String title = "Le tue aste";
+        titleText.setText(title);
     }
 
     private void initializeDownwardAuctionsByCategory(CategoryEnum category) {
