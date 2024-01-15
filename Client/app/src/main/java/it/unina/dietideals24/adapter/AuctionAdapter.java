@@ -104,8 +104,10 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
             @Override
             public void onFinish() {
-                auctions.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
+                if (!auctions.isEmpty()) {
+                    auctions.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition());
+                }
             }
         }.start();
     }

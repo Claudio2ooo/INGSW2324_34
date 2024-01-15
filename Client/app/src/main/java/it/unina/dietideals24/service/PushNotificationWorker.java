@@ -70,7 +70,7 @@ public class PushNotificationWorker extends Worker {
         String channelId = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
         builder
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.round_gavel_24)
                 .setContentTitle(n.getTitleOfTheAuction() + " terminata!")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -114,7 +114,7 @@ public class PushNotificationWorker extends Worker {
         String channelId = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
         builder
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.round_gavel_24)
                 .setContentTitle("Ci sono novità!")
                 .setContentText("Varie aste sono terminate, controlla come sono andate")
                 .setAutoCancel(true)
