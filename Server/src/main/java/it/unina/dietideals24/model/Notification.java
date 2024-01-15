@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 
+import java.math.BigDecimal;
+
 @Data
 @Entity
 public class Notification {
@@ -29,11 +31,29 @@ public class Notification {
 
     private String titleOfTheAuction;
     private String imageUrlOfTheAuction;
+    private BigDecimal finalPrice;
+    private boolean pushed;
 
-    public Notification(StateEnum state, DietiUser receiver, String titleOfTheAuction, String imageUrlOfTheAuction) {
+    public Notification(Long id, StateEnum state, DietiUser receiver, String titleOfTheAuction, String imageUrlOfTheAuction, BigDecimal finalPrice, boolean pushed) {
+        this.id = id;
         this.state = state;
         this.receiver = receiver;
         this.titleOfTheAuction = titleOfTheAuction;
         this.imageUrlOfTheAuction = imageUrlOfTheAuction;
+        this.finalPrice = finalPrice;
+        this.pushed = pushed;
+    }
+
+    public Notification(StateEnum state, DietiUser receiver, String titleOfTheAuction, String imageUrlOfTheAuction, BigDecimal finalPrice) {
+        this.state = state;
+        this.receiver = receiver;
+        this.titleOfTheAuction = titleOfTheAuction;
+        this.imageUrlOfTheAuction = imageUrlOfTheAuction;
+        this.finalPrice = finalPrice;
+        this.pushed = false;
+    }
+
+    public Notification(){
+
     }
 }

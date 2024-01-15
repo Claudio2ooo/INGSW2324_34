@@ -10,14 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import it.unina.dietideals24.R;
+import it.unina.dietideals24.enumerations.StateEnum;
 import it.unina.dietideals24.model.Notification;
+import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.NotificationAPI;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
-    ArrayList<Notification> notifications;
+    List<Notification> notifications;
     Context context;
+
+    public NotificationAdapter(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     @NonNull
     @Override
@@ -30,18 +40,44 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.NotificationViewHolder holder, int position) {
 
-        holder.deleteBtn.setOnClickListener(v -> notifications.remove(holder.getAdapterPosition()));
+        holder.deleteBtn.setOnClickListener(v -> deleteNotification(holder.getAdapterPosition()));
 
-        if (notifications.get(holder.getAdapterPosition()).getState().toString().equals("VINTA")) {
-            holder.stateTextView.setText("VINTA");
-            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.green_pistachio, context.getTheme()));
-        } else if (notifications.get(holder.getAdapterPosition()).getState().toString().equals("PERSA")) {
-            holder.stateTextView.setText("PERSA");
-            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
-        } else {
-            holder.stateTextView.setText("FALLITA");
-            holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.yellow, context.getTheme()));
+        switch (notifications.get(holder.getAdapterPosition()).getState()) {
+            case VINTA -> {
+                holder.stateTextView.setText(StateEnum.VINTA.toString());
+                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.green_pistachio, context.getTheme()));
+            }
+            case PERSA -> {
+                holder.stateTextView.setText(StateEnum.PERSA.toString());
+                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
+            }
+            case FALLITA -> {
+                holder.stateTextView.setText(StateEnum.FALLITA.toString());
+                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.red_rose, context.getTheme()));
+            }
+            case CONCLUSA -> {
+                holder.stateTextView.setText(StateEnum.CONCLUSA.toString());
+                holder.stateTextView.setBackgroundColor(context.getResources().getColor(R.color.yellow, context.getTheme()));
+            }
         }
+        holder.titleTextView.setText(notifications.get(holder.getAdapterPosition()).getTitleOfTheAuction());
+        holder.priceTextView.setText(String.format(notifications.get(holder.getAdapterPosition()).getFinalPrice().toString()));
+    }
+
+    private void deleteNotification(int adapterPosition) {
+        notifications.remove(adapterPosition);
+        NotificationAPI notificationAPI = RetrofitService.getRetrofitInstance().create(NotificationAPI.class);
+        notificationAPI.deleteNotificationById(notifications.get(adapterPosition).getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

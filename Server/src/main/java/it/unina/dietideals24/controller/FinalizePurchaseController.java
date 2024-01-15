@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +48,8 @@ public class FinalizePurchaseController {
                 StateEnum.FALLITA,
                 owner,
                 englishAuction.getTitle(),
-                englishAuction.getImageURL()
+                englishAuction.getImageURL(),
+                englishAuction.getCurrentPrice()
         );
 
         System.out.println("Failed english auction notification: "+failedAuctionNotification);
@@ -76,7 +76,8 @@ public class FinalizePurchaseController {
                 StateEnum.CONCLUSA,
                 owner,
                 auction.getTitle(),
-                auction.getImageURL()
+                auction.getImageURL(),
+                auction.getCurrentPrice()
         );
 
         System.out.println("Owner notification: "+ownerNotification);
@@ -89,7 +90,8 @@ public class FinalizePurchaseController {
                 StateEnum.VINTA,
                 winner,
                 englishAuction.getTitle(),
-                englishAuction.getImageURL()
+                englishAuction.getImageURL(),
+                englishAuction.getCurrentPrice()
         );
 
         System.out.println("Winner notification: "+winnerNotification);
@@ -105,7 +107,9 @@ public class FinalizePurchaseController {
                     StateEnum.PERSA,
                     l,
                     englishAuction.getTitle(),
-                    englishAuction.getImageURL())
+                    englishAuction.getImageURL(),
+                    englishAuction.getCurrentPrice()
+                    )
             );
         }
 
@@ -114,8 +118,30 @@ public class FinalizePurchaseController {
     }
 
     public void finalizeAuction(DownwardAuction downwardAuction){
-        createNotifications(downwardAuction);
+        if (failed(downwardAuction)) {
+            createFailedAuctionNotifications(downwardAuction);
+        } else {
+            createNotifications(downwardAuction);
+        }
         removeAuction(downwardAuction);
+    }
+
+    private void createFailedAuctionNotifications(DownwardAuction downwardAuction) {
+        DietiUser owner = downwardAuction.getOwner();
+        Notification failedDownwardAuctionNotification = new Notification(
+                StateEnum.FALLITA,
+                owner,
+                downwardAuction.getTitle(),
+                downwardAuction.getImageURL(),
+                downwardAuction.getStartingPrice()
+        );
+
+        System.out.println("Failed auction notification: " + downwardAuction.getTitle());
+        notificationService.save(failedDownwardAuctionNotification);
+    }
+
+    private boolean failed(DownwardAuction downwardAuction) {
+        return downwardAuction.getCurrentPrice().compareTo(downwardAuction.getMinimumPrice()) < 0;
     }
 
     private void removeAuction(DownwardAuction downwardAuction) {

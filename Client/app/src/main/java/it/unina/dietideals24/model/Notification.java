@@ -1,5 +1,7 @@
 package it.unina.dietideals24.model;
 
+import java.math.BigDecimal;
+
 import it.unina.dietideals24.enumerations.StateEnum;
 
 public class Notification {
@@ -7,8 +9,10 @@ public class Notification {
     private StateEnum state;
 
     private DietiUser receiver;
-    private EnglishAuction endedEnglishAuction;
-    private DownwardAuction endedDownwardAuction;
+    private String titleOfTheAuction;
+    private String imageUrlOfTheAuction;
+    private BigDecimal finalPrice;
+    private boolean pushed;
 
     public Notification(StateEnum state) {
         this.state = state;
@@ -38,19 +42,35 @@ public class Notification {
         this.receiver = receiver;
     }
 
-    public EnglishAuction getEndedEnglishAuction() {
-        return endedEnglishAuction;
+    public String getTitleOfTheAuction() {
+        return titleOfTheAuction;
     }
 
-    public void setEndedEnglishAuction(EnglishAuction endedEnglishAuction) {
-        this.endedEnglishAuction = endedEnglishAuction;
+    public void setTitleOfTheAuction(String titleOfTheAuction) {
+        this.titleOfTheAuction = titleOfTheAuction;
     }
 
-    public DownwardAuction getEndedDownwardAuction() {
-        return endedDownwardAuction;
+    public String getImageUrlOfTheAuction() {
+        return imageUrlOfTheAuction;
     }
 
-    public void setEndedDownwardAuction(DownwardAuction endedDownwardAuction) {
-        this.endedDownwardAuction = endedDownwardAuction;
+    public void setImageUrlOfTheAuction(String imageUrlOfTheAuction) {
+        this.imageUrlOfTheAuction = imageUrlOfTheAuction;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public boolean isPushed() {
+        return pushed;
+    }
+
+    public void setPushed(boolean pushed) {
+        this.pushed = pushed;
     }
 }

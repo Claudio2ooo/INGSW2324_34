@@ -21,6 +21,11 @@ public class NotificationController {
         return notificationService.getNotificationsByReceiverId(receiverId);
     }
 
+    @GetMapping("receiver/{id}/push")
+    public List<Notification> getPushNotificationByReceiverId(@PathVariable("id") Long receiverId) {
+        return notificationService.getPushNotificationsByReceiverId(receiverId);
+    }
+
     @DeleteMapping("{id}")
     public void deleteNotification(@PathVariable("id") Long id) {
         notificationService.deleteNotification(id);

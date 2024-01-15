@@ -12,4 +12,6 @@ public interface INotificationService {
     void saveAll(List<Notification> notifications);
 
     void save(Notification notification);
+
+    List<Notification> getPushNotificationsByReceiverId(Long receiverId);
 }
