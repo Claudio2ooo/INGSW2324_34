@@ -14,6 +14,8 @@ Login con Google
 
 Test
 
+Popup vari di controllo(ad esempio codici errore lato server e mancanza di connessione)
+
 Google Analitycs
 
 Rimuovere entrypoint non necessari
