@@ -17,3 +17,11 @@ s
 Csrc/main/java/it/unina/dietideals24/controller/OfferController.java,a\b\ab07db502d43184f14dda2e00298cf9f2c58d225
 |
 Lsrc/main/java/it/unina/dietideals24/service/implementation/OfferService.java,8\8\8879a7884a4ed38fc573d261cc60dbea0dc404fa
+d
+4src/main/java/it/unina/dietideals24/model/Offer.java,6\6\66f50ab70e3477a3df9a52355f44ba23795520e9
+y
+Isrc/main/java/it/unina/dietideals24/service/interfaces/IOfferService.java,6\8\68145d5bdabb59c72068d7fb66e924216583eefb
+€
+Psrc/main/java/it/unina/dietideals24/service/interfaces/INotificationService.java,7\b\7bd59d59ae89804bf74dd4ee915b82fb3bc680d3
+k
+;src/main/java/it/unina/dietideals24/model/Notification.java,a\9\a9b02309317ff206ef25826dc31e51f9a1b37220

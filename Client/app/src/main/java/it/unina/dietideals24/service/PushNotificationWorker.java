@@ -18,7 +18,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.NotificationAPI;
-import it.unina.dietideals24.view.fragment.NotificationFragment;
+import it.unina.dietideals24.view.activity.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,41 +56,41 @@ public class PushNotificationWorker extends Worker {
     }
 
     private void pushNotifications(List<Notification> notifications) {
-        if (notifications.size()>3) {
+        if (notifications.size() > 3) {
             pushManyNotifications();
         } else {
-            for (Notification n: notifications) {
-                pushNotification(n);
+            for (Notification notification : notifications) {
+                pushNotification(notification);
             }
         }
-
     }
 
-    private void pushNotification(Notification n) {
+    private void pushNotification(Notification notification) {
         String channelId = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
         builder
-                .setSmallIcon(R.drawable.round_gavel_24)
-                .setContentTitle(n.getTitleOfTheAuction() + " terminata!")
+                .setSmallIcon(R.drawable.ic_gavel_notification)
+                .setContentTitle(notification.getTitleOfTheAuction() + " terminata!")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        switch (n.getState()) {
+        switch (notification.getState()) {
             case VINTA -> builder
                     .setContentText("Aggiudicato!")
-                    .setColor(Color.GREEN);
+                    .setColor(getApplicationContext().getResources().getColor(R.color.green_pistachio, getApplicationContext().getTheme()));
             case PERSA -> builder
                     .setContentText("L'asta è terminata")
-                    .setColor(Color.RED);
+                    .setColor(getApplicationContext().getResources().getColor(R.color.red_rose, getApplicationContext().getTheme()));
             case CONCLUSA -> builder
                     .setContentText("L'asta è terminata")
-                    .setColor(Color.YELLOW);
+                    .setColor(getApplicationContext().getResources().getColor(R.color.yellow, getApplicationContext().getTheme()));
             case FALLITA -> builder
                     .setContentText("Asta fallita")
-                    .setColor(Color.RED);
+                    .setColor(getApplicationContext().getResources().getColor(R.color.red_error, getApplicationContext().getTheme()));
         }
 
-        Intent intent = new Intent(getApplicationContext(), NotificationFragment.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("redirect", "notificationFragment");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
@@ -114,13 +114,14 @@ public class PushNotificationWorker extends Worker {
         String channelId = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
         builder
-                .setSmallIcon(R.drawable.round_gavel_24)
+                .setSmallIcon(R.drawable.ic_gavel_notification)
                 .setContentTitle("Ci sono novità!")
                 .setContentText("Varie aste sono terminate, controlla come sono andate")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Intent intent = new Intent(getApplicationContext(), NotificationFragment.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("redirect", "notificationFragment");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);

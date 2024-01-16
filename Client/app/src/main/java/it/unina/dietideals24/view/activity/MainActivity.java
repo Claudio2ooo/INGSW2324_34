@@ -39,13 +39,19 @@ import it.unina.dietideals24.view.fragment.ProfileFragment;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
+    private enum FragmentTagEnum {HOME, AUCTION, NOTIFICATION, PROFILE}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new HomeFragment(), "HOME");
+        String redirect = getIntent().getStringExtra("redirect");
+        if (redirect != null && redirect.equals("notificationFragment"))
+            replaceFragment(new NotificationFragment(), FragmentTagEnum.NOTIFICATION);
+        else
+            replaceFragment(new HomeFragment(), FragmentTagEnum.HOME);
 
         askNotificationPermission();
         startNotificationWorker();
@@ -54,15 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
-                replaceFragment(new HomeFragment(), "HOME");
+                replaceFragment(new HomeFragment(), FragmentTagEnum.HOME);
             } else if (itemId == R.id.nav_auction) {
-                replaceFragment(new AuctionFragment(), "AUCTION");
+                replaceFragment(new AuctionFragment(), FragmentTagEnum.AUCTION);
             } else if (itemId == R.id.nav_add) {
                 showCreateAuctionDialog();
             } else if (itemId == R.id.nav_notify) {
-                replaceFragment(new NotificationFragment(), "NOTIFY");
+                replaceFragment(new NotificationFragment(), FragmentTagEnum.NOTIFICATION);
             } else if (itemId == R.id.nav_profile) {
-                replaceFragment(new ProfileFragment(), "PROFILE");
+                replaceFragment(new ProfileFragment(), FragmentTagEnum.PROFILE);
             }
 
             return true;
@@ -94,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);
     }
 
-    private void replaceFragment(Fragment fragment, String tag) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).addToBackStack(tag).commit();
+    private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
     }
 
     private void backButtonManagement() {
@@ -106,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (backStackEntry.getName() == null) return;
 
-            if (backStackEntry.getName().equals("HOME")) {
+            if (backStackEntry.getName().equals(FragmentTagEnum.HOME.toString())) {
                 binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
-            } else if (backStackEntry.getName().equals("AUCTION")) {
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.AUCTION.toString())) {
                 binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
-            } else if (backStackEntry.getName().equals("NOTIFY")) {
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.NOTIFICATION.toString())) {
                 binding.bottomNavigation.getMenu().getItem(3).setChecked(true);
-            } else if (backStackEntry.getName().equals("PROFILE")) {
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.PROFILE.toString())) {
                 binding.bottomNavigation.getMenu().getItem(4).setChecked(true);
             }
         });
