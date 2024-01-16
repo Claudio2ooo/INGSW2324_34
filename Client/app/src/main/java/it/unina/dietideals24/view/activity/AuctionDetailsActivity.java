@@ -236,7 +236,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         categoryName.setText(auction.getCategory().toString());
 
         description.setText(auction.getDescription());
-        description.setOnClickListener(v -> showBottomDialog(auction.getDescription()));
+        description.setOnClickListener(v -> showBottomSheetDescription());
 
         currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
         startTimer();
@@ -341,16 +341,17 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         recyclerViewOfferrers.setAdapter(sellerAdapter);
     }
 
-    private void showBottomDialog(String description) {
+    private void showBottomSheetDescription() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet);
 
         ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
         TextView descriptionText = dialog.findViewById(R.id.descriptionText);
+        descriptionText.setText(auction.getDescription());
 
         cancelButton.setOnClickListener(view -> dialog.dismiss());
-        descriptionText.setText(description);
+        descriptionText.setText(auction.getDescription());
 
         dialog.show();
         if (dialog.getWindow() != null) {
