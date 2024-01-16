@@ -12,12 +12,10 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,8 +62,7 @@ public class OfferController {
     @GetMapping("/english/offerer/{id}")
     public List<EnglishAuction> getAuctionsByOffererId(@PathVariable("id") Long offererId) {
         List<Offer> offers = offerService.getOffersByOffererId(offererId);
-        List<EnglishAuction> englishAuctions = offers.stream().map(Offer::getTargetEnglishAuction).collect(Collectors.toList());
-        return englishAuctions;
+        return offers.stream().map(Offer::getTargetEnglishAuction).distinct().collect(Collectors.toList());
     }
 
     @PostMapping("/english")

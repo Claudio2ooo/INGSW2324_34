@@ -9,6 +9,7 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -31,6 +32,13 @@ public class PushNotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        long tokenExpiration = getInputData().getLong("tokenExpiration", 0);
+
+        if (tokenExpiration < System.currentTimeMillis()) {
+            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificationWorker");
+            return Result.failure();
+        }
+
         fetchNotification(getInputData().getLong("receiverId", -1));
         return Result.success();
     }
@@ -79,7 +87,7 @@ public class PushNotificationWorker extends Worker {
                     .setContentText("Aggiudicato!")
                     .setColor(getApplicationContext().getResources().getColor(R.color.green_pistachio, getApplicationContext().getTheme()));
             case PERSA -> builder
-                    .setContentText("L'asta è terminata")
+                    .setContentText("Non ti sei aggiudicato l'asta")
                     .setColor(getApplicationContext().getResources().getColor(R.color.red_rose, getApplicationContext().getTheme()));
             case CONCLUSA -> builder
                     .setContentText("L'asta è terminata")
@@ -102,7 +110,7 @@ public class PushNotificationWorker extends Worker {
         if (notificationChannel == null) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             notificationChannel = new NotificationChannel(channelId, "Auction push notification", importance);
-            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.setLightColor(Color.YELLOW);
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
@@ -133,7 +141,7 @@ public class PushNotificationWorker extends Worker {
         if (notificationChannel == null) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             notificationChannel = new NotificationChannel(channelId, "ManyNotifications", importance);
-            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.setLightColor(Color.YELLOW);
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }

@@ -31,6 +31,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
 import it.unina.dietideals24.service.PushNotificationWorker;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
 import it.unina.dietideals24.view.fragment.HomeFragment;
 import it.unina.dietideals24.view.fragment.NotificationFragment;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 .addTag("pushNotifications")
                 .setInputData(new Data.Builder()
                         .putLong("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId())
+                        .putLong("tokenExpiration", TokenManagement.getTokenExpiraton())
                         .build())
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);

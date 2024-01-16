@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Qualifier("mainOfferService")
@@ -43,11 +42,7 @@ public class OfferService implements IOfferService {
     @Override
     public Set<DietiUser> getLosers(EnglishAuction englishAuction) {
         List<Offer> losersOffers = offerRepository.findDistinctByTargetEnglishAuctionIdOrderByAmountAsc(englishAuction.getId());
-        Set<DietiUser> losers = new HashSet<>();
-
-        for (Offer o: losersOffers) {
-            losers.add(o.getOfferer());
-        }
+        Set<DietiUser> losers = losersOffers.stream().map(Offer::getOfferer).collect(Collectors.toSet());
 
         Offer winnerOffer = offerRepository.findFirstDistinctByTargetEnglishAuctionIdOrderByAmountDesc(englishAuction.getId());
         losers.remove(winnerOffer.getOfferer());

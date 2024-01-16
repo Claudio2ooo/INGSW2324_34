@@ -39,8 +39,8 @@ public class NotificationService implements INotificationService {
     @Override
     public List<Notification> getPushNotificationsByReceiverId(Long receiverId) {
         List<Notification> pushNotifications = notificationRepository.findByReceiverIdAndPushed(receiverId, false);
-        for(Notification n: pushNotifications) {
-            n.setPushed(true);
+        for(Notification notification : pushNotifications) {
+            notification.setPushed(true);
         }
         notificationRepository.saveAll(pushNotifications);
         return pushNotifications;

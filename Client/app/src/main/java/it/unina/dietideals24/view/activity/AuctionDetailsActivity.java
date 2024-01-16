@@ -11,9 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -45,7 +47,6 @@ import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.view.Window;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
 
@@ -64,6 +65,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private ConstraintLayout sellerInfoBtn;
     private RecyclerView recyclerViewOfferrers;
     private ConstraintLayout offerersConstraintLayout;
+    private LinearLayout offerLinearLayout;
     private Auction auction;
     private ArrayList<Offer> offerrers = new ArrayList<>();
 
@@ -99,6 +101,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             else if (auction instanceof DownwardAuction)
                 showDownwardAuctionConfirmOfferDialog();
         });
+
+        if (auction.getOwner().equals(LocalDietiUser.getLocalDietiUser(getApplicationContext()))) {
+            makeAnOfferBtn.setEnabled(false);
+            offerLinearLayout.setVisibility(View.GONE);
+        }
     }
 
     private void showFailedOfferDialog(String errorMessage) {
@@ -242,12 +249,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         startTimer();
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
-        if (auction instanceof EnglishAuction) {
-            offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + ((EnglishAuction) auction).getIncreaseAmount());
-            BigDecimal newOffer = auction.getCurrentPrice().add(((EnglishAuction) auction).getIncreaseAmount());
+
+        if (auction instanceof EnglishAuction englishAuction) {
+            offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + englishAuction.getIncreaseAmount());
+            BigDecimal newOffer = auction.getCurrentPrice().add(englishAuction.getIncreaseAmount());
             offerEditText.setText(String.format(newOffer.toString()));
-        } else {
-            offerEditText.setText(String.format(auction.getCurrentPrice().toString()));
+        } else if (auction instanceof DownwardAuction downwardAuction) {
+            offerEditText.setText(String.format(downwardAuction.getCurrentPrice().toString()));
             offerTextLayout.setHint("Prezzo");
         }
     }
@@ -378,6 +386,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         sellerInfoText = findViewById(R.id.sellerInfoText);
         recyclerViewOfferrers = findViewById(R.id.offerrersList);
         offerersConstraintLayout = findViewById(R.id.offerrersConstraintLayout);
+        offerLinearLayout = findViewById(R.id.offerLinearLayout);
 
         messageNoOfferrers = findViewById(R.id.messageNoOfferrers);
         messageNoOfferrers.setVisibility(View.GONE);

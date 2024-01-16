@@ -1,11 +1,8 @@
 package it.unina.dietideals24.auction_timer;
 
 import it.unina.dietideals24.controller.FinalizePurchaseController;
-import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.EnglishAuction;
-import it.unina.dietideals24.service.interfaces.IEnglishAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;

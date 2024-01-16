@@ -1,7 +1,6 @@
 package it.unina.dietideals24.retrofit.api;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import it.unina.dietideals24.dto.OfferDto;
 import it.unina.dietideals24.model.EnglishAuction;

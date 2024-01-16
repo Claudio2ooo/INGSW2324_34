@@ -3,7 +3,6 @@ package it.unina.dietideals24.model;
 import it.unina.dietideals24.enumeration.StateEnum;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
 
 import java.math.BigDecimal;
 

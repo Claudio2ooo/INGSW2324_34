@@ -87,7 +87,7 @@ public class EnglishAuctionController {
                 imageService.saveImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id, image);
                 englishAuctionService.linkImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id);
 
-                return new ResponseEntity<>("Aucton image updated!", HttpStatus.OK);
+                return new ResponseEntity<>("Auction image updated!", HttpStatus.OK);
             } catch (IOException e){
                 return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);
             }

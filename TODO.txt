@@ -1,42 +1,14 @@
-FINALIZZAZIONE ACQUISTI FATTO
-    Aste all'inglese:
-        - finisce il timer
-        - il timer richiama una funzione di un'altra classe:
-            finalizza acquisto
-                - crea notifiche
-                    - perdenti
-                    - vincenti
-                    - possessore asta
-                - rimuove asta e relative offerte dal db
+Controllare perché crasha losers.remove(winner)
 
-    Aste al ribasso:
-        - acquisto finalizzato con pulsante
-        - DownwardAuctionController richiama una funziona di un'altra classe:
-            finalizza acquisto:
-                - crea notifica:
-                    - acquirente (RETTIFICA, non necessario, per l'acquirente basta un popup al momento dell'acquisto)
-                    - possessore asta
-                - rimuove asta
+Gestire aste terminate nella home
 
-OFFERTE QUASI FATTO
-    Popup vari DA IMPLEMENTARE solo quella per offerta fallita, ho evitato perché se usiamo Rxjava3 dobbiamo rifare la logica delle query
-    usare email censurata invece di nome e cognome FATTO
-    colorare di verde l'offerta vincente FATTO
-    rimuovere la sezione offerenti in caso di asta di Asta al Ribasso FATTO
+immagini
 
-Notifiche FATTO
-    servizio in background che controlla ogni tot minuti se sono presenti nuove notifiche relative all'utente
-        nuove notifiche:
-            determinate da una variabile che viene aggiornata nel momento in cui la notifica viene inviata
-        le notifiche vengono cancellate dal db solo nel momento in cui l'utente clicca la X
+Cambio password
 
-    idea: https://developer.android.com/training/run-background-service/create-service
-    idea migliore(sti cazz 'e deprecat): https://developer.android.com/topic/libraries/architecture/workmanager
+Popup quando asta termina mentre sei in AuctionDetails
 
-Ottimizzazione:
-    Passare aste tra i fragment (forse, da vedere)
-    Limitare il numero di query, usando un attributo Timestamp lastQuery o simili che viene confrontato con il Timestamp corrente per verificare se sono passati almeno tot minuti
-    Consentire all'utente di forzare una query (sempre con un certo limite) tramite uno swipe
+Salvare modifiche utente
 
 Login con Google
 
@@ -44,9 +16,14 @@ Test
 
 Google Analitycs
 
-Fragment con aste
+Rimuovere entrypoint non necessari
 
-Salvare modifiche utente
+OFFERTE QUASI FATTO
+    Popup vari DA IMPLEMENTARE solo quella per offerta fallita, ho evitato perché se usiamo Rxjava3 dobbiamo rifare la logica delle query
 
-immagini
+Ottimizzazione:
+    Passare aste tra i fragment (forse, da vedere)
+    Limitare il numero di query, usando un attributo Timestamp lastQuery o simili che viene confrontato con il Timestamp corrente per verificare se sono passati almeno tot minuti
+    Consentire all'utente di forzare una query (sempre con un certo limite) tramite uno swipe
+
 

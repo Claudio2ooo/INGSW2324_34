@@ -42,4 +42,10 @@ public class TokenManagement {
 
         return true;
     }
+
+    public static long getTokenExpiraton() {
+        if (sharedPreferences == null)
+            return 0;
+        return sharedPreferences.getLong(EXPIRATION_KEY, 0);
+    }
 }
