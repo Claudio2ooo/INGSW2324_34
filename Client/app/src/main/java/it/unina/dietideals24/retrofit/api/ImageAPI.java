@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 public interface ImageAPI {
 
     @GET("/images")
-    Call<ResponseBody> getImageByUrl(@Query("i") String url);
+    Call<ResponseBody> getImageByUrl(@Query("imageUrl") String url);
 }

@@ -188,13 +188,14 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         downwardAuctionAPI.createAuction(downwardAuctionDto).enqueue(new Callback<DownwardAuction>() {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
-                if (response.body()!=null)
+                if (response.body() != null) {
                     if (imageUri != null)
                         uploadImage(response.body().getId());
                     else {
                         createAuctionProgressBar.setVisibility(View.INVISIBLE);
                         showSuccessCreateAuctionDialog("Asta al ribasso \"" + downwardAuctionDto.getTitle() + "\" creata con successo");
                     }
+                }
             }
 
             @Override
@@ -211,7 +212,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
 
         RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", downwardAuctionId+".jpg", requestBody);
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", downwardAuctionId + ".jpg", requestBody);
 
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.uploadDownwardAuctionImage(downwardAuctionId, imagePart).enqueue(new Callback<Void>() {

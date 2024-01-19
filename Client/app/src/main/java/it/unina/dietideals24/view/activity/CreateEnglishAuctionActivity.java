@@ -167,13 +167,14 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         englishAuctionAPI.createAuction(englishAuctionDto).enqueue(new Callback<EnglishAuction>() {
             @Override
             public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
-                if (response.body() != null)
+                if (response.body() != null) {
                     if (imageUri != null)
                         uploadImage(response.body().getId());
                     else {
                         createAuctionProgressBar.setVisibility(View.GONE);
                         showSuccessCreateAuctionDialog("Asta all'inglese creata con successo!");
                     }
+                }
             }
 
             @Override
@@ -184,11 +185,11 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadImage(Long englishAuctionId){
+    private void uploadImage(Long englishAuctionId) {
         File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
 
         RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", englishAuctionId+".jpg", requestBody);
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", englishAuctionId + ".jpg", requestBody);
 
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.uploadEnglishAuctionImage(englishAuctionId, imagePart).enqueue(new Callback<Void>() {
@@ -206,9 +207,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
+    
     private void initializeSinglePhotoPickerLauncher() {
         singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri == null) {

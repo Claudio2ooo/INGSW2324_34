@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,7 +72,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private ConstraintLayout offerersConstraintLayout;
     private LinearLayout offerLinearLayout;
     private Auction auction;
-    private ArrayList<Offer> offerrers = new ArrayList<>();
+    private ArrayList<Offer> offerrers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +80,16 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auction_details);
 
         initializeViews();
+        offerrers = new ArrayList<>();
 
         Long idAuction = getIntent().getLongExtra("id", -1);
-        if (getIntent().getStringExtra("type").equals("ENGLISH")) {
+        String auctionType = getIntent().getStringExtra("type");
+
+        if (auctionType != null && auctionType.equals("ENGLISH")) {
             makeAnOfferBtn.setText(R.string.make_an_offer_label);
             getEnglishAuction(idAuction);
             getOfferrersEnglishAuction(idAuction);
-        } else if (getIntent().getStringExtra("type").equals("DOWNWARD")) {
+        } else if (auctionType != null && auctionType.equals("DOWNWARD")) {
             makeAnOfferBtn.setText(R.string.buy_label);
             getDownwardAuction(idAuction);
             hideOfferersSection();
@@ -106,6 +109,238 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             else if (auction instanceof DownwardAuction)
                 showDownwardAuctionConfirmOfferDialog();
         });
+    }
+
+    private void initializeViews() {
+        image = findViewById(R.id.imageAcution);
+        title = findViewById(R.id.titleAuction);
+        categoryName = findViewById(R.id.categoryAuction);
+        description = findViewById(R.id.descriptionText);
+        currentPrice = findViewById(R.id.currentPriceAuction);
+        timer = findViewById(R.id.timerAuction);
+        offerEditText = findViewById(R.id.inputAnOffer);
+        offerEditText.setFocusable(false);
+        offerTextLayout = findViewById(R.id.offerTextLayout);
+        makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
+        backBtn = findViewById(R.id.backBtn);
+        sellerInfoBtn = findViewById(R.id.sellerInfo);
+        sellerInfoText = findViewById(R.id.sellerInfoText);
+        recyclerViewOfferrers = findViewById(R.id.offerrersList);
+        offerersConstraintLayout = findViewById(R.id.offerrersConstraintLayout);
+        offerLinearLayout = findViewById(R.id.offerLinearLayout);
+
+        messageNoOfferrers = findViewById(R.id.messageNoOfferrers);
+        messageNoOfferrers.setVisibility(View.GONE);
+    }
+
+    private void refreshActivity() {
+        recreate();
+    }
+
+    private void getEnglishAuction(Long idAuction) {
+        EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
+        englishAuctionAPI.getById(idAuction).enqueue(new Callback<EnglishAuction>() {
+            @Override
+            public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    auction = response.body();
+                    getAuctionImage(auction.getImageURL());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EnglishAuction> call, Throwable t) {
+                Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                openMainActivity();
+                finish();
+            }
+        });
+    }
+
+    private void getDownwardAuction(Long idAuction) {
+        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
+        downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
+            @Override
+            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    auction = response.body();
+                    getAuctionImage(auction.getImageURL());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DownwardAuction> call, Throwable t) {
+                Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                openMainActivity();
+                finish();
+            }
+        });
+    }
+
+
+    private void getAuctionImage(String imageURL) {
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageURL).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        byte[] imageData = response.body().bytes();
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                        image.setImageBitmap(bitmap);
+                    }
+                    initializeFields();
+                } catch (IOException e) {
+                    Toast.makeText(AuctionDetailsActivity.this, "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                initializeFields();
+            }
+        });
+    }
+
+    private void makeEnglishOffer() {
+        OfferDto offerDto = new OfferDto(new BigDecimal(offerEditText.getText().toString()), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
+
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(AuctionDetailsActivity.this, "Impossibile effettuare l'offerta!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        refreshActivity();
+    }
+
+    private void makeDownwardOffer() {
+        OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
+
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Toast.makeText(AuctionDetailsActivity.this, "Acquisto fatto!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(AuctionDetailsActivity.this, "Impossibile effettuare l'acquisto!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getOfferrersEnglishAuction(Long idAuction) {
+        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
+        offerAPI.getOffersByEnglishAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    offerrers.addAll(response.body());
+                    initializeOfferrers();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
+                Toast.makeText(AuctionDetailsActivity.this, "Impossibile caricare gli offerenti!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void hideOfferersSection() {
+        offerersConstraintLayout.setVisibility(View.GONE);
+    }
+
+    private void initializeFields() {
+        title.setText(auction.getTitle());
+        categoryName.setText(auction.getCategory().toString());
+
+        description.setText(auction.getDescription());
+        description.setOnClickListener(v -> showBottomSheetDescription());
+
+        currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
+        startTimer();
+        String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
+        sellerInfoText.setText(sellerInfo);
+
+        if (auction instanceof EnglishAuction englishAuction) {
+            offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + englishAuction.getIncreaseAmount());
+            BigDecimal newOffer = auction.getCurrentPrice().add(englishAuction.getIncreaseAmount());
+            offerEditText.setText(String.format(newOffer.toString()));
+        } else if (auction instanceof DownwardAuction downwardAuction) {
+            offerEditText.setText(String.format(downwardAuction.getCurrentPrice().toString()));
+            offerTextLayout.setHint("Prezzo");
+        }
+
+        if (auction.getOwner().equals(LocalDietiUser.getLocalDietiUser(getApplicationContext()))) {
+            makeAnOfferBtn.setEnabled(false);
+            offerLinearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void startTimer() {
+        Timestamp creation = new Timestamp(auction.getCreatedAt().getTime());
+        Timestamp deadline = new Timestamp(creation.getTime() + auction.getTimerInMilliseconds());
+        new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(AuctionDetailsActivity.this, "L'asta è terminata!", Toast.LENGTH_LONG).show();
+                openMainActivity();
+            }
+        }.start();
+    }
+
+    private void initializeOfferrers() {
+        if (offerrers.isEmpty()) {
+            messageNoOfferrers.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        messageNoOfferrers.setVisibility(View.GONE);
+        Collections.reverse(offerrers);
+        recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
+        recyclerViewOfferrers.setAdapter(sellerAdapter);
+    }
+
+    private void openMainActivity() {
+        Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainActivity);
+    }
+
+    private void showBottomSheetDescription() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_sheet);
+
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+        TextView descriptionText = dialog.findViewById(R.id.descriptionText);
+        descriptionText.setText(auction.getDescription());
+
+        cancelButton.setOnClickListener(view -> dialog.dismiss());
+        descriptionText.setText(auction.getDescription());
+
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+        }
     }
 
     private void showFailedOfferDialog(String errorMessage) {
@@ -186,240 +421,5 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
-    }
-
-    private void hideOfferersSection() {
-        offerersConstraintLayout.setVisibility(View.GONE);
-    }
-
-    private void makeDownwardOffer() {
-        OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
-
-        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void makeEnglishOffer() {
-        OfferDto offerDto = new OfferDto(new BigDecimal(offerEditText.getText().toString()), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
-
-        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-        refreshActivity();
-    }
-
-    private void refreshActivity() {
-//        finish();
-//        overridePendingTransition(0, 0);
-//        startActivity(getIntent());
-//        overridePendingTransition(0, 0);
-        // ^commentato perché quando refresha fa vedere i valori di default, lascio per testare
-
-        //questo invece è più veloce e si vedono per meno tempo i valori di default
-        recreate();
-    }
-
-    private void initializeFields() {
-        title.setText(auction.getTitle());
-        categoryName.setText(auction.getCategory().toString());
-
-        description.setText(auction.getDescription());
-        description.setOnClickListener(v -> showBottomSheetDescription());
-
-        currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
-        startTimer();
-        String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
-        sellerInfoText.setText(sellerInfo);
-
-        if (auction instanceof EnglishAuction englishAuction) {
-            offerTextLayout.setHint(auction.getCurrentPrice().toString() + " + " + englishAuction.getIncreaseAmount());
-            BigDecimal newOffer = auction.getCurrentPrice().add(englishAuction.getIncreaseAmount());
-            offerEditText.setText(String.format(newOffer.toString()));
-        } else if (auction instanceof DownwardAuction downwardAuction) {
-            offerEditText.setText(String.format(downwardAuction.getCurrentPrice().toString()));
-            offerTextLayout.setHint("Prezzo");
-        }
-
-        if (auction.getOwner().equals(LocalDietiUser.getLocalDietiUser(getApplicationContext()))) {
-            makeAnOfferBtn.setEnabled(false);
-            offerLinearLayout.setVisibility(View.GONE);
-        }
-    }
-
-    private void startTimer() {
-        Timestamp creation = new Timestamp(auction.getCreatedAt().getTime());
-        Timestamp deadline = new Timestamp(creation.getTime() + auction.getTimerInMilliseconds());
-        new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
-    }
-
-    private void getEnglishAuction(Long idAuction) {
-        EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.getById(idAuction).enqueue(new Callback<EnglishAuction>() {
-            @Override
-            public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
-                if (response.code() == 200) {
-                    auction = response.body();
-                    if (auction != null)
-                        getAuctionImage(auction.getImageURL());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<EnglishAuction> call, Throwable t) {
-                //TODO messaggio "l'asta non è più disponibile"
-                finish();
-            }
-        });
-    }
-
-    private void getAuctionImage(String imageURL) {
-        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
-        imageAPI.getImageByUrl(imageURL).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.body() != null) {
-                    byte[] imageData;
-                    try {
-                        imageData = response.body().bytes();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-                    image.setImageBitmap(bitmap);
-
-                }
-                initializeFields();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                initializeFields();
-            }
-        });
-    }
-
-    private void getDownwardAuction(Long idAuction) {
-        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
-            @Override
-            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
-                if (response.code() == 200) {
-                    auction = response.body();
-                    if (auction != null)
-                        getAuctionImage(auction.getImageURL());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DownwardAuction> call, Throwable t) {
-                //TODO messaggio "l'asta non è più disponibile"
-                finish();
-            }
-        });
-    }
-
-    private void getOfferrersEnglishAuction(Long idAuction) {
-        OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.getOffersByEnglishAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
-                if (response.code() == 200) {
-                    if (response.body() != null)
-                        offerrers.addAll(response.body());
-                    initializeOfferrers();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
-                Log.e("ERRORE", t.toString());
-            }
-        });
-    }
-
-    private void initializeOfferrers() {
-        if (offerrers.isEmpty()) {
-            messageNoOfferrers.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        messageNoOfferrers.setVisibility(View.GONE);
-        Collections.reverse(offerrers);
-        recyclerViewOfferrers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<OfferAdapter.SellerViewHolder> sellerAdapter = new OfferAdapter(offerrers);
-        recyclerViewOfferrers.setAdapter(sellerAdapter);
-    }
-
-    private void showBottomSheetDescription() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottom_sheet);
-
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
-        TextView descriptionText = dialog.findViewById(R.id.descriptionText);
-        descriptionText.setText(auction.getDescription());
-
-        cancelButton.setOnClickListener(view -> dialog.dismiss());
-        descriptionText.setText(auction.getDescription());
-
-        dialog.show();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-            dialog.getWindow().setGravity(Gravity.BOTTOM);
-        }
-    }
-
-    private void initializeViews() {
-        image = findViewById(R.id.imageAcution);
-        title = findViewById(R.id.titleAuction);
-        categoryName = findViewById(R.id.categoryAuction);
-        description = findViewById(R.id.descriptionText);
-        currentPrice = findViewById(R.id.currentPriceAuction);
-        timer = findViewById(R.id.timerAuction);
-        offerEditText = findViewById(R.id.inputAnOffer);
-        offerEditText.setFocusable(false);
-        offerTextLayout = findViewById(R.id.offerTextLayout);
-        makeAnOfferBtn = findViewById(R.id.makeAnOfferBtn);
-        backBtn = findViewById(R.id.backBtn);
-        sellerInfoBtn = findViewById(R.id.sellerInfo);
-        sellerInfoText = findViewById(R.id.sellerInfoText);
-        recyclerViewOfferrers = findViewById(R.id.offerrersList);
-        offerersConstraintLayout = findViewById(R.id.offerrersConstraintLayout);
-        offerLinearLayout = findViewById(R.id.offerLinearLayout);
-
-        messageNoOfferrers = findViewById(R.id.messageNoOfferrers);
-        messageNoOfferrers.setVisibility(View.GONE);
     }
 }
