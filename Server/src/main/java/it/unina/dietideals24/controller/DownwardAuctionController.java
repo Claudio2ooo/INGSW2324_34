@@ -11,7 +11,6 @@ import it.unina.dietideals24.service.interfaces.IImageService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +36,7 @@ public class DownwardAuctionController {
     @Autowired
     @Qualifier("locallyStoreImageService")
     private IImageService imageService;
-    private static String DOWNWARD_AUCTION_IMAGE_DIRECTORY = "images/downward_auction";
+    private static String DOWNWARD_AUCTION_IMAGE_DIRECTORY = "downward_auction";
 
     @GetMapping
     public List<DownwardAuction> getDownwardAuctions() {
@@ -79,18 +78,17 @@ public class DownwardAuctionController {
     }
 
     @PostMapping("{id}/image")
-    public ResponseEntity<String> updateDownwardAuctionImage(@PathVariable Long id, @RequestParam("image")MultipartFile image){
+    public void updateDownwardAuctionImage(@PathVariable Long id, @RequestParam("image")MultipartFile image) throws BadRequestException{
         if(downwardAuctionService.existsById(id)){
             try{
                 imageService.saveImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id, image);
                 downwardAuctionService.linkImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id);
-                return new ResponseEntity<>("Auction image updated!", HttpStatus.OK);
             } catch (IOException e){
-                return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);
+                throw new BadRequestException("Could not upload image");
             }
         }
         else
-            return new ResponseEntity<>("Auction not found", HttpStatus.NOT_FOUND);
+            throw new BadRequestException("Auction doesn't exist");
     }
 
     @DeleteMapping("{id}")

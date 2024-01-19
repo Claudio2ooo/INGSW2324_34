@@ -2,6 +2,8 @@ package it.unina.dietideals24.view.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,9 +44,11 @@ import it.unina.dietideals24.model.Offer;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
 import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -101,11 +106,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             else if (auction instanceof DownwardAuction)
                 showDownwardAuctionConfirmOfferDialog();
         });
-
-        if (auction.getOwner().equals(LocalDietiUser.getLocalDietiUser(getApplicationContext()))) {
-            makeAnOfferBtn.setEnabled(false);
-            offerLinearLayout.setVisibility(View.GONE);
-        }
     }
 
     private void showFailedOfferDialog(String errorMessage) {
@@ -258,6 +258,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             offerEditText.setText(String.format(downwardAuction.getCurrentPrice().toString()));
             offerTextLayout.setHint("Prezzo");
         }
+
+        if (auction.getOwner().equals(LocalDietiUser.getLocalDietiUser(getApplicationContext()))) {
+            makeAnOfferBtn.setEnabled(false);
+            offerLinearLayout.setVisibility(View.GONE);
+        }
     }
 
     private void startTimer() {
@@ -283,8 +288,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
                 if (response.code() == 200) {
                     auction = response.body();
-                    assert auction != null;
-                    initializeFields();
+                    if (auction != null)
+                        getAuctionImage(auction.getImageURL());
                 }
             }
 
@@ -296,6 +301,33 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void getAuctionImage(String imageURL) {
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageURL).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    byte[] imageData;
+                    try {
+                        imageData = response.body().bytes();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                    image.setImageBitmap(bitmap);
+
+                }
+                initializeFields();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                initializeFields();
+            }
+        });
+    }
+
     private void getDownwardAuction(Long idAuction) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
@@ -303,8 +335,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
                 if (response.code() == 200) {
                     auction = response.body();
-                    assert auction != null;
-                    initializeFields();
+                    if (auction != null)
+                        getAuctionImage(auction.getImageURL());
                 }
             }
 
@@ -321,7 +353,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.getOffersByEnglishAuctionId(idAuction).enqueue(new Callback<ArrayList<Offer>>() {
             @Override
             public void onResponse(Call<ArrayList<Offer>> call, Response<ArrayList<Offer>> response) {
-                Log.d("OFFERS", response.body().toString());
                 if (response.code() == 200) {
                     if (response.body() != null)
                         offerrers.addAll(response.body());

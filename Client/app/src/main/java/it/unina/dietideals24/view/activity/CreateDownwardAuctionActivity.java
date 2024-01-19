@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -35,7 +37,11 @@ import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
+import it.unina.dietideals24.utils.MyFileUtils;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,6 +69,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
     private ProgressBar createAuctionProgressBar;
     private String selectedCategory = null;
+    private Uri imageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +188,13 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         downwardAuctionAPI.createAuction(downwardAuctionDto).enqueue(new Callback<DownwardAuction>() {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
-                createAuctionProgressBar.setVisibility(View.INVISIBLE);
-                showSuccessCreateAuctionDialog("Asta al ribasso \"" + downwardAuctionDto.getTitle() + "\" creata con successo");
+                if (response.body()!=null)
+                    if (imageUri != null)
+                        uploadImage(response.body().getId());
+                    else {
+                        createAuctionProgressBar.setVisibility(View.INVISIBLE);
+                        showSuccessCreateAuctionDialog("Asta al ribasso \"" + downwardAuctionDto.getTitle() + "\" creata con successo");
+                    }
             }
 
             @Override
@@ -195,12 +207,35 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
 
     }
 
+    private void uploadImage(Long downwardAuctionId) {
+        File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
+
+        RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", downwardAuctionId+".jpg", requestBody);
+
+        DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
+        downwardAuctionAPI.uploadDownwardAuctionImage(downwardAuctionId, imagePart).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                createAuctionProgressBar.setVisibility(View.INVISIBLE);
+                showSuccessCreateAuctionDialog("Asta al ribasso creata con successo");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createAuctionProgressBar.setVisibility(View.INVISIBLE);
+                showFailedCreateAuctionDialog("Caricamento immagine fallito");
+            }
+        });
+    }
+
     private void initializeSinglePhotoPickerLauncher() {
         singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri == null) {
                 Toast.makeText(CreateDownwardAuctionActivity.this, "Seleziona un'immagine!", Toast.LENGTH_SHORT).show();
             } else {
                 Glide.with(CreateDownwardAuctionActivity.this).load(uri).into(imageProduct);
+                imageUri = uri;
             }
         });
     }

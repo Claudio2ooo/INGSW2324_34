@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumerations.CategoryEnum;
 import it.unina.dietideals24.model.DownwardAuction;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface DownwardAuctionAPI {
@@ -30,5 +33,7 @@ public interface DownwardAuctionAPI {
     @POST("/downward-auctions/create")
     Call<DownwardAuction> createAuction(@Body DownwardAuctionDto downwardAuctionDto);
 
-
+    @Multipart
+    @POST("/downward-auctions/{id}/image")
+    Call<Void> uploadDownwardAuctionImage(@Path("id") Long id, @Part MultipartBody.Part image);
 }

@@ -7,5 +7,5 @@ import java.io.IOException;
 public interface IImageService {
     void saveImage(String profilePicDirectory, Long id, MultipartFile file) throws IOException;
 
-    byte[] getImage(String url) throws IOException;
+    byte[] getImage(String url);
 }

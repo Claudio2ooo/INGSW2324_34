@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumerations.CategoryEnum;
 import it.unina.dietideals24.model.EnglishAuction;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface EnglishAuctionAPI {
@@ -29,4 +32,8 @@ public interface EnglishAuctionAPI {
 
     @POST("/english-auctions/create")
     Call<EnglishAuction> createAuction(@Body EnglishAuctionDto englishAuctionDto);
+
+    @Multipart
+    @POST("/english-auctions/{id}/image")
+    Call<Void> uploadEnglishAuctionImage(@Path("id") Long id, @Part MultipartBody.Part image);
 }

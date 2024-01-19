@@ -1,5 +1,7 @@
 package it.unina.dietideals24.model;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public class DietiUser {
@@ -126,5 +128,9 @@ public class DietiUser {
                 ", geographicalArea='" + geographicalArea + '\'' +
                 ", profilePictureUrl='" + profilePictureUrl + '\'' +
                 '}';
+    }
+
+    public boolean equals(@Nullable DietiUser dietiUser) {
+        return getId().equals(dietiUser.getId());
     }
 }

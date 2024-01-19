@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,13 +27,27 @@ public class ImageService implements IImageService {
      */
     @Override
     public void saveImage(String imageDirectory, Long id, MultipartFile file) throws IOException {
-        String path = imageDirectory + "/" + id.toString();
+        String path = "images/" + imageDirectory + "/" + id.toString();
         Path fileNameAndPath = Paths.get(path);
         Files.write(fileNameAndPath, file.getBytes());
+        System.out.println("Image saved in: "+fileNameAndPath);
     }
 
     @Override
-    public byte[] getImage(String url) throws IOException {
-        return getClass().getResourceAsStream(url).readAllBytes();
+    public byte[] getImage(String url) {
+        try {
+            return convertImageToBytes(url);
+        } catch (IOException e) {
+            return new byte[0];
+        }
+    }
+
+    private byte[] convertImageToBytes(String url) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(new File("images/"+url));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", baos);
+
+        return baos.toByteArray();
     }
 }
