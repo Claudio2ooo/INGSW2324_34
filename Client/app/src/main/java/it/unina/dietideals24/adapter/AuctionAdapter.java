@@ -2,6 +2,8 @@ package it.unina.dietideals24.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -25,8 +28,14 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
+import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
 import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
     ArrayList<Auction> auctions;
@@ -89,6 +98,41 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
             context.startActivity(intent);
         });
+
+        retrieveImage(holder);
+    }
+
+    private void retrieveImage(AuctionViewHolder holder) {
+        String imageUrl = auctions.get(holder.getAdapterPosition()).getImageURL();
+
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        byte[] imageData = response.body().bytes();
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions = requestOptions.transform(new CenterCrop());
+
+                        Glide.with(context)
+                                .load(bitmap)
+                                .apply(requestOptions)
+                                .into(holder.image);
+                    }
+                } catch (IOException e) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void startTimer(AuctionAdapter.AuctionViewHolder holder) {
@@ -119,6 +163,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
     public class AuctionViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
+
         TextView title;
         TextView categoryName;
         TextView currentPrice;

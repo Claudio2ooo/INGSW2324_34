@@ -1,12 +1,16 @@
 package it.unina.dietideals24.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import id.zelory.compressor.Compressor;
 
 public class MyFileUtils {
     private MyFileUtils() {}
@@ -40,6 +44,20 @@ public class MyFileUtils {
                 tempFile.delete(); // Elimina il file temporaneo in caso di errore
             }
             return null;
+        }
+    }
+
+    public static File compressImage(File imageToBeUploaded, Context applicationContext) {
+        try {
+            return new Compressor(applicationContext)
+                    .setMaxHeight(800)
+                    .setMaxWidth(800)
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                    .compressToFile(imageToBeUploaded);
+
+        } catch (IOException e) {
+            Log.e("COMPRESSION_ERROR", "image compression failed for: "+imageToBeUploaded);
+            return imageToBeUploaded;
         }
     }
 }

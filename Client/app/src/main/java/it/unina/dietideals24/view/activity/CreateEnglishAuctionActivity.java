@@ -188,11 +188,13 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
     private void uploadImage(Long englishAuctionId) {
         File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
 
+        imageToBeUploaded = MyFileUtils.compressImage(imageToBeUploaded, getApplicationContext());
+
         if (imageToBeUploaded == null)
             return;
 
         RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", englishAuctionId + ".jpg", requestBody);
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", englishAuctionId + ".jpeg", requestBody);
 
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.uploadEnglishAuctionImage(englishAuctionId, imagePart).enqueue(new Callback<Void>() {

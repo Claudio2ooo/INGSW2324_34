@@ -62,4 +62,7 @@ dependencies {
 
     // Worker per processi in background
     implementation ("androidx.work:work-runtime:2.9.0")
+
+    //Image compressor
+    implementation ("id.zelory:compressor:2.1.1")
 }

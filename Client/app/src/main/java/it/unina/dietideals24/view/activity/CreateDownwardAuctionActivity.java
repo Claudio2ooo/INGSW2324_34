@@ -211,8 +211,13 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
     private void uploadImage(Long downwardAuctionId) {
         File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
 
+        imageToBeUploaded = MyFileUtils.compressImage(imageToBeUploaded, getApplicationContext());
+
+        if (imageToBeUploaded == null)
+            return;
+
         RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", downwardAuctionId + ".jpg", requestBody);
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", downwardAuctionId + ".jpeg", requestBody);
 
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.uploadDownwardAuctionImage(downwardAuctionId, imagePart).enqueue(new Callback<Void>() {
