@@ -84,7 +84,7 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     @Override
     public void linkImage(String downwardAuctionImageDirectory, Long id) {
         DownwardAuction downwardAuction = downwardAuctionRepository.findById(id).get();
-        downwardAuction.setImageURL(downwardAuctionImageDirectory+"/"+id);
+        downwardAuction.setImageURL(downwardAuctionImageDirectory + "/" + id);
         downwardAuctionRepository.save(downwardAuction);
     }
 

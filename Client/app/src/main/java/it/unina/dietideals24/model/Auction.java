@@ -97,6 +97,10 @@ public class Auction implements Comparable<Auction> {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public DietiUser getOwner() {
         return owner;
     }

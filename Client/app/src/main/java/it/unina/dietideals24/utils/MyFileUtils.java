@@ -5,9 +5,12 @@ import android.net.Uri;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class MyFileUtils {
+    private MyFileUtils() {}
+
     public static File uriToFile(Uri uri, Context context) {
         InputStream inputStream = null;
         File tempFile = null;
@@ -32,7 +35,7 @@ public class MyFileUtils {
             }
 
             return tempFile;
-        } catch (Exception e) {
+        } catch (IOException e) {
             if (tempFile != null) {
                 tempFile.delete(); // Elimina il file temporaneo in caso di errore
             }

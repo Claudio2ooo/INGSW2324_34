@@ -188,6 +188,9 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
     private void uploadImage(Long englishAuctionId) {
         File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getApplicationContext());
 
+        if (imageToBeUploaded == null)
+            return;
+
         RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", englishAuctionId + ".jpg", requestBody);
 
@@ -207,7 +210,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void initializeSinglePhotoPickerLauncher() {
         singlePhotoPickerLauncher = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri == null) {

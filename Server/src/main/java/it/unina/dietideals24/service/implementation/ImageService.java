@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 public class ImageService implements IImageService {
 
     /**
-     * saves an image locally, using the specified directory
+     * Saves an image locally, using the specified directory
      * @param imageDirectory directory for the image
      * @param id id of the item that has the image, used as name for the image
      * @param file representation of the image
@@ -30,7 +30,7 @@ public class ImageService implements IImageService {
         String path = "images" + File.separatorChar + imageDirectory + File.separatorChar + id.toString();
         Path fileNameAndPath = Paths.get(path);
         Files.write(fileNameAndPath, file.getBytes());
-        System.out.println("Image saved in: "+fileNameAndPath);
+        System.out.println("Image saved in: " + fileNameAndPath);
     }
 
     @Override
@@ -43,11 +43,11 @@ public class ImageService implements IImageService {
     }
 
     private byte[] convertImageToBytes(String url) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(new File("images/"+url));
+        BufferedImage bufferedImage = ImageIO.read(new File("images/" + url));
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", baos);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
 
-        return baos.toByteArray();
+        return byteArrayOutputStream.toByteArray();
     }
 }

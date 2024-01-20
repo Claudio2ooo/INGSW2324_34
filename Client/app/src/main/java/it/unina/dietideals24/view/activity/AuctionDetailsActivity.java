@@ -26,6 +26,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
@@ -177,7 +181,6 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
-
     private void getAuctionImage(String imageURL) {
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageURL).enqueue(new Callback<ResponseBody>() {
@@ -188,7 +191,14 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                         byte[] imageData = response.body().bytes();
 
                         Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-                        image.setImageBitmap(bitmap);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions = requestOptions.transform(new CenterCrop());
+
+                        Glide.with(getApplicationContext())
+                                .load(bitmap)
+                                .apply(requestOptions)
+                                .into(image);
                     }
                     initializeFields();
                 } catch (IOException e) {

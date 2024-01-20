@@ -36,7 +36,7 @@ public class DownwardAuctionController {
     @Autowired
     @Qualifier("locallyStoreImageService")
     private IImageService imageService;
-    private static String DOWNWARD_AUCTION_IMAGE_DIRECTORY = "downward_auction";
+    private static final String DOWNWARD_AUCTION_IMAGE_DIRECTORY = "downward_auction";
 
     @GetMapping
     public List<DownwardAuction> getDownwardAuctions() {
@@ -79,7 +79,7 @@ public class DownwardAuctionController {
 
     @PostMapping("{id}/image")
     public void updateDownwardAuctionImage(@PathVariable Long id, @RequestParam("image")MultipartFile image) throws BadRequestException{
-        if(downwardAuctionService.existsById(id)){
+        if (downwardAuctionService.existsById(id)) {
             try{
                 imageService.saveImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id, image);
                 downwardAuctionService.linkImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id);

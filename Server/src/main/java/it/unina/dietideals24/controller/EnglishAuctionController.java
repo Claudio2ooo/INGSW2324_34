@@ -36,7 +36,7 @@ public class EnglishAuctionController {
     @Autowired
     @Qualifier("locallyStoreImageService")
     private IImageService imageService;
-    private static String ENGLISH_AUCTION_IMAGE_DIRECTORY = "english_auction";
+    private static final String ENGLISH_AUCTION_IMAGE_DIRECTORY = "english_auction";
 
     @GetMapping
     public List<EnglishAuction> getEnglishAuctions() {
@@ -79,7 +79,7 @@ public class EnglishAuctionController {
 
     @PostMapping("{id}/image")
     public void uploadEnglishAuctionImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws BadRequestException{
-        if(englishAuctionService.existsById(id)){
+        if (englishAuctionService.existsById(id)) {
             try{
                 imageService.saveImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id, image);
                 englishAuctionService.linkImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id);

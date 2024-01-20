@@ -64,7 +64,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     @Override
     public void onBindViewHolder(@NonNull AuctionAdapter.AuctionViewHolder holder, int position) {
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(30));
+        requestOptions = requestOptions.transform(new CenterCrop());
 
         Glide.with(context)
                 .load(auctions.get(holder.getAdapterPosition()).getImageURL())

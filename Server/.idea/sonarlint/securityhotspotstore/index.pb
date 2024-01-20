@@ -41,3 +41,15 @@ Psrc/main/java/it/unina/dietideals24/security/filter/JwtAuthenticationFilter.jav
 Usrc/main/java/it/unina/dietideals24/service/implementation/EnglishAuctionService.java,a\0\a04558e8817643f27f61ded42f23fd6e3acc6031
 †
 Vsrc/main/java/it/unina/dietideals24/service/implementation/DownwardAuctionService.java,a\8\a8aa5f85325e557a6c14c13b9e9860d393066224
+y
+Isrc/main/java/it/unina/dietideals24/service/interfaces/IImageService.java,9\8\98e66ef6484e455be68bb91528050c058c0c6eb4
+}
+Msrc/main/java/it/unina/dietideals24/controller/DownwardAuctionController.java,9\9\99eae3d4723383c63c92b3402fc84f81c5a5581a
+n
+>src/main/java/it/unina/dietideals24/model/DownwardAuction.java,e\b\eb951f9d2e61863f0ec16096d7efbb6b2fe8a948
+f
+6src/main/java/it/unina/dietideals24/model/Auction.java,9\c\9c8b571180ea6d976df9ceaeabee62fbf23741a2
+h
+8src/main/java/it/unina/dietideals24/model/DietiUser.java,3\b\3b82af605f843d8cc94665ec4e6bec7db2fd1ef1
+}
+Msrc/main/java/it/unina/dietideals24/service/interfaces/IDietiUserService.java,9\3\93fa652b92f9778b4956b1cd4739ee4cdfbeaa45
