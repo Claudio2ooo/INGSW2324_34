@@ -53,3 +53,5 @@ h
 8src/main/java/it/unina/dietideals24/model/DietiUser.java,3\b\3b82af605f843d8cc94665ec4e6bec7db2fd1ef1
 }
 Msrc/main/java/it/unina/dietideals24/service/interfaces/IDietiUserService.java,9\3\93fa652b92f9778b4956b1cd4739ee4cdfbeaa45
+‚
+Rsrc/main/java/it/unina/dietideals24/service/interfaces/IEnglishAuctionService.java,0\8\08d7e2309db6c46bb74f43cbceadf3d5f312d3dd

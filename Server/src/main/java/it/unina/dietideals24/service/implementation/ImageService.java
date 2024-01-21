@@ -43,7 +43,7 @@ public class ImageService implements IImageService {
     }
 
     private byte[] convertImageToBytes(String url) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(new File("images/" + url));
+        BufferedImage bufferedImage = ImageIO.read(new File("images" + File.separatorChar + url));
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", byteArrayOutputStream);

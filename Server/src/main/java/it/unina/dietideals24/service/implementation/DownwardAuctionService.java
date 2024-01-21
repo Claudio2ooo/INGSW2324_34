@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,7 +85,7 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     @Override
     public void linkImage(String downwardAuctionImageDirectory, Long id) {
         DownwardAuction downwardAuction = downwardAuctionRepository.findById(id).get();
-        downwardAuction.setImageURL(downwardAuctionImageDirectory + "/" + id);
+        downwardAuction.setImageURL(downwardAuctionImageDirectory + File.separatorChar + id);
         downwardAuctionRepository.save(downwardAuction);
     }
 

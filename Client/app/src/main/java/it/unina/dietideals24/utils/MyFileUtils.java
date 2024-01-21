@@ -13,7 +13,8 @@ import java.io.InputStream;
 import id.zelory.compressor.Compressor;
 
 public class MyFileUtils {
-    private MyFileUtils() {}
+    private MyFileUtils() {
+    }
 
     public static File uriToFile(Uri uri, Context context) {
         InputStream inputStream = null;
@@ -21,7 +22,7 @@ public class MyFileUtils {
 
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
-            tempFile = File.createTempFile("temp", ".jpg");
+            tempFile = File.createTempFile("temp", ".jpeg");
 
             if (inputStream != null) {
                 try (FileOutputStream fileOut = new FileOutputStream(tempFile)) {
@@ -56,7 +57,7 @@ public class MyFileUtils {
                     .compressToFile(imageToBeUploaded);
 
         } catch (IOException e) {
-            Log.e("COMPRESSION_ERROR", "image compression failed for: "+imageToBeUploaded);
+            Log.e("COMPRESSION_ERROR", "image compression failed for: " + imageToBeUploaded);
             return imageToBeUploaded;
         }
     }

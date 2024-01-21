@@ -72,14 +72,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
     @Override
     public void onBindViewHolder(@NonNull AuctionAdapter.AuctionViewHolder holder, int position) {
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transform(new CenterCrop());
-
-        Glide.with(context)
-                .load(auctions.get(holder.getAdapterPosition()).getImageURL())
-                .apply(requestOptions)
-                .into(holder.image);
-
         holder.title.setText(auctions.get(holder.getAdapterPosition()).getTitle());
         holder.categoryName.setText(auctions.get(holder.getAdapterPosition()).getCategory().toString());
         holder.currentPrice.setText(String.format("€%s", auctions.get(holder.getAdapterPosition()).getCurrentPrice().toString()));
