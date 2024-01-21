@@ -1,12 +1,15 @@
 package it.unina.dietideals24.controller;
 
+import it.unina.dietideals24.dto.UpdatePasswordDto;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import it.unina.dietideals24.service.interfaces.IImageService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +25,13 @@ public class DietiUserController {
     private final IImageService imageService;
     private static String PROFILE_PIC_DIRECTORY = "images/users";
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public DietiUserController(IDietiUserService dietiUserService, IImageService imageService){
+    public DietiUserController(IDietiUserService dietiUserService, IImageService imageService, PasswordEncoder passwordEncoder){
         this.dietiUserService = dietiUserService;
         this.imageService = imageService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("{id}")
@@ -57,4 +63,30 @@ public class DietiUserController {
         else
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("{id}")
+    public DietiUser updateDietiUserDataById(@PathVariable("id") Long id, @RequestBody DietiUser newDietiUser) throws BadRequestException {
+        DietiUser toBeUpdated = dietiUserService.getUserById(id);
+        if (toBeUpdated == null)
+            throw new BadRequestException("User not found");
+
+        return dietiUserService.updateDietiUserData(toBeUpdated, newDietiUser);
+    }
+
+    @PostMapping("{id}/password")
+    public DietiUser updatePassword(@PathVariable("id") Long id, @RequestBody UpdatePasswordDto updatePasswordDto) throws BadRequestException {
+        DietiUser toBeUpdated = dietiUserService.getUserById(id);
+        if (toBeUpdated == null)
+            throw new BadRequestException("User not found");
+
+        String encodedPassword = passwordEncoder.encode(updatePasswordDto.getNewPassword());
+        if (encodedPassword.equals(toBeUpdated.getPassword())) {
+            return dietiUserService.updateDietiUserPassword(toBeUpdated, encodedPassword);
+        } else {
+            throw new BadRequestException("Passwords don't match");
+        }
+
+    }
+
+
 }

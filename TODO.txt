@@ -2,13 +2,13 @@ Controllare perché crasha losers.remove(winner)
 
 Gestire aste terminate nella home
 
-immagini
+immagini FATTO
 
-Cambio password
+Cambio password FATTO (da testare)
 
-Popup quando asta termina mentre sei in AuctionDetails
+Popup quando asta termina mentre sei in AuctionDetails (attualmente c'è un toast)
 
-Salvare modifiche utente
+Salvare modifiche utente FATTO (da testare)
 
 Login con Google
 
@@ -21,7 +21,7 @@ Google Analitycs
 Rimuovere entrypoint non necessari
 
 OFFERTE QUASI FATTO
-    Popup vari DA IMPLEMENTARE solo quella per offerta fallita, ho evitato perché se usiamo Rxjava3 dobbiamo rifare la logica delle query
+    Popup vari DA IMPLEMENTARE solo quella per offerta fallita, attualmente c'è un toast
 
 Ottimizzazione:
     Passare aste tra i fragment (forse, da vedere)

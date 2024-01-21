@@ -83,4 +83,7 @@
     <string name="confirm_offer_label">Conferma offerta</string>
     <string name="confirm_label">Conferma</string>
     <string name="back_to_auction">Torna all\'asta</string>
+    <string name="failed_data_update_label">Modifica fallita!</string>
+    <string name="failed_data_update_text">Impossibile modficare i tuoi dati al momento, riprova più tardi.</string>
+    <string name="close_label">Chiudi</string>
 </resources>

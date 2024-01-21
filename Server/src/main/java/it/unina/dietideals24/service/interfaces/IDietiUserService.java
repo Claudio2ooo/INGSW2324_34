@@ -18,4 +18,8 @@ public interface IDietiUserService {
     void linkImage(String profilePicDirectory, Long id);
 
     DietiUser getUserByEmail(String email);
+
+    DietiUser updateDietiUserData(DietiUser toBeUpdated, DietiUser newDietiUser);
+
+    DietiUser updateDietiUserPassword(DietiUser toBeUpdated, String encodedPassword);
 }

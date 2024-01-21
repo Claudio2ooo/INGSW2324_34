@@ -71,4 +71,30 @@ public class DietiUserService implements IDietiUserService {
         }
         return dietiUserOptional.get();
     }
+
+    @Override
+    public DietiUser updateDietiUserData(DietiUser toBeUpdated, DietiUser newDietiUser) {
+        updateData(toBeUpdated, newDietiUser);
+        return dietiUserRepository.save(toBeUpdated);
+    }
+
+    @Override
+    public DietiUser updateDietiUserPassword(DietiUser toBeUpdated, String encodedPassword) {
+        updatePassword(toBeUpdated, encodedPassword);
+        return dietiUserRepository.save(toBeUpdated);
+    }
+
+    private static void updatePassword(DietiUser toBeUpdated, String encodedPassword) {
+        toBeUpdated.setPassword(encodedPassword);
+    }
+
+
+    //TODO Candidato al testing
+    private void updateData(DietiUser toBeUpdated, DietiUser newDietiUser) {
+        toBeUpdated.setName(newDietiUser.getName());
+        toBeUpdated.setSurname(newDietiUser.getSurname());
+        toBeUpdated.setGeographicalArea(newDietiUser.getGeographicalArea());
+        toBeUpdated.setBiography(newDietiUser.getBiography());
+        toBeUpdated.setLinks(newDietiUser.getLinks());
+    }
 }

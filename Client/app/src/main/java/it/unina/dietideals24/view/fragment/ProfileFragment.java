@@ -22,15 +22,22 @@ import androidx.fragment.app.Fragment;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 import java.util.List;
 
 import it.unina.dietideals24.R;
+import it.unina.dietideals24.dto.UpdatePasswordDto;
 import it.unina.dietideals24.model.DietiUser;
+import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.activity.LoginActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -126,13 +133,64 @@ public class ProfileFragment extends Fragment {
         builder.setView(viewChangePasswordDialog);
         final AlertDialog alertDialog = builder.create();
 
+        TextInputLayout oldPasswordLayout = viewChangePasswordDialog.findViewById(R.id.oldPasswordLayout);
+        TextView oldPassword = viewChangePasswordDialog.findViewById(R.id.inputOldPassword);
+
+        TextInputLayout newPasswordLayout = viewChangePasswordDialog.findViewById(R.id.newPasswordLayout);
+        TextView newPassword = viewChangePasswordDialog.findViewById(R.id.inputNewPassword);
+
+        TextInputLayout confirmNewPasswordLayout = viewChangePasswordDialog.findViewById(R.id.confirmNewPasswordLayout);
+        TextView confirmNewPassword = viewChangePasswordDialog.findViewById(R.id.inputConfirmNewPassword);
+
         Button changeOldPasswordBtn = viewChangePasswordDialog.findViewById(R.id.changePasswordBtn);
-        changeOldPasswordBtn.setOnClickListener(v -> alertDialog.dismiss());
+        changeOldPasswordBtn.setOnClickListener(v -> {
+            if (!newPassword.getText().equals(confirmNewPassword.getText())) {
+                confirmNewPasswordLayout.setError("Le password non corrispondono!");
+                return;
+            }
+            confirmNewPasswordLayout.setErrorEnabled(false);
+
+            if (!newPassword.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+                newPasswordLayout.setError("Deve avere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale");
+                return;
+            }
+            newPasswordLayout.setErrorEnabled(false);
+
+            UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto(
+                    oldPassword.getText().toString(),
+                    newPassword.getText().toString()
+            );
+
+            DietiUserAPI dietiUserAPI = RetrofitService.getRetrofitInstance().create(DietiUserAPI.class);
+            dietiUserAPI.updatePassword(LocalDietiUser.getLocalDietiUser(getContext()).getId(), updatePasswordDto).enqueue(new Callback<DietiUser>() {
+                @Override
+                public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
+                    if (response.body() != null) {
+                        oldPasswordLayout.setErrorEnabled(false);
+                        updateLocalDietiUserPassword(response.body());
+                        alertDialog.dismiss();
+                    } else {
+                        showFailedUpdateDialog(view, "Password corrente errata!");
+                        oldPasswordLayout.setError("Password errata!");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DietiUser> call, Throwable t) {
+                    alertDialog.dismiss();
+                    showFailedUpdateDialog(view, "Impossibile aggiornare la password al momento, riprova più tardi,");
+                }
+            });
+        });
 
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    private void updateLocalDietiUserPassword(DietiUser dietiUser) {
+        LocalDietiUser.setLocalDietiUser(getActivity(), dietiUser);
     }
 
     private void showEditProfileDialog(View view) {
@@ -146,6 +204,12 @@ public class ProfileFragment extends Fragment {
         Button changeImgBtn = viewEditProfileDialog.findViewById(R.id.changeImgBtn);
         imageProfile = viewEditProfileDialog.findViewById(R.id.imageProfile);
 
+        TextInputLayout nameTextLayout = viewEditProfileDialog.findViewById(R.id.nameTextLayout);
+        TextView name = viewEditProfileDialog.findViewById(R.id.inputName);
+
+        TextInputLayout surnameTextLayout = viewEditProfileDialog.findViewById(R.id.surnameTextLayout);
+        TextView surname = viewEditProfileDialog.findViewById(R.id.inputSurname);
+
         changeImgBtn.setOnClickListener(v ->
                 // Launch the photo picker and let the user choose only images
                 singlePhotoPickerLauncher.launch(new PickVisualMediaRequest.Builder()
@@ -157,11 +221,61 @@ public class ProfileFragment extends Fragment {
 
         Button editOldProfileBtn = viewEditProfileDialog.findViewById(R.id.editProfileBtn);
         editOldProfileBtn.setOnClickListener(v -> {
-            // TODO Aggiornare User sul DB (Nota: per ottenere uno oggeto DietiUser con nuovi dati del DietiUser, basta usare il metodo getNewDietiUser())
-            updateLocalDietiUser();
-            setTextViewWithLocalDietiUserData();
-            alertDialog.dismiss();
+            if (!name.getText().toString().matches("^([a-zA-Z]{2,})")) {
+                nameTextLayout.setError("Nome non valido");
+                return;
+            }
+            nameTextLayout.setErrorEnabled(false);
+
+            if (!surname.getText().toString().matches("^([a-zA-Z]+'?-?\\s?[a-zA-Z]{2,}\\s?([a-zA-Z]+))")) {
+                surnameTextLayout.setError("Cognome non valido");
+                return;
+            }
+            surnameTextLayout.setErrorEnabled(false);
+
+            updateDietiUserData(alertDialog, view);
         });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
+    private void updateDietiUserData(AlertDialog alertDialog, View view) {
+        DietiUserAPI dietiUserAPI = RetrofitService.getRetrofitInstance().create(DietiUserAPI.class);
+        dietiUserAPI.updateDietiUserDataById(LocalDietiUser.getLocalDietiUser(getContext()).getId(), getNewDietiUser()).enqueue(new Callback<DietiUser>() {
+            @Override
+            public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
+                if (response.body() != null) {
+                    updateLocalDietiUser();
+                    setTextViewWithLocalDietiUserData();
+                    alertDialog.dismiss();
+                } else {
+                    alertDialog.dismiss();
+                    showFailedUpdateDialog(view, "Impossibile modficare i tuoi dati al momento, riprova più tardi.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DietiUser> call, Throwable t) {
+                alertDialog.dismiss();
+                showFailedUpdateDialog(view, "Impossibile modficare i tuoi dati al momento, riprova più tardi.");
+            }
+        });
+    }
+
+    private void showFailedUpdateDialog(View view, String message) {
+        ConstraintLayout failedDataUpdateConstraintLayout = view.findViewById(R.id.failedUpdateConstraintLayout);
+        View viewFailedDataUpdate = LayoutInflater.from(getContext()).inflate(R.layout.failed_update_dialog, failedDataUpdateConstraintLayout);
+
+        Button closePopupBtn = viewFailedDataUpdate.findViewById(R.id.closePopupBtn);
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+        builder.setView(viewFailedDataUpdate);
+        final androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+
+        closePopupBtn.setOnClickListener(v -> alertDialog.dismiss());
 
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

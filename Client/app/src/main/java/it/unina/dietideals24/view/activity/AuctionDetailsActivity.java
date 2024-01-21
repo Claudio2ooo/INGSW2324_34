@@ -221,14 +221,15 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
+                refreshActivity();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(AuctionDetailsActivity.this, "Impossibile effettuare l'offerta!", Toast.LENGTH_SHORT).show();
+                refreshActivity();
             }
         });
-        refreshActivity();
     }
 
     private void makeDownwardOffer() {
