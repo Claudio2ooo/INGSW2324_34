@@ -2,8 +2,6 @@ Controllare perché crasha losers.remove(winner)
 
 Gestire aste terminate nella home
 
-Popup quando asta termina mentre sei in AuctionDetails (attualmente c'è un toast)
-
 Login con Google
 
 Test
@@ -14,12 +12,12 @@ Google Analitycs
 
 Rimuovere entrypoint non necessari
 
-OFFERTE QUASI FATTO
-    Popup vari DA IMPLEMENTARE solo quella per offerta fallita, attualmente c'è un toast
+ProgressBar sulle immagini
 
 Ottimizzazione:
     Passare aste tra i fragment (forse, da vedere)
     Limitare il numero di query, usando un attributo Timestamp lastQuery o simili che viene confrontato con il Timestamp corrente per verificare se sono passati almeno tot minuti
     Consentire all'utente di forzare una query (sempre con un certo limite) tramite uno swipe
+
 
 

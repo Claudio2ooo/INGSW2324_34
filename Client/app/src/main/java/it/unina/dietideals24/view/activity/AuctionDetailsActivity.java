@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -226,7 +225,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(AuctionDetailsActivity.this, "Impossibile effettuare l'offerta!", Toast.LENGTH_SHORT).show();
+                showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!");
                 refreshActivity();
             }
         });
@@ -244,7 +243,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(AuctionDetailsActivity.this, "Impossibile effettuare l'acquisto!", Toast.LENGTH_SHORT).show();
+                showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!");
+                finish();
             }
         });
     }
@@ -309,10 +309,38 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Toast.makeText(AuctionDetailsActivity.this, "L'asta è terminata!", Toast.LENGTH_LONG).show();
-                openMainActivity();
+                showEndedAuctionDialog("L'asta è terminata!");
             }
         }.start();
+    }
+
+    private void showEndedAuctionDialog(String errorMessage) {
+        ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.failedOfferConstraintLayout);
+        View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.failed_offer_dialog, failedOfferConstraintLayout);
+
+        Button backToHomeButton = viewFailedOfferDialog.findViewById(R.id.backToAuctionBtn);
+
+        TextView errorText = viewFailedOfferDialog.findViewById(R.id.failedOfferText);
+        errorText.setText(errorMessage);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
+        builder.setView(viewFailedOfferDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToHomeButton.setText("Torna alla home");
+
+        backToHomeButton.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            finish();
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        alertDialog.setOnDismissListener(v -> openMainActivity());
+
+        alertDialog.show();
     }
 
     private void initializeOfferrers() {
