@@ -79,9 +79,13 @@ public class DietiUserController {
         if (toBeUpdated == null)
             throw new BadRequestException("User not found");
 
-        String encodedPassword = passwordEncoder.encode(updatePasswordDto.getNewPassword());
-        if (encodedPassword.equals(toBeUpdated.getPassword())) {
-            return dietiUserService.updateDietiUserPassword(toBeUpdated, encodedPassword);
+        String newPassword = updatePasswordDto.getNewPassword();
+        String confirmPassword = updatePasswordDto.getOldPassword();
+        String oldPassword = toBeUpdated.getPassword();
+
+
+        if (passwordEncoder.matches(confirmPassword, oldPassword)) {
+            return dietiUserService.updateDietiUserPassword(toBeUpdated, passwordEncoder.encode(newPassword));
         } else {
             throw new BadRequestException("Passwords don't match");
         }

@@ -25,7 +25,7 @@
             android:src="@drawable/round_error_100" />
 
         <TextView
-            android:id="@+id/failedUpdateText"
+            android:id="@+id/failedUpdateTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/failed_data_update_label"
@@ -35,7 +35,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/failedUpdateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

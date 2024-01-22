@@ -2,13 +2,7 @@ Controllare perché crasha losers.remove(winner)
 
 Gestire aste terminate nella home
 
-immagini FATTO
-
-Cambio password FATTO (da testare)
-
 Popup quando asta termina mentre sei in AuctionDetails (attualmente c'è un toast)
-
-Salvare modifiche utente FATTO (da testare)
 
 Login con Google
 

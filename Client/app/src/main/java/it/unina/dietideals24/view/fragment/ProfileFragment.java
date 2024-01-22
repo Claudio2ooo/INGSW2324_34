@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
@@ -144,17 +146,28 @@ public class ProfileFragment extends Fragment {
 
         Button changeOldPasswordBtn = viewChangePasswordDialog.findViewById(R.id.changePasswordBtn);
         changeOldPasswordBtn.setOnClickListener(v -> {
-            if (!newPassword.getText().equals(confirmNewPassword.getText())) {
+            boolean passwordsInvalid = false;
+
+            if (oldPassword.getText().toString().trim().isEmpty()) {
+                oldPasswordLayout.setError("Inserire la password corrente!");
+                passwordsInvalid = true;
+            } else
+                oldPasswordLayout.setErrorEnabled(false);
+
+            if (!newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
                 confirmNewPasswordLayout.setError("Le password non corrispondono!");
-                return;
-            }
-            confirmNewPasswordLayout.setErrorEnabled(false);
+                passwordsInvalid = true;
+            } else
+                confirmNewPasswordLayout.setErrorEnabled(false);
 
             if (!newPassword.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
                 newPasswordLayout.setError("Deve avere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale");
+                passwordsInvalid = true;
+            } else
+                newPasswordLayout.setErrorEnabled(false);
+
+            if (passwordsInvalid)
                 return;
-            }
-            newPasswordLayout.setErrorEnabled(false);
 
             UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto(
                     oldPassword.getText().toString(),
@@ -169,6 +182,7 @@ public class ProfileFragment extends Fragment {
                         oldPasswordLayout.setErrorEnabled(false);
                         updateLocalDietiUserPassword(response.body());
                         alertDialog.dismiss();
+                        Toast.makeText(getContext(), "Password aggiornata!", Toast.LENGTH_SHORT).show();
                     } else {
                         showFailedUpdateDialog(view, "Password corrente errata!");
                         oldPasswordLayout.setError("Password errata!");
@@ -251,6 +265,7 @@ public class ProfileFragment extends Fragment {
                     updateLocalDietiUser();
                     setTextViewWithLocalDietiUserData();
                     alertDialog.dismiss();
+                    refreshData();
                 } else {
                     alertDialog.dismiss();
                     showFailedUpdateDialog(view, "Impossibile modficare i tuoi dati al momento, riprova più tardi.");
@@ -265,11 +280,22 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void refreshData() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new ProfileFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
     private void showFailedUpdateDialog(View view, String message) {
         ConstraintLayout failedDataUpdateConstraintLayout = view.findViewById(R.id.failedUpdateConstraintLayout);
         View viewFailedDataUpdate = LayoutInflater.from(getContext()).inflate(R.layout.failed_update_dialog, failedDataUpdateConstraintLayout);
 
         Button closePopupBtn = viewFailedDataUpdate.findViewById(R.id.closePopupBtn);
+
+        TextView errorText = viewFailedDataUpdate.findViewById(R.id.failedUpdateText);
+        errorText.setText(message);
 
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getContext());
         builder.setView(viewFailedDataUpdate);
