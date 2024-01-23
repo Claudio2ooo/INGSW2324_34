@@ -81,14 +81,9 @@ public class DietiUserService implements IDietiUserService {
 
     @Override
     public DietiUser updateDietiUserPassword(DietiUser toBeUpdated, String encodedPassword) {
-        updatePassword(toBeUpdated, encodedPassword);
+        toBeUpdated.setPassword(encodedPassword);
         return dietiUserRepository.save(toBeUpdated);
     }
-
-    private void updatePassword(DietiUser toBeUpdated, String encodedPassword) {
-        toBeUpdated.setPassword(encodedPassword);
-    }
-
 
     //TODO Candidato al testing
     private void updateData(DietiUser toBeUpdated, DietiUser newDietiUser) {
