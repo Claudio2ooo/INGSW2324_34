@@ -76,6 +76,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private LinearLayout offerLinearLayout;
     private Auction auction;
     private ArrayList<Offer> offerrers;
+    private CountDownTimer auctionCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,17 +182,25 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void getAuctionImage(String imageUrl) {
-        if (imageUrl == null) {
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transform(new CenterCrop());
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            useDefaultImage();
+        } else
+            requestAuctionImage(imageUrl);
+    }
 
-            Glide.with(getApplicationContext())
-                    .load(R.drawable.no_image_auction)
-                    .apply(requestOptions)
-                    .into(image);
-            return;
-        }
+    private void useDefaultImage() {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.transform(new CenterCrop());
 
+        Glide.with(getApplicationContext())
+                .load(R.drawable.no_image_auction)
+                .apply(requestOptions)
+                .into(image);
+
+        initializeFields();
+    }
+
+    private void requestAuctionImage(String imageUrl) {
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -290,7 +299,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         description.setOnClickListener(v -> showBottomSheetDescription());
 
         currentPrice.setText(String.format("€%s", auction.getCurrentPrice().toString()));
-        startTimer();
+        auctionCountDownTimer = startTimer();
         String sellerInfo = auction.getOwner().getName() + " " + auction.getOwner().getSurname();
         sellerInfoText.setText(sellerInfo);
 
@@ -309,10 +318,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void startTimer() {
+    private CountDownTimer startTimer() {
         Timestamp creation = new Timestamp(auction.getCreatedAt().getTime());
         Timestamp deadline = new Timestamp(creation.getTime() + auction.getTimerInMilliseconds());
-        new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
+        return new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
@@ -471,5 +480,11 @@ public class AuctionDetailsActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        auctionCountDownTimer.cancel();
     }
 }

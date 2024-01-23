@@ -157,9 +157,9 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
             @Override
             public void onFinish() {
-                if (!auctions.isEmpty()) {
+                if (!auctions.isEmpty() && holder.getAdapterPosition() != -1) {
                     auctions.remove(holder.getAdapterPosition());
-                    notifyDataSetChanged();
+                    notifyItemChanged(holder.getAdapterPosition());
                 }
             }
         }.start();
@@ -172,7 +172,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
     public class AuctionViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-
         TextView title;
         TextView categoryName;
         TextView currentPrice;
