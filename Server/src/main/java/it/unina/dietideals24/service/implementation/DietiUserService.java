@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +60,7 @@ public class DietiUserService implements IDietiUserService {
     @Override
     public void linkImage(String profilePicDirectory, Long id) {
         DietiUser dietiUser = dietiUserRepository.findById(id).get();
-        dietiUser.setProfilePictureUrl(profilePicDirectory + "/" + id);
+        dietiUser.setProfilePictureUrl(profilePicDirectory + File.separatorChar + id);
         dietiUserRepository.save(dietiUser);
     }
 
@@ -84,7 +85,7 @@ public class DietiUserService implements IDietiUserService {
         return dietiUserRepository.save(toBeUpdated);
     }
 
-    private static void updatePassword(DietiUser toBeUpdated, String encodedPassword) {
+    private void updatePassword(DietiUser toBeUpdated, String encodedPassword) {
         toBeUpdated.setPassword(encodedPassword);
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +29,7 @@ import java.util.List;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.UpdatePasswordDto;
+import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
@@ -281,12 +280,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void refreshData() {
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new ProfileFragment());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment(), FragmentTagEnum.PROFILE.toString()).addToBackStack(FragmentTagEnum.PROFILE.toString()).commit();
     }
-
 
     private void showFailedUpdateDialog(View view, String message) {
         ConstraintLayout failedDataUpdateConstraintLayout = view.findViewById(R.id.failedUpdateConstraintLayout);

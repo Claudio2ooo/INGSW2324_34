@@ -29,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
+import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.service.PushNotificationWorker;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
@@ -39,8 +40,6 @@ import it.unina.dietideals24.view.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-
-    private enum FragmentTagEnum {HOME, AUCTION, NOTIFICATION, PROFILE}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

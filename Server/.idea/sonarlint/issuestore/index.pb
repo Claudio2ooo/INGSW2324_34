@@ -55,3 +55,11 @@ h
 Msrc/main/java/it/unina/dietideals24/service/interfaces/IDietiUserService.java,9\3\93fa652b92f9778b4956b1cd4739ee4cdfbeaa45
 ‚
 Rsrc/main/java/it/unina/dietideals24/service/interfaces/IEnglishAuctionService.java,0\8\08d7e2309db6c46bb74f43cbceadf3d5f312d3dd
+€
+Psrc/main/java/it/unina/dietideals24/service/implementation/DietiUserService.java,e\4\e4d6d48f871375804e89a359c053939ae8704d04
+x
+Hsrc/main/java/it/unina/dietideals24/repository/IDietiUserRepository.java,e\6\e61666ff7698949377024a6fdf1d081765c53a1f
+n
+>src/main/java/it/unina/dietideals24/dto/UpdatePasswordDto.java,e\a\eacfc1f4e4f83a1902da453ccfef26f8bd974b7f
+w
+Gsrc/main/java/it/unina/dietideals24/controller/DietiUserController.java,9\2\92ea1d2d1f23ff4756da41046dc68200ba32bccd

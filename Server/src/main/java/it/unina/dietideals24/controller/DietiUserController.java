@@ -23,24 +23,24 @@ public class DietiUserController {
     private final IDietiUserService dietiUserService;
     @Qualifier("locallyStoreImageService")
     private final IImageService imageService;
-    private static String PROFILE_PIC_DIRECTORY = "images/users";
+    private static final String PROFILE_PIC_DIRECTORY = "users";
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DietiUserController(IDietiUserService dietiUserService, IImageService imageService, PasswordEncoder passwordEncoder){
+    public DietiUserController(IDietiUserService dietiUserService, IImageService imageService, PasswordEncoder passwordEncoder) {
         this.dietiUserService = dietiUserService;
         this.imageService = imageService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("{id}")
-    public DietiUser getUserById(@PathVariable("id") Long id){
+    public DietiUser getUserById(@PathVariable("id") Long id) {
         return dietiUserService.getUserById(id);
     }
 
     @GetMapping("/email/{email}")
-    public DietiUser getUserByEmail(@PathVariable("email") String email){
+    public DietiUser getUserByEmail(@PathVariable("email") String email) {
         return dietiUserService.getUserByEmail(email);
     }
 
@@ -50,8 +50,8 @@ public class DietiUserController {
     }
 
     @PostMapping("{id}/profile_picture")
-    public ResponseEntity<String> updateProfilePicture(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image){
-        if(dietiUserService.existsById(id)) {
+    public ResponseEntity<String> updateProfilePicture(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
+        if (dietiUserService.existsById(id)) {
             try {
                 imageService.saveImage(PROFILE_PIC_DIRECTORY, id, image);
                 dietiUserService.linkImage(PROFILE_PIC_DIRECTORY, id);
@@ -59,8 +59,7 @@ public class DietiUserController {
             } catch (IOException e) {
                 return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);
             }
-        }
-        else
+        } else
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }
 
@@ -80,17 +79,13 @@ public class DietiUserController {
             throw new BadRequestException("User not found");
 
         String newPassword = updatePasswordDto.getNewPassword();
-        String confirmPassword = updatePasswordDto.getOldPassword();
+        String confirmOldPassword = updatePasswordDto.getOldPassword();
         String oldPassword = toBeUpdated.getPassword();
 
-
-        if (passwordEncoder.matches(confirmPassword, oldPassword)) {
+        if (passwordEncoder.matches(confirmOldPassword, oldPassword)) {
             return dietiUserService.updateDietiUserPassword(toBeUpdated, passwordEncoder.encode(newPassword));
         } else {
             throw new BadRequestException("Passwords don't match");
         }
-
     }
-
-
 }
