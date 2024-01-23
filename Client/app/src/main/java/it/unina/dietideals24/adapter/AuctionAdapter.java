@@ -98,6 +98,13 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     private void retrieveImage(AuctionViewHolder holder) {
         String imageUrl = auctions.get(holder.getAdapterPosition()).getImageURL();
 
+        if (imageUrl == null)
+            retrieveDefaultImage(holder);
+        else
+            retrieveAuctionImage(holder, imageUrl);
+    }
+
+    private void retrieveAuctionImage(AuctionViewHolder holder, String imageUrl) {
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -120,12 +127,15 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
+    }
+
+    private void retrieveDefaultImage(AuctionViewHolder holder) {
+        //TODO impostare immagine di default
     }
 
     private void startTimer(AuctionAdapter.AuctionViewHolder holder) {
