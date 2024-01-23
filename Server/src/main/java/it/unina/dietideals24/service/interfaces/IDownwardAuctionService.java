@@ -10,6 +10,8 @@ import java.util.List;
 public interface IDownwardAuctionService {
     List<DownwardAuction> getDownwardAuctions();
 
+    List<DownwardAuction> getFirst6DownwardAuctions();
+
     DownwardAuction getDownwardAuctionById(Long id);
 
     List<DownwardAuction> getDownwardAuctionsByOwner(Long ownerId);

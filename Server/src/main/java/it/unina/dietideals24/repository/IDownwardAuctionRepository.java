@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface IDownwardAuctionRepository extends JpaRepository<DownwardAuction, Long> {
+    List<DownwardAuction> findFirst6ByOrderById();
+
     List<DownwardAuction> findByOwnerId(Long ownerId);
 
     List<DownwardAuction> findByCategory(CategoryEnum category);

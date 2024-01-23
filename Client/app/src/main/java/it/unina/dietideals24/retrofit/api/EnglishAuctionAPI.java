@@ -18,20 +18,23 @@ public interface EnglishAuctionAPI {
     @GET("/english-auctions")
     Call<ArrayList<EnglishAuction>> getEnglishAuctions();
 
+    @GET("/english-auctions/first-six")
+    Call<ArrayList<EnglishAuction>> getFirst6EnglishAuctions();
+
     @GET("/english-auctions/category/{category}")
-    Call<ArrayList<EnglishAuction>> getByCategory(@Path("category") CategoryEnum category);
+    Call<ArrayList<EnglishAuction>> getEnglishAuctionsByCategory(@Path("category") CategoryEnum category);
 
     @GET("/english-auctions/{id}")
-    Call<EnglishAuction> getById(@Path("id") Long idAuction);
+    Call<EnglishAuction> getEnglishAuctionById(@Path("id") Long idAuction);
 
     @GET("/english-auctions/search/{keyword}")
-    Call<ArrayList<EnglishAuction>> getByKeyword(@Path("keyword") String keyword);
+    Call<ArrayList<EnglishAuction>> getEnglishAuctionsByKeyword(@Path("keyword") String keyword);
 
     @GET("/english-auctions/owner/{id}")
     Call<ArrayList<EnglishAuction>> getEnglishAuctionsByOwnerId(@Path("id") Long id);
 
     @POST("/english-auctions/create")
-    Call<EnglishAuction> createAuction(@Body EnglishAuctionDto englishAuctionDto);
+    Call<EnglishAuction> createEnglishAuction(@Body EnglishAuctionDto englishAuctionDto);
 
     @Multipart
     @POST("/english-auctions/{id}/image")

@@ -164,7 +164,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         );
 
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.createAuction(englishAuctionDto).enqueue(new Callback<EnglishAuction>() {
+        englishAuctionAPI.createEnglishAuction(englishAuctionDto).enqueue(new Callback<EnglishAuction>() {
             @Override
             public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
                 if (response.body() != null) {

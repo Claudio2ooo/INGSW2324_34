@@ -43,6 +43,11 @@ public class EnglishAuctionController {
         return englishAuctionService.getEnglishAuctions();
     }
 
+    @GetMapping("first-six")
+    public List<EnglishAuction> getFirst6EnglishAuctions() {
+        return englishAuctionService.getFirst6EnglishAuctions();
+    }
+
     @GetMapping("{id}")
     public EnglishAuction getEnglishAuctionById(@PathVariable("id") Long id) {
         return englishAuctionService.getEnglishAuctionById(id);
@@ -59,13 +64,13 @@ public class EnglishAuctionController {
     }
 
     @GetMapping("/search/{keyword}")
-    public List<EnglishAuction> getEnglishAuctionsByKeyword(@PathVariable("keyword") String keyword){
+    public List<EnglishAuction> getEnglishAuctionsByKeyword(@PathVariable("keyword") String keyword) {
         return englishAuctionService.getByKeyword(keyword);
     }
 
     @PostMapping("/create")
     public ResponseEntity<EnglishAuction> createEnglishAuction(@RequestBody EnglishAuctionDto englishAuctionDto) throws BadRequestException {
-        if(dietiUserService.existsById(englishAuctionDto.getOwnerId())){
+        if (dietiUserService.existsById(englishAuctionDto.getOwnerId())) {
             DietiUser owner = dietiUserService.getUserById(englishAuctionDto.getOwnerId());
             EnglishAuction createdEnglishAuction = englishAuctionService.save(englishAuctionDto, owner);
 
@@ -78,16 +83,15 @@ public class EnglishAuctionController {
     }
 
     @PostMapping("{id}/image")
-    public void uploadEnglishAuctionImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws BadRequestException{
+    public void uploadEnglishAuctionImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws BadRequestException {
         if (englishAuctionService.existsById(id)) {
-            try{
+            try {
                 imageService.saveImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id, image);
                 englishAuctionService.linkImage(ENGLISH_AUCTION_IMAGE_DIRECTORY, id);
-            } catch (IOException e){
+            } catch (IOException e) {
                 throw new BadRequestException("Could not upload image");
             }
-        }
-        else
+        } else
             throw new BadRequestException("Auction doesn't exist");
     }
 

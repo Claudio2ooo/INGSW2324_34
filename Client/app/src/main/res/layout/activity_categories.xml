@@ -7,6 +7,7 @@
     tools:context=".view.activity.CategoriesActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/top_background"
@@ -42,14 +43,14 @@
                     android:layout_marginBottom="8dp"
                     android:background="@null"
                     android:hint="@string/select_category_label"
+                    android:textColorHint="@color/dark_blue"
+                    app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusBottomEnd="16dp"
                     app:boxCornerRadiusBottomStart="16dp"
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
-                    app:boxBackgroundColor="@color/white"
-                    android:textColorHint="@color/dark_blue"
                     app:startIconDrawable="@drawable/round_category_24"
                     app:startIconTint="@color/dark_blue">
 
@@ -74,12 +75,12 @@
     <ScrollView
         android:id="@+id/scrollView4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="124dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryList"

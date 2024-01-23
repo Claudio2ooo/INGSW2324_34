@@ -43,6 +43,11 @@ public class DownwardAuctionController {
         return downwardAuctionService.getDownwardAuctions();
     }
 
+    @GetMapping("first-six")
+    public List<DownwardAuction> getFirst6DownwardAuctions() {
+        return downwardAuctionService.getFirst6DownwardAuctions();
+    }
+
     @GetMapping("{id}")
     public DownwardAuction getDownwardAuctionById(@PathVariable("id") Long id) {
         return downwardAuctionService.getDownwardAuctionById(id);
@@ -59,13 +64,13 @@ public class DownwardAuctionController {
     }
 
     @GetMapping("/search/{keyword}")
-    public List<DownwardAuction> getDownwardAuctionsByKeyword(@PathVariable("keyword") String keyword){
+    public List<DownwardAuction> getDownwardAuctionsByKeyword(@PathVariable("keyword") String keyword) {
         return downwardAuctionService.getByKeyword(keyword);
     }
 
     @PostMapping("/create")
     public ResponseEntity<DownwardAuction> createDownwardAuction(@RequestBody DownwardAuctionDto downwardAuctionDto) throws BadRequestException {
-        if(dietiUserService.existsById(downwardAuctionDto.getOwnerId())){
+        if (dietiUserService.existsById(downwardAuctionDto.getOwnerId())) {
             DietiUser owner = dietiUserService.getUserById(downwardAuctionDto.getOwnerId());
             DownwardAuction createdDownwardAuction = downwardAuctionService.save(downwardAuctionDto, owner);
 
@@ -78,24 +83,20 @@ public class DownwardAuctionController {
     }
 
     @PostMapping("{id}/image")
-    public void updateDownwardAuctionImage(@PathVariable Long id, @RequestParam("image")MultipartFile image) throws BadRequestException{
+    public void updateDownwardAuctionImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws BadRequestException {
         if (downwardAuctionService.existsById(id)) {
-            try{
+            try {
                 imageService.saveImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id, image);
                 downwardAuctionService.linkImage(DOWNWARD_AUCTION_IMAGE_DIRECTORY, id);
-            } catch (IOException e){
+            } catch (IOException e) {
                 throw new BadRequestException("Could not upload image");
             }
-        }
-        else
+        } else
             throw new BadRequestException("Auction doesn't exist");
     }
 
     @DeleteMapping("{id}")
     public void deleteDownwardAuction(@PathVariable("id") Long id) {
         downwardAuctionService.deleteDownwardAuctionById(id);
-        //TODO implementare metodo che manda notifica a venditore per asta al ribasso fallita
     }
-
-
 }

@@ -75,7 +75,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
 
     private void searchEnglishAuctions(String keyword) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.getByKeyword(keyword).enqueue(new Callback<ArrayList<EnglishAuction>>() {
+        englishAuctionAPI.getEnglishAuctionsByKeyword(keyword).enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
                 if (response.body() != null) {
@@ -93,7 +93,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
 
     private void searchDownwardAuctions(String keyword) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getByKeyword(keyword).enqueue(new Callback<ArrayList<DownwardAuction>>() {
+        downwardAuctionAPI.getDownwardAuctionsByKeyword(keyword).enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
                 if (response.body() != null) {

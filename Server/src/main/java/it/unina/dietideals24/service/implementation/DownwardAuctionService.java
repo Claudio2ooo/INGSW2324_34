@@ -24,16 +24,20 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     @Autowired
     private IDownwardAuctionRepository downwardAuctionRepository;
 
-
     @Override
     public List<DownwardAuction> getDownwardAuctions() {
         return downwardAuctionRepository.findAll();
     }
 
     @Override
+    public List<DownwardAuction> getFirst6DownwardAuctions() {
+        return downwardAuctionRepository.findFirst6ByOrderById();
+    }
+
+    @Override
     public DownwardAuction getDownwardAuctionById(Long id) {
         Optional<DownwardAuction> downwardAuctionOptional = downwardAuctionRepository.findById(id);
-        if(downwardAuctionOptional.isEmpty()){
+        if (downwardAuctionOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
         }
         return downwardAuctionOptional.get();
@@ -52,7 +56,7 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     @Override
     public void deleteDownwardAuctionById(Long id) {
         boolean exists = downwardAuctionRepository.existsById(id);
-        if(!exists){
+        if (!exists) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
         } else {
             DownwardAuction toBeDeleted = downwardAuctionRepository.findById(id).get();
@@ -103,7 +107,7 @@ public class DownwardAuctionService implements IDownwardAuctionService {
     }
 
     public void decreaseCurrentPrice(Long id) {
-        if(existsById(id)){
+        if (existsById(id)) {
             DownwardAuction toBeDecreased = getDownwardAuctionById(id);
             decreaseCurrentPrice(toBeDecreased);
             toBeDecreased.setCreatedAt(new Date(System.currentTimeMillis()));

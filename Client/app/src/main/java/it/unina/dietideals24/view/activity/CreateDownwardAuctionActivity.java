@@ -185,7 +185,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         );
 
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.createAuction(downwardAuctionDto).enqueue(new Callback<DownwardAuction>() {
+        downwardAuctionAPI.createDownwardAuction(downwardAuctionDto).enqueue(new Callback<DownwardAuction>() {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
                 if (response.body() != null) {

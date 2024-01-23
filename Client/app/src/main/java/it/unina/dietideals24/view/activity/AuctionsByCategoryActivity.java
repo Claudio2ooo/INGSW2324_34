@@ -38,7 +38,6 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
     private RecyclerView recyclerViewEnglishAuction;
     private RecyclerView recyclerViewDownwardAuction;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +70,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeDownwardAuctionsByCategory(CategoryEnum category) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<DownwardAuction>>() {
+        downwardAuctionAPI.getDownwardAuctionsByCategory(category).enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
                 ArrayList<Auction> auctions;
@@ -96,7 +95,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeEnglishAuctionsByCategory(CategoryEnum category) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.getByCategory(category).enqueue(new Callback<ArrayList<EnglishAuction>>() {
+        englishAuctionAPI.getEnglishAuctionsByCategory(category).enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
                 ArrayList<Auction> auctions;
@@ -120,7 +119,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
     }
 
     private void initializeAuctionAdapter(ArrayList<Auction> auctions, RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> adapterAuction = new AuctionAdapter(auctions, AuctionAdapter.OrientationEnum.VERTICAL);
         recyclerView.setAdapter(adapterAuction);
     }

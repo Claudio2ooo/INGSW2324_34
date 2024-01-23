@@ -11,6 +11,8 @@ import java.util.List;
 public interface IEnglishAuctionService {
     List<EnglishAuction> getEnglishAuctions();
 
+    List<EnglishAuction> getFirst6EnglishAuctions();
+
     EnglishAuction getEnglishAuctionById(Long id);
 
     List<EnglishAuction> getEnglishAuctionsByOwner(Long ownerId);

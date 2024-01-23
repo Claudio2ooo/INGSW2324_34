@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
 
     private void initializeEnglishAuction() {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.getEnglishAuctions().enqueue(new Callback<ArrayList<EnglishAuction>>() {
+        englishAuctionAPI.getFirst6EnglishAuctions().enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<EnglishAuction>> call, Response<ArrayList<EnglishAuction>> response) {
                 ArrayList<Auction> auctions;
@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
 
     private void initializeDownwardAuction() {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getDownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
+        downwardAuctionAPI.getFirst6DownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
             public void onResponse(Call<ArrayList<DownwardAuction>> call, Response<ArrayList<DownwardAuction>> response) {
                 ArrayList<Auction> auctions;

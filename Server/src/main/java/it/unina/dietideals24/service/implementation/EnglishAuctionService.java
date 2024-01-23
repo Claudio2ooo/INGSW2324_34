@@ -31,9 +31,14 @@ public class EnglishAuctionService implements IEnglishAuctionService {
     }
 
     @Override
+    public List<EnglishAuction> getFirst6EnglishAuctions() {
+        return englishAuctionRepository.findFirst6ByOrderById();
+    }
+
+    @Override
     public EnglishAuction getEnglishAuctionById(Long id) {
         Optional<EnglishAuction> englishAuctionOptional = englishAuctionRepository.findById(id);
-        if(englishAuctionOptional.isEmpty()){
+        if (englishAuctionOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EnglishAuction not found");
         }
         return englishAuctionOptional.get();
@@ -52,7 +57,7 @@ public class EnglishAuctionService implements IEnglishAuctionService {
     @Override
     public void deleteEnglishAuctionById(Long id) {
         boolean exists = englishAuctionRepository.existsById(id);
-        if(!exists){
+        if (!exists) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EnglishAuction not found");
         } else {
             englishAuctionRepository.deleteById(id);

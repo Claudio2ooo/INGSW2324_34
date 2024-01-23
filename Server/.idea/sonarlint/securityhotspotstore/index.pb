@@ -63,3 +63,17 @@ n
 >src/main/java/it/unina/dietideals24/dto/UpdatePasswordDto.java,e\a\eacfc1f4e4f83a1902da453ccfef26f8bd974b7f
 w
 Gsrc/main/java/it/unina/dietideals24/controller/DietiUserController.java,9\2\92ea1d2d1f23ff4756da41046dc68200ba32bccd
+~
+Nsrc/main/java/it/unina/dietideals24/repository/IDownwardAuctionRepository.java,4\5\450af4d1a7c1833fa2f4bdf949d7c695b6cf8305
+}
+Msrc/main/java/it/unina/dietideals24/repository/IEnglishAuctionRepository.java,4\e\4e7ea27d4c713abbce2750eb0760040d1cdbdfe1
+t
+Dsrc/main/java/it/unina/dietideals24/repository/IOfferRepository.java,0\0\0070a73a484b476efde87ba642a500e30bca50c1
+m
+=src/main/java/it/unina/dietideals24/model/EnglishAuction.java,c\4\c48c778a6b360d1a9e0027e34da40c433b523170
+ƒ
+Ssrc/main/java/it/unina/dietideals24/service/interfaces/IDownwardAuctionService.java,5\1\51181e5b9e880cdd4e3e2261ecf6897872e4fe32
+o
+?src/main/java/it/unina/dietideals24/config/DietiUserConfig.java,7\9\7900e7175c1c60bbbb392c43ce3800ca95c612ea
+x
+Hsrc/main/java/it/unina/dietideals24/config/ApplicationConfiguration.java,b\6\b69bd3b8e96aa61b075dbf897a53aee237cd9a99

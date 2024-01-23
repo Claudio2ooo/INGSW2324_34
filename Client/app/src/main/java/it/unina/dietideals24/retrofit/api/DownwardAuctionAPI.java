@@ -18,20 +18,23 @@ public interface DownwardAuctionAPI {
     @GET("/downward-auctions")
     Call<ArrayList<DownwardAuction>> getDownwardAuctions();
 
+    @GET("/downward-auctions/first-six")
+    Call<ArrayList<DownwardAuction>> getFirst6DownwardAuctions();
+
     @GET("/downward-auctions/category/{category}")
-    Call<ArrayList<DownwardAuction>> getByCategory(@Path("category") CategoryEnum category);
+    Call<ArrayList<DownwardAuction>> getDownwardAuctionsByCategory(@Path("category") CategoryEnum category);
 
     @GET("/downward-auctions/{id}")
-    Call<DownwardAuction> getById(@Path("id") Long idAuction);
+    Call<DownwardAuction> getDownwardAuctionById(@Path("id") Long idAuction);
 
     @GET("/downward-auctions/search/{keyword}")
-    Call<ArrayList<DownwardAuction>> getByKeyword(@Path("keyword") String keyword);
+    Call<ArrayList<DownwardAuction>> getDownwardAuctionsByKeyword(@Path("keyword") String keyword);
 
     @GET("/downward-auctions/owner/{id}")
     Call<ArrayList<DownwardAuction>> getDownwardAuctionsByOwnerId(@Path("id") Long id);
 
     @POST("/downward-auctions/create")
-    Call<DownwardAuction> createAuction(@Body DownwardAuctionDto downwardAuctionDto);
+    Call<DownwardAuction> createDownwardAuction(@Body DownwardAuctionDto downwardAuctionDto);
 
     @Multipart
     @POST("/downward-auctions/{id}/image")

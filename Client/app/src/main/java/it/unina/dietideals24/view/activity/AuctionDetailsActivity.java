@@ -142,7 +142,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
     private void getEnglishAuction(Long idAuction) {
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
-        englishAuctionAPI.getById(idAuction).enqueue(new Callback<EnglishAuction>() {
+        englishAuctionAPI.getEnglishAuctionById(idAuction).enqueue(new Callback<EnglishAuction>() {
             @Override
             public void onResponse(Call<EnglishAuction> call, Response<EnglishAuction> response) {
                 if (response.code() == 200 && response.body() != null) {
@@ -162,7 +162,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
     private void getDownwardAuction(Long idAuction) {
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
-        downwardAuctionAPI.getById(idAuction).enqueue(new Callback<DownwardAuction>() {
+        downwardAuctionAPI.getDownwardAuctionById(idAuction).enqueue(new Callback<DownwardAuction>() {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
                 if (response.code() == 200 && response.body() != null) {
