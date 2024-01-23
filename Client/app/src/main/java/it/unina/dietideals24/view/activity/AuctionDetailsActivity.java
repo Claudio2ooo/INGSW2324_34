@@ -180,9 +180,20 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void getAuctionImage(String imageURL) {
+    private void getAuctionImage(String imageUrl) {
+        if (imageUrl == null) {
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions = requestOptions.transform(new CenterCrop());
+
+            Glide.with(getApplicationContext())
+                    .load(R.drawable.no_image_auction)
+                    .apply(requestOptions)
+                    .into(image);
+            return;
+        }
+
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
-        imageAPI.getImageByUrl(imageURL).enqueue(new Callback<ResponseBody>() {
+        imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {

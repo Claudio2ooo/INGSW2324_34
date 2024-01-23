@@ -135,7 +135,13 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     }
 
     private void retrieveDefaultImage(AuctionViewHolder holder) {
-        //TODO impostare immagine di default
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.transform(new CenterCrop());
+
+        Glide.with(context)
+                .load(R.drawable.no_image_auction)
+                .apply(requestOptions)
+                .into(holder.image);
     }
 
     private void startTimer(AuctionAdapter.AuctionViewHolder holder) {
