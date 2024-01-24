@@ -32,6 +32,5 @@ public class DownwardAuctionTask extends TimerTask {
             finalizePurchaseController.finalizeAuction(downwardAuction);
             cancel();
         }
-
     }
 }

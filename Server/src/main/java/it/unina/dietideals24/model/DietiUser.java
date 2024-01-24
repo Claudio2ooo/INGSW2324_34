@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,5 +63,36 @@ public class DietiUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o instanceof DietiUser dietiUser) {
+            if (
+                    this.name.equals(dietiUser.name) &&
+                    this.surname.equals(dietiUser.surname) &&
+                    this.email.equals(dietiUser.email) &&
+                    this.geographicalArea.equals(dietiUser.geographicalArea) &&
+                    this.biography.equals(dietiUser.biography) &&
+                    this.links.equals(dietiUser.links)
+            )
+                return true;
+            else
+                return false;
+        } else
+            return false;
+
+    }
+
+    public DietiUser(String name, String surname, String email, String biography, String geographicalArea, List<String> links) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.biography = biography;
+        this.geographicalArea = geographicalArea;
+        if (links == null)
+            this.links = new ArrayList<>();
+        else
+            this.links = links;
     }
 }

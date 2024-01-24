@@ -86,7 +86,7 @@ public class DietiUserService implements IDietiUserService {
     }
 
     //TODO Candidato al testing
-    private void updateData(DietiUser toBeUpdated, DietiUser newDietiUser) {
+    public void updateData(DietiUser toBeUpdated, DietiUser newDietiUser) {
         toBeUpdated.setName(newDietiUser.getName());
         toBeUpdated.setSurname(newDietiUser.getSurname());
         toBeUpdated.setGeographicalArea(newDietiUser.getGeographicalArea());

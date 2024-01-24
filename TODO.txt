@@ -1,7 +1,5 @@
 Controllare perché crasha losers.remove(winner)
 
-Gestire aste terminate nella home
-
 Login con Google
 
 Test

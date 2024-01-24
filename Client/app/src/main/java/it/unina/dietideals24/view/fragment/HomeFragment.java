@@ -63,8 +63,6 @@ public class HomeFragment extends Fragment {
 
         initializeViews(view);
 
-        englishAuctionProgressBar.setVisibility(View.VISIBLE);
-
         initializeCategories();
         initializeEnglishAuction();
         initializeDownwardAuction();
@@ -119,10 +117,10 @@ public class HomeFragment extends Fragment {
         downwardAuctionsBtn = view.findViewById(R.id.downwardAuctionsBtn);
 
         englishAuctionProgressBar = view.findViewById(R.id.englishAuctionProgressBar);
-        englishAuctionProgressBar.setVisibility(View.VISIBLE);
+        englishAuctionProgressBar.setVisibility(View.GONE);
 
         downwardAuctionProgressBar = view.findViewById(R.id.downwardAuctionProgressBar);
-        downwardAuctionProgressBar.setVisibility(View.VISIBLE);
+        downwardAuctionProgressBar.setVisibility(View.GONE);
 
         recyclerViewCategories = view.findViewById(R.id.categoryList);
         recyclerViewEnglishAuction = view.findViewById(R.id.englishAuctionsList);
@@ -138,6 +136,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initializeEnglishAuction() {
+        englishAuctionProgressBar.setVisibility(View.VISIBLE);
+
         EnglishAuctionAPI englishAuctionAPI = RetrofitService.getRetrofitInstance().create(EnglishAuctionAPI.class);
         englishAuctionAPI.getFirst6EnglishAuctions().enqueue(new Callback<ArrayList<EnglishAuction>>() {
             @Override
@@ -162,6 +162,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initializeDownwardAuction() {
+        downwardAuctionProgressBar.setVisibility(View.VISIBLE);
+
         DownwardAuctionAPI downwardAuctionAPI = RetrofitService.getRetrofitInstance().create(DownwardAuctionAPI.class);
         downwardAuctionAPI.getFirst6DownwardAuctions().enqueue(new Callback<ArrayList<DownwardAuction>>() {
             @Override
