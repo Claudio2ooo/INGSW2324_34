@@ -14,10 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Qualifier("mainEnglishAuctionService")
@@ -100,9 +97,9 @@ public class EnglishAuctionService implements IEnglishAuctionService {
 
     @Override
     public List<EnglishAuction> getByKeyword(String keyword) {
-        List<EnglishAuction> foundAuctions = new ArrayList<>();
+        Set<EnglishAuction> foundAuctions = new HashSet<>();
         foundAuctions.addAll(englishAuctionRepository.findByTitleContainsIgnoreCase(keyword));
         foundAuctions.addAll(englishAuctionRepository.findByDescriptionContainsIgnoreCase(keyword));
-        return foundAuctions;
+        return foundAuctions.stream().toList();
     }
 }

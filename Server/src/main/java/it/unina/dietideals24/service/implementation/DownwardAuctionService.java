@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Qualifier("mainDownwardAuctionService")
@@ -100,10 +97,10 @@ public class DownwardAuctionService implements IDownwardAuctionService {
 
     @Override
     public List<DownwardAuction> getByKeyword(String keyword) {
-        List<DownwardAuction> foundAuctions = new ArrayList<>();
+        Set<DownwardAuction> foundAuctions = new HashSet<>();
         foundAuctions.addAll(downwardAuctionRepository.findByTitleContainsIgnoreCase(keyword));
         foundAuctions.addAll(downwardAuctionRepository.findByDescriptionContainsIgnoreCase(keyword));
-        return foundAuctions;
+        return foundAuctions.stream().toList();
     }
 
     public void decreaseCurrentPrice(Long id) {
