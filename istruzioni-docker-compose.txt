@@ -1,0 +1,4 @@
+creare .jar del backend (da intellij, menu di maven, package)
+eseguire
+    "docker compose up"
+    in INGSW2324
