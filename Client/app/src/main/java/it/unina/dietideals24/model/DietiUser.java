@@ -44,6 +44,18 @@ public class DietiUser {
         this.profilePictureUrl = profilePictureUrl;
     }
 
+    public DietiUser(Long id, String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.biography = biography;
+        this.links = links;
+        this.geographicalArea = geographicalArea;
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
     public DietiUser(Long id, String name, String surname, String email, String biography, List<String> links, String geographicalArea) {
         this.id = id;
         this.name = name;

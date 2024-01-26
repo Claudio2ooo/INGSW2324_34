@@ -66,12 +66,42 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkIfUserLogged() {
         if (!TokenManagement.getToken().isEmpty() && !TokenManagement.isExpired()) {
-            openMainActivity();
+            loginWithSavedCredentials();
         } else {
-            TokenManagement.deleteTokenData();
-            LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
-            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificationWorker");
+            logoutUser();
         }
+    }
+
+    private void loginWithSavedCredentials() {
+        LoginDto loginDto = new LoginDto(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getEmail(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getPassword());
+
+        DietiUserAuthAPI dietiUserAuthAPI = RetrofitService.getRetrofitInstance().create(DietiUserAuthAPI.class);
+        dietiUserAuthAPI.login(loginDto).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.body() != null) {
+                    loginProgressBar.setVisibility(View.GONE);
+                    saveToken(response);
+                    saveCurrentUser(response);
+                    openMainActivity();
+                } else {
+                    loginProgressBar.setVisibility(View.GONE);
+                    logoutUser();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                loginProgressBar.setVisibility(View.GONE);
+                logoutUser();
+            }
+        });
+    }
+
+    private void logoutUser() {
+        TokenManagement.deleteTokenData();
+        LocalDietiUser.deleteLocalDietiUser(getApplicationContext());
+        WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("pushNotificationWorker");
     }
 
     private boolean isNotEmptyFields() {

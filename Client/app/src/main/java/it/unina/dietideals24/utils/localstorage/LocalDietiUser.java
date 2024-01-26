@@ -22,6 +22,7 @@ public class LocalDietiUser {
         editor.putString("name", dietiUser.getName());
         editor.putString("surname", dietiUser.getSurname());
         editor.putString("email", dietiUser.getEmail());
+        editor.putString("password", dietiUser.getPassword());
         if (dietiUser.getLinks() == null)
             editor.putString("links", "");
         else
@@ -45,6 +46,7 @@ public class LocalDietiUser {
                 sharedPreferences.getString("name", ""),
                 sharedPreferences.getString("surname", ""),
                 sharedPreferences.getString("email", ""),
+                sharedPreferences.getString("password", ""),
                 sharedPreferences.getString("biography", ""),
                 links,
                 sharedPreferences.getString("geographicalArea", ""),
