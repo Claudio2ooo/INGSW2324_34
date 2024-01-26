@@ -236,15 +236,15 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         OfferDto offerDto = new OfferDto(new BigDecimal(offerEditText.getText().toString()), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
 
         OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<String>() {
+        offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<Offer>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Offer> call, Response<Offer> response) {
                 Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
                 refreshActivity();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Offer> call, Throwable t) {
                 showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!");
                 refreshActivity();
             }
@@ -255,14 +255,14 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
 
         OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<String>() {
+        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<Offer>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Offer> call, Response<Offer> response) {
                 Toast.makeText(AuctionDetailsActivity.this, "Acquisto fatto!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Offer> call, Throwable t) {
                 showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!");
                 finish();
             }

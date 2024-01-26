@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "SEARCH_BAR");
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search bar");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
 
             Intent intent = new Intent(getContext(), SearchAuctionActivity.class);
             startActivity(intent);

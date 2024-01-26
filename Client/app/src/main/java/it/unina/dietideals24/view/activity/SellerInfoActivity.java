@@ -61,7 +61,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     private void initializeFields() {
         sellerFullNameText.setText(String.format("%s %s", seller.getName(), seller.getSurname()));
 
-        if (seller.getGeographicalArea() == null || seller.getBiography() == null || seller.getLinks() == null) {
+        if (seller.getGeographicalArea().isEmpty() || seller.getBiography().isEmpty() || seller.getLinks().isEmpty()) {
             messageNoInformation.setVisibility(View.VISIBLE);
 
             titleSectionBiography.setVisibility(View.GONE);

@@ -22,9 +22,8 @@ public interface OfferAPI {
     Call<ArrayList<EnglishAuction>> getAuctionsByOffererId(@Path("id") Long id);
 
     @POST("/offers/english")
-    Call<String> makeEnglishOffer(@Body OfferDto offerDto);
+    Call<Offer> makeEnglishOffer(@Body OfferDto offerDto);
 
     @POST("/offers/downward")
-    Call<String> makeDownwardOffer(@Body OfferDto offerDto);
-
+    Call<Offer> makeDownwardOffer(@Body OfferDto offerDto);
 }

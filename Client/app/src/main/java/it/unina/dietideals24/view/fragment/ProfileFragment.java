@@ -2,9 +2,13 @@ package it.unina.dietideals24.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +26,12 @@ import androidx.fragment.app.Fragment;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,9 +41,16 @@ import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
+import it.unina.dietideals24.retrofit.api.ImageAPI;
+import it.unina.dietideals24.utils.MyFileUtils;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
+import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 import it.unina.dietideals24.view.activity.LoginActivity;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,11 +71,13 @@ public class ProfileFragment extends Fragment {
     private EditText inputBiographyEditText;
     private EditText inputLinksEditText;
     private ImageView imageProfile;
+    private ImageView profilePicture;
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
     private Button changePasswordBtn;
     private Button editProfileBtn;
     private Button logOutBtn;
     private DietiUser localDietiUser;
+    private Uri imageUri = null;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -100,6 +117,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
+        profilePicture = view.findViewById(R.id.profilePicture);
         userFullNameText = view.findViewById(R.id.userFullNameText);
         userEmailText = view.findViewById(R.id.userEmailText);
         geographicalAreaText = view.findViewById(R.id.geographicalAreaText);
@@ -122,6 +140,7 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Seleziona immagine!", Toast.LENGTH_SHORT).show();
             } else {
                 Glide.with(getActivity()).load(uri).into(imageProfile);
+                imageUri = uri;
             }
         });
     }
@@ -261,6 +280,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
                 if (response.body() != null) {
+                    if (imageUri != null)
+                        uploadProfilePicture(response.body().getId());
+
                     updateLocalDietiUser();
                     setTextViewWithLocalDietiUserData();
                     alertDialog.dismiss();
@@ -275,6 +297,64 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<DietiUser> call, Throwable t) {
                 alertDialog.dismiss();
                 showFailedUpdateDialog(view, "Impossibile modficare i tuoi dati al momento, riprova più tardi.");
+            }
+        });
+    }
+
+    private void uploadProfilePicture(Long id) {
+        File imageToBeUploaded = MyFileUtils.uriToFile(imageUri, getActivity());
+
+        imageToBeUploaded = MyFileUtils.compressImage(imageToBeUploaded, getActivity());
+
+        if (imageToBeUploaded == null)
+            return;
+
+        RequestBody requestBody = RequestBody.create(imageToBeUploaded, MediaType.parse("image/*"));
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", id + ".jpeg", requestBody);
+
+        DietiUserAPI dietiUserAPI = RetrofitService.getRetrofitInstance().create(DietiUserAPI.class);
+        dietiUserAPI.updateProfilePicture(id, imagePart).enqueue(new Callback<DietiUser>() {
+            @Override
+            public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
+                Toast.makeText(getActivity(), "Utente aggiornato!", Toast.LENGTH_SHORT).show();
+                if (response.body() != null)
+                    LocalDietiUser.setLocalDietiUser(getActivity(), response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DietiUser> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void requestProfilePicture(String imageUrl) {
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        byte[] imageData = response.body().bytes();
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions = requestOptions.transform(new CenterCrop());
+
+                        Glide.with(getActivity())
+                                .load(bitmap)
+                                .apply(requestOptions)
+                                .into(profilePicture);
+                    }
+                } catch (IOException e) {
+                    Toast.makeText(getActivity(), "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
             }
         });
     }
@@ -310,6 +390,11 @@ public class ProfileFragment extends Fragment {
     private void setTextViewWithLocalDietiUserData() {
         userFullNameText.setText(String.format("%s %s", localDietiUser.getName(), localDietiUser.getSurname()));
         userEmailText.setText(localDietiUser.getEmail());
+
+        if (!localDietiUser.getProfilePictureUrl().isEmpty()) {
+            Log.i("IMAGE", localDietiUser.getProfilePictureUrl());
+            requestProfilePicture(localDietiUser.getProfilePictureUrl());
+        }
 
         if (localDietiUser.getGeographicalArea().isEmpty() || localDietiUser.getBiography().isEmpty() || localDietiUser.getLinks().isEmpty()) {
             messageCompleteYourProfileText.setVisibility(View.VISIBLE);

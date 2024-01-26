@@ -12,7 +12,8 @@ public class LocalDietiUser {
 
     private static final String FILE_NAME_DIETI_USER = "local_dieti_user_data";
 
-    private LocalDietiUser() {}
+    private LocalDietiUser() {
+    }
 
     public static void setLocalDietiUser(Context context, DietiUser dietiUser) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME_DIETI_USER, Context.MODE_PRIVATE);
@@ -27,6 +28,7 @@ public class LocalDietiUser {
             editor.putString("links", dietiUser.getLinks().toString());
         editor.putString("geographicalArea", dietiUser.getGeographicalArea());
         editor.putString("biography", dietiUser.getBiography());
+        editor.putString("profilePictureUrl", dietiUser.getProfilePictureUrl());
         editor.apply();
     }
 
@@ -45,7 +47,8 @@ public class LocalDietiUser {
                 sharedPreferences.getString("email", ""),
                 sharedPreferences.getString("biography", ""),
                 links,
-                sharedPreferences.getString("geographicalArea", "")
+                sharedPreferences.getString("geographicalArea", ""),
+                sharedPreferences.getString("profilePictureUrl", "")
         );
     }
 }

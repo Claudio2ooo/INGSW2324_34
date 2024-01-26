@@ -23,7 +23,7 @@ public class DietiUserController {
     private final IDietiUserService dietiUserService;
     @Qualifier("locallyStoreImageService")
     private final IImageService imageService;
-    private static final String PROFILE_PIC_DIRECTORY = "users";
+    private static final String PROFILE_PIC_DIRECTORY = "user";
 
     private final PasswordEncoder passwordEncoder;
 
@@ -49,18 +49,18 @@ public class DietiUserController {
         dietiUserService.deleteDietiUser(id);
     }
 
-    @PostMapping("{id}/profile_picture")
-    public ResponseEntity<String> updateProfilePicture(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
+    @PostMapping("{id}/profile-picture")
+    public DietiUser updateProfilePicture(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) throws BadRequestException {
         if (dietiUserService.existsById(id)) {
             try {
                 imageService.saveImage(PROFILE_PIC_DIRECTORY, id, image);
                 dietiUserService.linkImage(PROFILE_PIC_DIRECTORY, id);
-                return new ResponseEntity<>("Profile pic updated!", HttpStatus.OK);
+                return dietiUserService.getUserById(id);
             } catch (IOException e) {
-                return new ResponseEntity<>("Could not update image", HttpStatus.BAD_REQUEST);
+                throw new BadRequestException("Image link failed!");
             }
         } else
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            throw new BadRequestException("User not found!");
     }
 
     @PostMapping("{id}")

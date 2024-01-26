@@ -27,7 +27,7 @@ public class ImageService implements IImageService {
      */
     @Override
     public void saveImage(String imageDirectory, Long id, MultipartFile file) throws IOException {
-        String path = "images" + File.separatorChar + imageDirectory + File.separatorChar + id.toString();
+        String path = "images" + File.separatorChar + imageDirectory + File.separatorChar + id.toString() + ".jpeg";
         Path fileNameAndPath = Paths.get(path);
         Files.write(fileNameAndPath, file.getBytes());
         System.out.println("Image saved in: " + fileNameAndPath);
@@ -46,7 +46,7 @@ public class ImageService implements IImageService {
         BufferedImage bufferedImage = ImageIO.read(new File("images" + File.separatorChar + url));
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+        ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
 
         return byteArrayOutputStream.toByteArray();
     }

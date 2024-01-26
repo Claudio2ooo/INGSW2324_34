@@ -60,7 +60,7 @@ public class DietiUserService implements IDietiUserService {
     @Override
     public void linkImage(String profilePicDirectory, Long id) {
         DietiUser dietiUser = dietiUserRepository.findById(id).get();
-        dietiUser.setProfilePictureUrl(profilePicDirectory + File.separatorChar + id);
+        dietiUser.setProfilePictureUrl(profilePicDirectory + File.separatorChar + id + ".jpeg");
         dietiUserRepository.save(dietiUser);
     }
 

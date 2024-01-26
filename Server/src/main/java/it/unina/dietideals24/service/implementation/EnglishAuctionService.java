@@ -84,7 +84,7 @@ public class EnglishAuctionService implements IEnglishAuctionService {
     @Override
     public void linkImage(String englishAuctionImageDirectory, Long id) {
         EnglishAuction englishAuction = englishAuctionRepository.findById(id).get();
-        englishAuction.setImageURL(englishAuctionImageDirectory + File.separatorChar + id);
+        englishAuction.setImageURL(englishAuctionImageDirectory + File.separatorChar + id + ".jpeg");
         englishAuctionRepository.save(englishAuction);
     }
 
