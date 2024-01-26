@@ -1,6 +1,6 @@
-package it.unina.dietideals24.auction_timer;
+package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.controller.FinalizePurchaseController;
+import it.unina.dietideals24.auction_timertask.DownwardAuctionTask;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,4 @@ public class DownwardAuctionTimerController {
         toBeStopped.purge();
         downwardAuctionTimers.remove(position);
     }
-
-
 }

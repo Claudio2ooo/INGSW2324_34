@@ -245,8 +245,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Offer> call, Throwable t) {
-                showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!");
-                refreshActivity();
+                showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!", false);
             }
         });
     }
@@ -255,18 +254,49 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
 
         OfferAPI offerAPI = RetrofitService.getRetrofitInstance().create(OfferAPI.class);
-        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<Offer>() {
+        offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<DownwardAuction>() {
             @Override
-            public void onResponse(Call<Offer> call, Response<Offer> response) {
-                Toast.makeText(AuctionDetailsActivity.this, "Acquisto fatto!", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
+                if (response.body() != null)
+                    showPurchaseConfirm(response.body());
+                else
+                    showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
             }
 
             @Override
-            public void onFailure(Call<Offer> call, Throwable t) {
-                showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!");
-                finish();
+            public void onFailure(Call<DownwardAuction> call, Throwable t) {
+                showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
             }
         });
+    }
+
+    private void showPurchaseConfirm(DownwardAuction downwardAuction) {
+        ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.confirmPurchaseConstraintLayout);
+        View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.confirm_purchase_dialog, failedOfferConstraintLayout);
+
+        Button backToHomeButton = viewFailedOfferDialog.findViewById(R.id.backToAuctionBtn);
+
+        TextView confirmPurchaseText = viewFailedOfferDialog.findViewById(R.id.confirmPurchaseText);
+        confirmPurchaseText.setText(downwardAuction.getTitle() + " aggiudicata!");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
+        builder.setView(viewFailedOfferDialog);
+        final AlertDialog alertDialog = builder.create();
+
+        backToHomeButton.setText("Torna alla home");
+
+        backToHomeButton.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            finish();
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        alertDialog.setOnDismissListener(v -> openMainActivity());
+
+        alertDialog.show();
     }
 
     private void getOfferrersEnglishAuction(Long idAuction) {
@@ -402,7 +432,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void showFailedOfferDialog(String errorMessage) {
+    private void showFailedOfferDialog(String errorMessage, boolean forceClose) {
         ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.failedOfferConstraintLayout);
         View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.failed_offer_dialog, failedOfferConstraintLayout);
 
@@ -420,6 +450,12 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+
+        if (forceClose)
+            alertDialog.setOnDismissListener(v -> openMainActivity());
+        else
+            alertDialog.setOnDismissListener(v -> refreshActivity());
+
         alertDialog.show();
     }
 

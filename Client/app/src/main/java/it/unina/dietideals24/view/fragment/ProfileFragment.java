@@ -45,7 +45,6 @@ import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.utils.MyFileUtils;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
-import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 import it.unina.dietideals24.view.activity.LoginActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

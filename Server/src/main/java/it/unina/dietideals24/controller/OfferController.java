@@ -1,7 +1,5 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.auction_timer.DownwardAuctionTimerController;
-import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
 import it.unina.dietideals24.dto.OfferDto;
 import it.unina.dietideals24.model.*;
 import it.unina.dietideals24.service.interfaces.IDietiUserService;
@@ -43,6 +41,9 @@ public class OfferController {
 
     @Autowired
     private DownwardAuctionTimerController downwardAuctionTimerController;
+
+    @Autowired
+    private FinalizePurchaseController finalizePurchaseController;
 
     @GetMapping("/english/{id}")
     public List<Offer> getOffersByEnglishAuctionId(@PathVariable("id") Long englishAuctionId) {
@@ -87,15 +88,12 @@ public class OfferController {
     }
 
     @PostMapping("/downward")
-    public ResponseEntity<String> makeOfferForDownwardAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
-        //TODO IMPLEMENTARE BENE QUESTO METODO
-
+    public ResponseEntity<DownwardAuction> makeOfferForDownwardAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
         DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(offerDto.getAuctionId());
-        //NOTIFICA A UTENTE
+        downwardAuctionTimerController.stopOngoingDownwardTimer(targetAuction);
+        finalizePurchaseController.finalizeAuction(targetAuction);
 
-        downwardAuctionService.deleteDownwardAuctionById(offerDto.getAuctionId());
-
-        return ResponseEntity.ok("Congratulazioni!");
+        return ResponseEntity.ok(targetAuction);
     }
 
     private boolean offerIsBetter(Auction targetAuction, BigDecimal newOffer) {

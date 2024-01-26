@@ -22,6 +22,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.AuctionAdapter;
 import it.unina.dietideals24.adapter.CategoryAdapter;
 import it.unina.dietideals24.entity.CategoryItem;
+import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
@@ -103,14 +104,13 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //TODO REFRESHARE ASTE
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> refreshFragment());
 
         return view;
+    }
+
+    private void refreshFragment() {
+        getParentFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment(), FragmentTagEnum.HOME.toString()).addToBackStack(FragmentTagEnum.HOME.toString()).commit();
     }
 
     @Override

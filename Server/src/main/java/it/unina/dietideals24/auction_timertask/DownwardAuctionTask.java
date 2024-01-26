@@ -1,4 +1,4 @@
-package it.unina.dietideals24.auction_timer;
+package it.unina.dietideals24.auction_timertask;
 
 import it.unina.dietideals24.controller.FinalizePurchaseController;
 import it.unina.dietideals24.model.DownwardAuction;

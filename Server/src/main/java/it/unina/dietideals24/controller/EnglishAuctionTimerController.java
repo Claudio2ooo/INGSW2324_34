@@ -1,6 +1,6 @@
-package it.unina.dietideals24.auction_timer;
+package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.controller.FinalizePurchaseController;
+import it.unina.dietideals24.auction_timertask.EnglishAuctionTask;
 import it.unina.dietideals24.model.EnglishAuction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

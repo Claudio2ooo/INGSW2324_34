@@ -1,6 +1,5 @@
 package it.unina.dietideals24.controller;
 
-import it.unina.dietideals24.auction_timer.EnglishAuctionTimerController;
 import it.unina.dietideals24.dto.EnglishAuctionDto;
 import it.unina.dietideals24.enumeration.CategoryEnum;
 import it.unina.dietideals24.model.DietiUser;

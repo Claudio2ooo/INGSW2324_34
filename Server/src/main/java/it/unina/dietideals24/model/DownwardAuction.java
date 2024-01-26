@@ -19,7 +19,6 @@ public class DownwardAuction extends Auction{
      * @return true if decreaseable, false otherwise
      */
     public boolean canBeDecreased(){
-        //TODO trovare un modo più leggibile di scrivere questo return
         return getCurrentPrice().subtract(getDecreaseAmount()).compareTo(minimumPrice) > 0;
     }
 
