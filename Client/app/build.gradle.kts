@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -65,4 +66,8 @@ dependencies {
 
     // Image compressor
     implementation ("id.zelory:compressor:2.1.1")
+
+    // Firebase per analytics
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
 }

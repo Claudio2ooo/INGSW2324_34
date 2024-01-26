@@ -25,6 +25,8 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.concurrent.TimeUnit;
 
 import it.unina.dietideals24.R;
@@ -40,12 +42,16 @@ import it.unina.dietideals24.view.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         String redirect = getIntent().getStringExtra("redirect");
         if (redirect != null && redirect.equals("notificationFragment"))
@@ -102,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, fragmentTagEnum.toString());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,  fragmentTagEnum + " button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar button");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
     }
 

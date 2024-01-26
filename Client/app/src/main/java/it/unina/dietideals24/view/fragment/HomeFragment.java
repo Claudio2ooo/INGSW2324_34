@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
@@ -46,6 +48,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewDownwardAuction;
     private ProgressBar englishAuctionProgressBar;
     private ProgressBar downwardAuctionProgressBar;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +65,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         initializeViews(view);
 
         initializeCategories();
@@ -68,6 +75,11 @@ public class HomeFragment extends Fragment {
         initializeDownwardAuction();
 
         searchAuctionEditText.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "SEARCH_BAR");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search bar");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
             Intent intent = new Intent(getContext(), SearchAuctionActivity.class);
             startActivity(intent);
         });
