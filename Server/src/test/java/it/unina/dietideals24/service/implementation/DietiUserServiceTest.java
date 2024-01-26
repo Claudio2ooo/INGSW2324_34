@@ -1,11 +1,11 @@
 package it.unina.dietideals24.service.implementation;
 
 import it.unina.dietideals24.model.DietiUser;
-import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DietiUserServiceTest {
     DietiUserService dietiUserService = new DietiUserService();

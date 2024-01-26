@@ -1,16 +1,27 @@
 package it.unina.dietideals24.view.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.io.IOException;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
+import it.unina.dietideals24.retrofit.api.ImageAPI;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +35,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     private TextView titleSectionBiography;
     private TextView titleSectionLinks;
     private TextView messageNoInformation;
+    private ImageView profilePicture;
     private ImageView backBtn;
     private DietiUser seller;
 
@@ -61,6 +73,9 @@ public class SellerInfoActivity extends AppCompatActivity {
     private void initializeFields() {
         sellerFullNameText.setText(String.format("%s %s", seller.getName(), seller.getSurname()));
 
+        if (seller.getProfilePictureUrl() != null && !seller.getProfilePictureUrl().isEmpty())
+            requestProfilePicture(seller.getProfilePictureUrl());
+
         if (seller.getGeographicalArea().isEmpty() || seller.getBiography().isEmpty() || seller.getLinks().isEmpty()) {
             messageNoInformation.setVisibility(View.VISIBLE);
 
@@ -85,6 +100,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
+        profilePicture = findViewById(R.id.profilePicture);
         sellerFullNameText = findViewById(R.id.sellerFullNameText);
         geographicalAreaText = findViewById(R.id.geographicalAreaSellerText);
         biographyText = findViewById(R.id.biographySellerText);
@@ -96,5 +112,36 @@ public class SellerInfoActivity extends AppCompatActivity {
         messageNoInformation.setVisibility(View.GONE);
 
         backBtn = findViewById(R.id.backBtn);
+    }
+
+    private void requestProfilePicture(String imageUrl) {
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        byte[] imageData = response.body().bytes();
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions = requestOptions.transform(new CenterCrop());
+
+                        Glide.with(getApplicationContext())
+                                .load(bitmap)
+                                .apply(requestOptions)
+                                .into(profilePicture);
+                    }
+                } catch (IOException e) {
+                    Toast.makeText(getApplicationContext(), "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }
