@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout emailTextLayout;
     private TextInputLayout passwordTextLayout;
     private Button loginBtn;
-    private Button loginWithGoogleBtn;
     private TextView signInBtn;
     private ProgressBar loginProgressBar;
     private TokenManagement tokenManagement;
@@ -192,7 +191,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordTextLayout = findViewById(R.id.passwordTextLayout);
 
         loginBtn = findViewById(R.id.loginBtn);
-        loginWithGoogleBtn = findViewById(R.id.loginWithGoogleBtn);
         signInBtn = findViewById(R.id.signInBtn);
 
         loginProgressBar = findViewById(R.id.loginProgressBar);

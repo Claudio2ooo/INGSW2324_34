@@ -77,3 +77,10 @@ o
 ?src/main/java/it/unina/dietideals24/config/DietiUserConfig.java,7\9\7900e7175c1c60bbbb392c43ce3800ca95c612ea
 x
 Hsrc/main/java/it/unina/dietideals24/config/ApplicationConfiguration.java,b\6\b69bd3b8e96aa61b075dbf897a53aee237cd9a99
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
+„
+Tsrc/test/java/it/unina/dietideals24/service/implementation/DietiUserServiceTest.java,9\8\982e37e05ab7d02a998e0b67351b283192a866b6
+‚
+Rsrc/main/java/it/unina/dietideals24/controller/DownwardAuctionTimerController.java,f\b\fb5cce4bfd9611d53a520a8fd3b695c96827769f

@@ -98,28 +98,6 @@
             android:layout_height="match_parent"
             android:text="@string/btn_login_label" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:text="@string/or_label"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/loginWithGoogleBtn"
-            style="@style/CustomButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/margin_background"
-            android:text="@string/btn_login_whit_google_label"
-            app:icon="@drawable/google_logo"
-            app:iconGravity="textStart"
-            app:iconPadding="16dp"
-            app:iconTint="@null" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

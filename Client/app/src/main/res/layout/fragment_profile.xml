@@ -198,7 +198,10 @@
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:background="@drawable/margin_background"
-                android:text="@string/edit_profile_label" />
+                android:text="@string/edit_profile_label"
+                app:icon="@drawable/round_edit_profile_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp" />
 
             <Button
                 android:id="@+id/changePasswordBtn"
@@ -208,7 +211,10 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1"
-                android:text="@string/change_password_label" />
+                android:text="@string/change_password_label"
+                app:icon="@drawable/round_lock_change_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp" />
 
             <Button
                 android:id="@+id/logOutBtn"
@@ -219,7 +225,10 @@
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/red_cherry"
-                android:text="@string/log_out_label" />
+                android:text="@string/log_out_label"
+                app:icon="@drawable/round_logout_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp" />
 
         </LinearLayout>
     </ScrollView>
