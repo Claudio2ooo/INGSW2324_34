@@ -1,11 +1,13 @@
 package it.unina.dietideals24.view.activity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
@@ -94,6 +99,48 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
                 createAuctionProgressBar.setVisibility(View.VISIBLE);
                 createAuction();
             }
+        });
+
+        timerTextLayout.setOnClickListener(v -> {
+            showNumberPickers();
+        });
+
+        timerEditText.setOnClickListener(v -> {
+            showNumberPickers();
+        });
+    }
+
+    private void showNumberPickers() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.view_number_picker, null);
+        NumberPicker minutePicker = (NumberPicker) linearLayout.findViewById(R.id.minutePicker);
+        NumberPicker hourPicker = (NumberPicker) linearLayout.findViewById(R.id.hourPicker);
+        NumberPicker dayPicker = (NumberPicker) linearLayout.findViewById(R.id.dayPicker);
+
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(59);
+        minutePicker.setValue(0);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        hourPicker.setValue(1);
+        dayPicker.setMinValue(0);
+        dayPicker.setMaxValue(31);
+
+        //Finally building an AlertDialog
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setPositiveButton("Submit", null)
+                .setNegativeButton("Cancel", null)
+                .setView(linearLayout)
+                .setCancelable(false)
+                .create();
+        builder.show();
+        //Setting up OnClickListener on positive button of AlertDialog
+        builder.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(view -> {
+            long days = dayPicker.getValue();
+            long hours = hourPicker.getValue();
+            long minutes = minutePicker.getValue();
+
+            timerEditText.setText(days + " giorni : " + hours +" ore : " + minutes + " minuti");
+            builder.dismiss();
         });
     }
 
@@ -247,6 +294,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         startingPriceTextLayout = findViewById(R.id.startingPriceTextLayout);
 
         timerEditText = findViewById(R.id.inputTimer);
+        timerEditText.setInputType(InputType.TYPE_NULL);
         timerTextLayout = findViewById(R.id.timerTextLayout);
 
         increaseAmountEditText = findViewById(R.id.inputIncreaseAmount);
