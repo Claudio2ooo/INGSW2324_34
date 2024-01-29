@@ -20,8 +20,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.LoginDto;
+import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.response.LoginResponse;
 import it.unina.dietideals24.retrofit.RetrofitService;
+import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.DietiUserAuthAPI;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
@@ -65,33 +67,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkIfUserLogged() {
         if (!TokenManagement.getToken().isEmpty() && !TokenManagement.isExpired()) {
-            loginWithSavedCredentials();
+            checkUserStillExists(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getEmail());
         } else {
             logoutUser();
         }
     }
 
-    private void loginWithSavedCredentials() {
-        LoginDto loginDto = new LoginDto(LocalDietiUser.getLocalDietiUser(getApplicationContext()).getEmail(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getPassword());
-
-        DietiUserAuthAPI dietiUserAuthAPI = RetrofitService.getRetrofitInstance().create(DietiUserAuthAPI.class);
-        dietiUserAuthAPI.login(loginDto).enqueue(new Callback<LoginResponse>() {
+    private void checkUserStillExists(String email) {
+        DietiUserAPI dietiUserAPI = RetrofitService.getRetrofitInstance().create(DietiUserAPI.class);
+        dietiUserAPI.getUserByEmail(email).enqueue(new Callback<DietiUser>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.body() != null) {
-                    loginProgressBar.setVisibility(View.GONE);
-                    saveToken(response);
-                    saveCurrentUser(response);
-                    openMainActivity();
-                } else {
-                    loginProgressBar.setVisibility(View.GONE);
+            public void onResponse(Call<DietiUser> call, Response<DietiUser> response) {
+                if (response.body() == null)
                     logoutUser();
-                }
+                else
+                    openMainActivity();
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                loginProgressBar.setVisibility(View.GONE);
+            public void onFailure(Call<DietiUser> call, Throwable t) {
                 logoutUser();
             }
         });
