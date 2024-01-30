@@ -33,6 +33,10 @@ public class TimeUtility {
      * @return timer in milliseconds
      */
     public static long convertFieldsToMilliseconds(long days, long hours, long minutes) {
+        // aggiunto per avere classi non valide in testing
+        if (days>31 || days < 0 || hours > 24 || hours < 0 || minutes>60 || minutes<0)
+            return 0;
+
         long daysInMilliseconds = days * 86400 * 1000;
         long hoursInMilliseconds = hours * 3600 * 1000;
         long minutesInMilliseconds = minutes * 60 * 1000;
