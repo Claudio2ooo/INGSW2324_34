@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Minuti"
+            android:text="Ore"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Secondi"
+            android:text="Minuti"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp" />
