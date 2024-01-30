@@ -521,6 +521,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        auctionCountDownTimer.cancel();
+        if (auctionCountDownTimer != null)
+            auctionCountDownTimer.cancel();
     }
 }
