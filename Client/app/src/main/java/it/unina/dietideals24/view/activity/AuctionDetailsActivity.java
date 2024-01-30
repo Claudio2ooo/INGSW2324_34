@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -77,11 +78,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private Auction auction;
     private ArrayList<Offer> offerrers;
     private CountDownTimer auctionCountDownTimer;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auction_details);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
         initializeViews();
         offerrers = new ArrayList<>();
@@ -239,8 +242,14 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
-                Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
-                refreshActivity();
+                if (response.body() != null) {
+                    Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
+                    logOffer();
+                    refreshActivity();
+                } else {
+                    logFailedOffer();
+                    showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!", false);
+                }
             }
 
             @Override
@@ -250,6 +259,22 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void logFailedOffer() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "offer_button");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Offer button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Offerta fallita");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, bundle);
+    }
+
+    private void logOffer() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "offer_button");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Offer button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Offerta riuscita");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, bundle);
+    }
+
     private void makeDownwardOffer() {
         OfferDto offerDto = new OfferDto(auction.getCurrentPrice(), LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId(), auction.getId());
 
@@ -257,10 +282,14 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.makeDownwardOffer(offerDto).enqueue(new Callback<DownwardAuction>() {
             @Override
             public void onResponse(Call<DownwardAuction> call, Response<DownwardAuction> response) {
-                if (response.body() != null)
+                if (response.body() != null) {
+                    logPurchase();
                     showPurchaseConfirm(response.body());
-                else
+                }
+                else {
+                    logFailedPurchase();
                     showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
+                }
             }
 
             @Override
@@ -268,6 +297,22 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
             }
         });
+    }
+
+    private void logFailedPurchase() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_button");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Purchase button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Acquisto fallito");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.PURCHASE, bundle);
+    }
+
+    private void logPurchase() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_button");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Purchase button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Acquisto riuscito");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.PURCHASE, bundle);
     }
 
     private void showPurchaseConfirm(DownwardAuction downwardAuction) {

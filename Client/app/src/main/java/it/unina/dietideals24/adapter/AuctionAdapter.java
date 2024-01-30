@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -40,6 +42,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     ArrayList<Auction> auctions;
     Context context;
     int layout;
+
+    FirebaseAnalytics mFirebaseAnalytics;
 
     public enum OrientationEnum {VERTICAL, HORIZONTAL}
 
@@ -86,11 +90,25 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                 intent.putExtra("type", "ENGLISH");
             else if (auctions.get(holder.getAdapterPosition()) instanceof DownwardAuction)
                 intent.putExtra("type", "DOWNWARD");
+            logEvent(auctions.get(holder.getAdapterPosition()));
 
             context.startActivity(intent);
         });
 
         retrieveImage(holder);
+    }
+
+    private void logEvent(Auction auction) {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "auction_info_button");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Auction info button");
+        if (auction instanceof EnglishAuction)
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "English auction");
+        else
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Downward auction");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
     }
 
     private void retrieveImage(AuctionViewHolder holder) {

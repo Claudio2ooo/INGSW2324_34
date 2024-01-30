@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -35,11 +37,13 @@ public class AuctionsActivity extends AppCompatActivity {
     private TextView titleText;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auctions);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
         initializeViews();
 
@@ -54,6 +58,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 case "Yours" -> initializeYourAuctions();
                 case "YourOffers" -> initializeYourOffers();
             }
+            logViewList(typeOfAuction);
         } else {
             if (typeOfAuction.equals("English"))
                 initializeEnglishAuctionsByCategory(CategoryEnum.valueOf(category.toUpperCase()));
@@ -62,6 +67,14 @@ public class AuctionsActivity extends AppCompatActivity {
         }
 
         backBtn.setOnClickListener(v -> finish());
+    }
+
+    private void logViewList(String typeOfAuction) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "list_view");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "List of auctions");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, typeOfAuction);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle);
     }
 
     private void initializeYourOffers() {

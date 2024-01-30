@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, fragmentTagEnum.toString());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,  fragmentTagEnum + " button");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar" + fragmentTagEnum + "button");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
