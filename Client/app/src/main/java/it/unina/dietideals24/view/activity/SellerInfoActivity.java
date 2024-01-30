@@ -73,8 +73,21 @@ public class SellerInfoActivity extends AppCompatActivity {
     private void initializeFields() {
         sellerFullNameText.setText(String.format("%s %s", seller.getName(), seller.getSurname()));
 
-        if (seller.getProfilePictureUrl() != null && !seller.getProfilePictureUrl().isEmpty())
-            requestProfilePicture(seller.getProfilePictureUrl());
+        if (seller.getProfilePictureUrl() != null)
+            if (!seller.getProfilePictureUrl().isEmpty())
+                requestProfilePicture(seller.getProfilePictureUrl());
+
+        if (seller.getGeographicalArea() == null || seller.getBiography() == null || seller.getLinks() == null) {
+            messageNoInformation.setVisibility(View.VISIBLE);
+
+            titleSectionBiography.setVisibility(View.GONE);
+            titleSectionLinks.setVisibility(View.GONE);
+
+            geographicalAreaText.setVisibility(View.GONE);
+            biographyText.setVisibility(View.GONE);
+            linksText.setVisibility(View.GONE);
+            return;
+        }
 
         if (seller.getGeographicalArea().isEmpty() || seller.getBiography().isEmpty() || seller.getLinks().isEmpty()) {
             messageNoInformation.setVisibility(View.VISIBLE);
