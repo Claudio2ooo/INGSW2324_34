@@ -13,9 +13,25 @@ public class ServerApplication {
     }
 
     private static void createNecessaryDirectories() {
-        new File("images").mkdir();
-        new File("images/user").mkdir();
-        new File("images/english_auction").mkdir();
-        new File("images/downward_auction").mkdir();
+        if (new File("images").mkdir())
+            System.out.println("images folder created");
+        else
+            System.out.println("images folder already exists, skipping...");
+
+        if (new File("images/user").mkdir())
+            System.out.println("images/user folder created");
+        else
+            System.out.println("images/user folder already exists, skipping...");
+
+        if (new File("images/english_auction").mkdir())
+            System.out.println("images/english_auction folder created");
+        else
+            System.out.println("images/english_auction folder already exists, skipping...");
+
+        if (new File("images/downward_auction").mkdir())
+            System.out.println("images/downward_auction folder created");
+        else
+            System.out.println("images/downward_auction folder already exists, skipping...");
+
     }
 }
