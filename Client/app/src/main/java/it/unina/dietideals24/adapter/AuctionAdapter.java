@@ -29,7 +29,7 @@ import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
-import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
+import it.unina.dietideals24.utils.TimeUtility;
 import it.unina.dietideals24.view.activity.AuctionDetailsActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -151,7 +151,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                holder.timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
+                holder.timer.setText(TimeUtility.formatSeconds(millisUntilFinished / 1000));
             }
 
             @Override

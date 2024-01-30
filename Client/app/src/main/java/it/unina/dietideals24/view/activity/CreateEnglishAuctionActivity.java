@@ -42,6 +42,7 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 import it.unina.dietideals24.utils.MyFileUtils;
+import it.unina.dietideals24.utils.TimeUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -138,19 +139,11 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             long minutes = minutePicker.getValue();
 
             timerEditText.setText(String.format("%d giorni : %d ore : %d minuti", days, hours, minutes));
-            timer = convertFieldsToMilliseconds(days, hours, minutes);
+            timer = TimeUtility.convertFieldsToMilliseconds(days, hours, minutes);
             dialog.dismiss();
         });
 
         btnCancel.setOnClickListener(view -> dialog.dismiss());
-    }
-
-    private long convertFieldsToMilliseconds(long days, long hours, long minutes) {
-        long daysInMilliseconds = days*86400*1000;
-        long hoursInMilliseconds = hours*3600*1000;
-        long minutesInMilliseconds = minutes*60*1000;
-
-        return daysInMilliseconds+hoursInMilliseconds+minutesInMilliseconds;
     }
 
     private boolean isNotEmptyObligatoryFields() {

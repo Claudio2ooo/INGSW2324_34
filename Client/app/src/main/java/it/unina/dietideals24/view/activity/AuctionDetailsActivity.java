@@ -49,7 +49,7 @@ import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
-import it.unina.dietideals24.utils.ConvertSecondsToHourMinuteSeconds;
+import it.unina.dietideals24.utils.TimeUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -354,7 +354,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         return new CountDownTimer(deadline.getTime() - System.currentTimeMillis(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timer.setText(ConvertSecondsToHourMinuteSeconds.formatSeconds(millisUntilFinished / 1000));
+                timer.setText(TimeUtility.formatSeconds(millisUntilFinished / 1000));
             }
 
             @Override

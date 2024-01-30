@@ -18,6 +18,7 @@ import it.unina.dietideals24.enumerations.StateEnum;
 import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.NotificationAPI;
+import it.unina.dietideals24.view.activity.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,6 +74,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onResponse(Call<Void> call, Response<Void> response) {
                 notifications.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
+                if (!notifications.isEmpty())
+                    MainActivity.setBadgeNotification(true, notifications.size());
+                else
+                    MainActivity.setBadgeNotification(false, 0);
             }
 
             @Override

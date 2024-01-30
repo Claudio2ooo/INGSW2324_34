@@ -25,6 +25,7 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,7 @@ import it.unina.dietideals24.view.fragment.ProfileFragment;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public static BadgeDrawable badge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notify);
+        badge.setVisible(false);
+
         backButtonManagement();
     }
 
@@ -105,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
                         .build())
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);
+    }
+
+    public static void setBadgeNotification(boolean isVisible, int number) {
+        badge.setVisible(isVisible);
+        badge.setNumber(number);
     }
 
     private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {

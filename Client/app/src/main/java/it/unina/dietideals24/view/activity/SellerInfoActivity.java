@@ -73,8 +73,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     private void initializeFields() {
         sellerFullNameText.setText(String.format("%s %s", seller.getName(), seller.getSurname()));
 
-        if (seller.getProfilePictureUrl() != null)
-            if (!seller.getProfilePictureUrl().isEmpty())
+        if (seller.getProfilePictureUrl() != null && !seller.getProfilePictureUrl().isEmpty())
                 requestProfilePicture(seller.getProfilePictureUrl());
 
         if (seller.getGeographicalArea() == null || seller.getBiography() == null || seller.getLinks() == null) {

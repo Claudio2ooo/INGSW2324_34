@@ -1,7 +1,8 @@
 package it.unina.dietideals24.utils;
 
-public class ConvertSecondsToHourMinuteSeconds {
-    private ConvertSecondsToHourMinuteSeconds() {}
+public class TimeUtility {
+    private TimeUtility() {
+    }
 
     /**
      * Formats an interval from seconds to hh:mm:ss
@@ -21,5 +22,21 @@ public class ConvertSecondsToHourMinuteSeconds {
             return minutes + "m:" + secondsLeft + "s";
         else
             return hours + "h:" + minutes + "m:" + secondsLeft + "s";
+    }
+
+    /**
+     * Convert days, hours and minutes into milliseconds
+     *
+     * @param days    days to convert to milliseconds
+     * @param hours   hours to convert to milliseconds
+     * @param minutes minutes to convert to milliseconds
+     * @return timer in milliseconds
+     */
+    public static long convertFieldsToMilliseconds(long days, long hours, long minutes) {
+        long daysInMilliseconds = days * 86400 * 1000;
+        long hoursInMilliseconds = hours * 3600 * 1000;
+        long minutesInMilliseconds = minutes * 60 * 1000;
+
+        return daysInMilliseconds + hoursInMilliseconds + minutesInMilliseconds;
     }
 }

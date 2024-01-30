@@ -53,17 +53,20 @@ public class PushNotificationWorker extends Worker {
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 if (response.body() != null) {
                     pushNotifications(response.body());
+                } else {
+                    MainActivity.setBadgeNotification(false, 0);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
-
+                MainActivity.setBadgeNotification(false, 0);
             }
         });
     }
 
     private void pushNotifications(List<Notification> notifications) {
+        MainActivity.setBadgeNotification(true, notifications.size());
         if (notifications.size() > 3) {
             pushManyNotifications();
         } else {
