@@ -1,7 +1,6 @@
 package it.unina.dietideals24.view.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -33,7 +32,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
@@ -101,20 +99,16 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             }
         });
 
-        timerTextLayout.setOnClickListener(v -> {
-            showNumberPickers();
-        });
-
-        timerEditText.setOnClickListener(v -> {
-            showNumberPickers();
-        });
+        timerEditText.setOnClickListener(v -> showNumberPickers());
     }
 
     private void showNumberPickers() {
-        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.view_number_picker, null);
-        NumberPicker minutePicker = (NumberPicker) linearLayout.findViewById(R.id.minutePicker);
-        NumberPicker hourPicker = (NumberPicker) linearLayout.findViewById(R.id.hourPicker);
-        NumberPicker dayPicker = (NumberPicker) linearLayout.findViewById(R.id.dayPicker);
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.number_picker_dialog, null);
+        NumberPicker minutePicker = linearLayout.findViewById(R.id.minutePicker);
+        NumberPicker hourPicker = linearLayout.findViewById(R.id.hourPicker);
+        NumberPicker dayPicker = linearLayout.findViewById(R.id.dayPicker);
+        Button btnOk = linearLayout.findViewById(R.id.btnOk);
+        Button btnCancel = linearLayout.findViewById(R.id.btnCancel);
 
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
@@ -125,23 +119,26 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         dayPicker.setMinValue(0);
         dayPicker.setMaxValue(31);
 
-        //Finally building an AlertDialog
-        final AlertDialog builder = new AlertDialog.Builder(this)
-                .setPositiveButton("Submit", null)
-                .setNegativeButton("Cancel", null)
+        final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(linearLayout)
                 .setCancelable(false)
                 .create();
-        builder.show();
-        //Setting up OnClickListener on positive button of AlertDialog
-        builder.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(view -> {
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        dialog.show();
+
+        btnOk.setOnClickListener(view -> {
             long days = dayPicker.getValue();
             long hours = hourPicker.getValue();
             long minutes = minutePicker.getValue();
 
-            timerEditText.setText(days + " giorni : " + hours +" ore : " + minutes + " minuti");
-            builder.dismiss();
+            timerEditText.setText(String.format("%d giorni : %d ore : %d minuti", days, hours, minutes));
+            dialog.dismiss();
         });
+
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
     }
 
     private boolean isNotEmptyObligatoryFields() {

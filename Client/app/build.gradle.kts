@@ -62,10 +62,10 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     // Worker per processi in background
-    implementation ("androidx.work:work-runtime:2.9.0")
+    implementation("androidx.work:work-runtime:2.9.0")
 
     // Image compressor
-    implementation ("id.zelory:compressor:2.1.1")
+    implementation("id.zelory:compressor:2.1.1")
 
     // Firebase per analytics
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))

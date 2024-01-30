@@ -44,4 +44,12 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
+
+    <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/yellow</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:selectedDateVerticalBar">@color/yellow</item>
+    </style>
 </resources>

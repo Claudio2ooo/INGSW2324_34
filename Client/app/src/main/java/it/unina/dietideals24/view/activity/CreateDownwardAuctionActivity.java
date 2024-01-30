@@ -13,6 +13,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,9 +96,9 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
                 createAuctionProgressBar.setVisibility(View.VISIBLE);
                 createAuction();
             }
-
         });
 
+        timerEditText.setOnClickListener(v -> showNumberPickers());
     }
 
     private boolean isValidMinimumPrice() {
@@ -347,6 +349,45 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    private void showNumberPickers() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.number_picker_dialog, null);
+        NumberPicker minutePicker = linearLayout.findViewById(R.id.minutePicker);
+        NumberPicker hourPicker = linearLayout.findViewById(R.id.hourPicker);
+        NumberPicker dayPicker = linearLayout.findViewById(R.id.dayPicker);
+        Button btnOk = linearLayout.findViewById(R.id.btnOk);
+        Button btnCancel = linearLayout.findViewById(R.id.btnCancel);
+
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(59);
+        minutePicker.setValue(0);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        hourPicker.setValue(1);
+        dayPicker.setMinValue(0);
+        dayPicker.setMaxValue(31);
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(linearLayout)
+                .setCancelable(false)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        dialog.show();
+
+        btnOk.setOnClickListener(view -> {
+            long days = dayPicker.getValue();
+            long hours = hourPicker.getValue();
+            long minutes = minutePicker.getValue();
+
+            timerEditText.setText(String.format("%d giorni : %d ore : %d minuti", days, hours, minutes));
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
     }
 
     private void clearEditText() {
