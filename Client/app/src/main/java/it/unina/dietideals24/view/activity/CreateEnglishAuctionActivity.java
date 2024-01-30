@@ -74,6 +74,9 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
     private String selectedCategory = null;
     private Uri imageUri = null;
 
+    // default = 1h
+    private long timer = 3600000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,17 +138,25 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             long minutes = minutePicker.getValue();
 
             timerEditText.setText(String.format("%d giorni : %d ore : %d minuti", days, hours, minutes));
+            timer = convertFieldsToMilliseconds(days, hours, minutes);
             dialog.dismiss();
         });
 
         btnCancel.setOnClickListener(view -> dialog.dismiss());
     }
 
+    private long convertFieldsToMilliseconds(long days, long hours, long minutes) {
+        long daysInMilliseconds = days*86400*1000;
+        long hoursInMilliseconds = hours*3600*1000;
+        long minutesInMilliseconds = minutes*60*1000;
+
+        return daysInMilliseconds+hoursInMilliseconds+minutesInMilliseconds;
+    }
+
     private boolean isNotEmptyObligatoryFields() {
         String title = nameEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
         String startingPrice = startingPriceEditText.getText().toString();
-        String timer = timerEditText.getText().toString();
         String increaseAmount = increaseAmountEditText.getText().toString();
 
         boolean ret = true;
@@ -168,13 +179,16 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         } else
             startingPriceTextLayout.setErrorEnabled(false);
 
-        if (timer.isEmpty()) {
+        /*
+        if (timer ) {
             timerTextLayout.setError("Questo campo è obbligatorio");
             ret = false;
         } else
             timerTextLayout.setErrorEnabled(false);
 
-        if (Long.parseLong(timer) == 0) {
+         */
+
+        if (timer == 0) {
             timerTextLayout.setError("Il timer non può essere uguale a 0");
             ret = false;
         } else
@@ -202,7 +216,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
                 CategoryEnum.valueOf(selectedCategory.toUpperCase()),
                 new BigDecimal(startingPriceEditText.getText().toString()),
                 new BigDecimal(startingPriceEditText.getText().toString()),
-                Long.parseLong(timerEditText.getText().toString()) * 1000,
+                timer,
                 new BigDecimal(increaseAmountEditText.getText().toString()),
                 LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()
         );
@@ -292,6 +306,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
 
         timerEditText = findViewById(R.id.inputTimer);
         timerEditText.setInputType(InputType.TYPE_NULL);
+        timerEditText.setText("0 giorni : 1 ore : 0 minuti");
         timerTextLayout = findViewById(R.id.timerTextLayout);
 
         increaseAmountEditText = findViewById(R.id.inputIncreaseAmount);

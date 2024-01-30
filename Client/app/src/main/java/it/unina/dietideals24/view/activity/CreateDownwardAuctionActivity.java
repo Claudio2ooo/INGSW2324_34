@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -72,6 +73,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
     private ProgressBar createAuctionProgressBar;
     private String selectedCategory = null;
     private Uri imageUri = null;
+    private long timer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,6 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         String title = nameEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
         String startingPrice = startingPriceEditText.getText().toString();
-        String timer = timerEditText.getText().toString();
         String decreaseAmount = decreaseAmountEditText.getText().toString();
         String minimumPrice = minimumPriceEditText.getText().toString();
 
@@ -141,13 +142,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         } else
             startingPriceTextLayout.setErrorEnabled(false);
 
-        if (timer.isEmpty()) {
-            timerTextLayout.setError("Questo campo è obbligatorio");
-            ret = false;
-        } else
-            timerTextLayout.setErrorEnabled(false);
-
-        if (Long.parseLong(timer) == 0) {
+        if (timer == 0) {
             timerTextLayout.setError("Il timer non può essere uguale a 0");
             ret = false;
         } else
@@ -180,7 +175,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
                 CategoryEnum.valueOf(selectedCategory.toUpperCase()),
                 new BigDecimal(startingPriceEditText.getText().toString()),
                 new BigDecimal(startingPriceEditText.getText().toString()),
-                Long.parseLong(timerEditText.getText().toString()) * 1000,
+                timer,
                 new BigDecimal(decreaseAmountEditText.getText().toString()),
                 new BigDecimal(minimumPriceEditText.getText().toString()),
                 LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId()
@@ -271,6 +266,8 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         startingPriceTextLayout = findViewById(R.id.startingPriceTextLayout);
 
         timerEditText = findViewById(R.id.inputTimer);
+        timerEditText.setInputType(InputType.TYPE_NULL);
+        timerEditText.setText("");
         timerTextLayout = findViewById(R.id.timerTextLayout);
 
         decreaseAmountEditText = findViewById(R.id.inputDecreaseAmount);
