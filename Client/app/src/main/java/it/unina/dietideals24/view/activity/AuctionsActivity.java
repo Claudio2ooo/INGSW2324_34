@@ -26,6 +26,7 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +89,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
 
@@ -116,6 +117,7 @@ public class AuctionsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
                 initializeYourDownwardAuctions(auctions);
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -135,6 +137,7 @@ public class AuctionsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
                 Collections.sort(auctions);
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 initializeAuctionAdapter(auctions);
             }
         });
@@ -161,6 +164,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 initializeAuctionAdapter(new ArrayList<>());
             }
         });
@@ -187,6 +191,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 initializeAuctionAdapter(new ArrayList<>());
             }
         });
@@ -213,6 +218,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 initializeAuctionAdapter(new ArrayList<>());
             }
         });
@@ -240,6 +246,7 @@ public class AuctionsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 initializeAuctionAdapter(new ArrayList<>());
             }
         });

@@ -17,6 +17,7 @@ import it.unina.dietideals24.adapter.NotificationAdapter;
 import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.NotificationAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +66,7 @@ public class NotificationFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getContext());
             }
         });
         notificationProgressBar.setVisibility(View.INVISIBLE);

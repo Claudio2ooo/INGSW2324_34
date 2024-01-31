@@ -23,6 +23,7 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.view.activity.AuctionsActivity;
 import retrofit2.Call;
@@ -92,6 +93,7 @@ public class AuctionFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
                 yourOffersProgressBar.setVisibility(View.GONE);
+                NetworkUtility.showNetworkErrorToast(getContext());
                 initializeYourOffersAdapter(yourOffers);
             }
         });
@@ -121,6 +123,7 @@ public class AuctionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getContext());
                 initializeYourDownwardAuctions(yourAuctions);
             }
         });
@@ -141,6 +144,7 @@ public class AuctionFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
                 yourAuctionsProgressBar.setVisibility(View.GONE);
+                NetworkUtility.showNetworkErrorToast(getContext());
                 initializeYourAuctionsAdapter(yourAuctions);
             }
         });

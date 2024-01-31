@@ -23,6 +23,7 @@ import it.unina.dietideals24.dto.RegisterDto;
 import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAuthAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -148,34 +149,36 @@ public class SignInActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
 
-        boolean ret = true; //TODO farlo più bello
+        boolean ret = true;
+
+        String obligatoryFieldLabel = getResources().getString(R.string.obligatory_field_label);
 
         if (name.isEmpty()) {
-            nameTextLayout.setError("Questo campo è obbligatorio");
+            nameTextLayout.setError(obligatoryFieldLabel);
             ret = false;
         } else
             nameTextLayout.setErrorEnabled(false);
 
         if (surname.isEmpty()) {
-            surnameTextLayout.setError("Questo campo è obbligatorio");
+            surnameTextLayout.setError(obligatoryFieldLabel);
             ret = false;
         } else
             surnameTextLayout.setErrorEnabled(false);
 
         if (email.isEmpty()) {
-            emailTextLayout.setError("Questo campo è obbligatorio");
+            emailTextLayout.setError(obligatoryFieldLabel);
             ret = false;
         } else
             emailTextLayout.setErrorEnabled(false);
 
         if (password.isEmpty()) {
-            passwordTextLayout.setError("Questo campo è obbligatorio");
+            passwordTextLayout.setError(obligatoryFieldLabel);
             ret = false;
         } else
             passwordTextLayout.setErrorEnabled(false);
 
         if (confirmPassword.isEmpty()) {
-            confirmPasswordTextLayout.setError("Questo campo è obbligatorio");
+            confirmPasswordTextLayout.setError(obligatoryFieldLabel);
             ret = false;
         } else
             confirmPasswordTextLayout.setErrorEnabled(false);
@@ -206,7 +209,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<DietiUser> call, Throwable t) {
                 signInProgressBar.setVisibility(View.GONE);
-                showFailedSignInDialog();
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -255,7 +258,9 @@ public class SignInActivity extends AppCompatActivity {
         View viewFailedSignInEmailAlreadyRegisteredDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.failed_sign_in_email_already_registered_dialog, failedSignInEmailAlreadyRegisteredConstraintLayout);
 
         TextView messageTextView = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.messageText);
-        messageTextView.setText(String.format("L'email %s è già registrata!\n Riprova con un'altra email.", emailAlreadyRegistered));
+
+        String errorMessage = "L'email " + emailAlreadyRegistered + " è già registrata!\n Riprova con un'altra email.";
+        messageTextView.setText(errorMessage);
 
         Button tryAgainBtn = viewFailedSignInEmailAlreadyRegisteredDialog.findViewById(R.id.tryAgainBtn);
 

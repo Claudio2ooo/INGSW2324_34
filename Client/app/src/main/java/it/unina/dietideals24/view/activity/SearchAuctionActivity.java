@@ -25,6 +25,7 @@ import it.unina.dietideals24.model.EnglishAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,6 +87,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 searchDownwardAuctions(keyword);
             }
         });
@@ -104,6 +106,7 @@ public class SearchAuctionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 finalizeSearch();
             }
         });

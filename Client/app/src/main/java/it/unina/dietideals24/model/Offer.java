@@ -31,7 +31,6 @@ public class Offer {
         this.amount = amount;
         this.offerer = offerer;
         this.targetDownwardAuction = targetDownwardAuction;
-        // this.timestamp = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
     }
 
     public Long getId() {

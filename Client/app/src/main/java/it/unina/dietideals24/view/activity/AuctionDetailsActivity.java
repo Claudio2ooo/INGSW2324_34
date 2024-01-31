@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.retrofit.api.OfferAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.TimeUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import okhttp3.ResponseBody;
@@ -79,6 +81,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private ArrayList<Offer> offerrers;
     private CountDownTimer auctionCountDownTimer;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ProgressBar imageProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
     private void initializeViews() {
         image = findViewById(R.id.imageAcution);
+        imageProgressBar = findViewById(R.id.imageProgressBar);
         title = findViewById(R.id.titleAuction);
         categoryName = findViewById(R.id.categoryAuction);
         description = findViewById(R.id.descriptionText);
@@ -152,12 +156,16 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200 && response.body() != null) {
                     auction = response.body();
                     getAuctionImage(auction.getImageURL());
+                } else {
+                    Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                    openMainActivity();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<EnglishAuction> call, Throwable t) {
-                Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 openMainActivity();
                 finish();
             }
@@ -172,12 +180,16 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200 && response.body() != null) {
                     auction = response.body();
                     getAuctionImage(auction.getImageURL());
+                } else {
+                    Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                    openMainActivity();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<DownwardAuction> call, Throwable t) {
-                Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
                 openMainActivity();
                 finish();
             }
@@ -204,6 +216,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void requestAuctionImage(String imageUrl) {
+        imageProgressBar.setVisibility(View.VISIBLE);
+
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -222,14 +236,22 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                                 .apply(requestOptions)
                                 .into(image);
                     }
-                    initializeFields();
+
+
                 } catch (IOException e) {
+                    useDefaultImage();
                     Toast.makeText(AuctionDetailsActivity.this, "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
                 }
+
+                imageProgressBar.setVisibility(View.GONE);
+                initializeFields();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
+
+                imageProgressBar.setVisibility(View.GONE);
                 initializeFields();
             }
         });
@@ -254,7 +276,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Offer> call, Throwable t) {
-                showFailedOfferDialog("Offerta non effettuata, qualcuno è arrivato prima di te!", false);
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -294,7 +316,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownwardAuction> call, Throwable t) {
-                showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -357,7 +379,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<Offer>> call, Throwable t) {
-                Toast.makeText(AuctionDetailsActivity.this, "Impossibile caricare gli offerenti!", Toast.LENGTH_SHORT).show();
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }

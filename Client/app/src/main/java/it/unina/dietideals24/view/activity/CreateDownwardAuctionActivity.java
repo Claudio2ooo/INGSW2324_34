@@ -36,11 +36,13 @@ import java.util.ArrayList;
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.DownwardAuctionDto;
 import it.unina.dietideals24.enumerations.CategoryEnum;
+import it.unina.dietideals24.exceptions.TimePickerException;
 import it.unina.dietideals24.model.DownwardAuction;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 import it.unina.dietideals24.utils.MyFileUtils;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.TimeUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import okhttp3.MediaType;
@@ -88,7 +90,6 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(v -> finish());
 
         uploadImageBtn.setOnClickListener(v ->
-                // Launch the photo picker and let the user choose only images
                 singlePhotoPickerLauncher.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build())
@@ -199,8 +200,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<DownwardAuction> call, Throwable t) {
                 createAuctionProgressBar.setVisibility(View.INVISIBLE);
-                showFailedCreateAuctionDialog("Creazione asta \"" + downwardAuctionDto.getTitle() + "\" fallita!");
-
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
 
@@ -228,7 +228,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 createAuctionProgressBar.setVisibility(View.INVISIBLE);
-                showFailedCreateAuctionDialog("Caricamento immagine fallito");
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -381,8 +381,17 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             long hours = hourPicker.getValue();
             long minutes = minutePicker.getValue();
 
-            timerEditText.setText(String.format("%d giorni : %d ore : %d minuti", days, hours, minutes));
-            timer = TimeUtility.convertFieldsToMilliseconds(days, hours, minutes);
+            try {
+                String verboseTimer = days + " giorni : " + hours + " ore : " + minutes + " minuti";
+                timerEditText.setText(verboseTimer);
+                timer = TimeUtility.convertFieldsToMilliseconds(days, hours, minutes);
+            } catch (TimePickerException e) {
+                String errorTimer = "0 giorni : 0 ore : 0 minuti";
+                timerEditText.setText(errorTimer);
+                timer = 0;
+                e.printStackTrace();
+            }
+
             dialog.dismiss();
         });
 

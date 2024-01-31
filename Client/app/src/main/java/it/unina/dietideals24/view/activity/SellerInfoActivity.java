@@ -21,6 +21,7 @@ import it.unina.dietideals24.model.DietiUser;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +66,7 @@ public class SellerInfoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DietiUser> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }
@@ -152,7 +153,7 @@ public class SellerInfoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }

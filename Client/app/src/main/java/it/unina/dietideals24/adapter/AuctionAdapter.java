@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -121,6 +122,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     }
 
     private void retrieveAuctionImage(AuctionViewHolder holder, String imageUrl) {
+        holder.imageProgressBar.setVisibility(View.VISIBLE);
+
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -138,15 +141,18 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                                 .load(bitmap)
                                 .apply(requestOptions)
                                 .into(holder.image);
+
+                        holder.imageProgressBar.setVisibility(View.GONE);
                     }
                 } catch (IOException e) {
-
+                    retrieveDefaultImage(holder);
+                    holder.imageProgressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                holder.imageProgressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -195,6 +201,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         TextView timer;
         Button showAuctionBtn;
         boolean timerStarted;
+        ProgressBar imageProgressBar;
 
         public AuctionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -205,6 +212,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             currentPrice = itemView.findViewById(R.id.currentPrice);
             timer = itemView.findViewById(R.id.timer);
             timerStarted = false;
+            imageProgressBar = itemView.findViewById(R.id.imageProgressBar);
 
             showAuctionBtn = itemView.findViewById(R.id.showAuctionBtn);
         }

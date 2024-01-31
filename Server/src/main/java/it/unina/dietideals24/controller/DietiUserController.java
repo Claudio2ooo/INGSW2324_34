@@ -42,11 +42,6 @@ public class DietiUserController {
         return dietiUserService.getUserByEmail(email);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteDietiUser(@PathVariable("id") Long id) {
-        dietiUserService.deleteDietiUser(id);
-    }
-
     @PostMapping("{id}/profile-picture")
     public DietiUser updateProfilePicture(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) throws BadRequestException {
         if (dietiUserService.existsById(id)) {

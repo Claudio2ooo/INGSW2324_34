@@ -30,6 +30,7 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DownwardAuctionAPI;
 import it.unina.dietideals24.retrofit.api.EnglishAuctionAPI;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.view.activity.AuctionsActivity;
 import it.unina.dietideals24.view.activity.CategoriesActivity;
 import it.unina.dietideals24.view.activity.SearchAuctionActivity;
@@ -66,7 +67,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         initializeViews(view);
@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        swipeRefreshLayout.setOnRefreshListener(() -> refreshFragment());
+        swipeRefreshLayout.setOnRefreshListener((this::refreshFragment));
 
         return view;
     }
@@ -168,6 +168,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<EnglishAuction>> call, Throwable t) {
                 englishAuctionProgressBar.setVisibility(View.GONE);
+                NetworkUtility.showNetworkErrorToast(getContext());
                 initializeAuctionAdapter(new ArrayList<>(), recyclerViewEnglishAuction);
             }
         });
@@ -194,6 +195,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<DownwardAuction>> call, Throwable t) {
                 downwardAuctionProgressBar.setVisibility(View.GONE);
+                NetworkUtility.showNetworkErrorToast(getContext());
                 initializeAuctionAdapter(new ArrayList<>(), recyclerViewDownwardAuction);
             }
         });

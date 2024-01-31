@@ -1,6 +1,0 @@
-profilo utente:
-    nome e cognome
-    immagine profilo
-        omino generico con colore random
-        iniziali stile teams
-

@@ -93,9 +93,4 @@ public class DownwardAuctionController {
         } else
             throw new BadRequestException("Auction doesn't exist");
     }
-
-    @DeleteMapping("{id}")
-    public void deleteDownwardAuction(@PathVariable("id") Long id) {
-        downwardAuctionService.deleteDownwardAuctionById(id);
-    }
 }

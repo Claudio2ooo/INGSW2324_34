@@ -43,6 +43,7 @@ import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.utils.MyFileUtils;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.activity.LoginActivity;
@@ -209,7 +210,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onFailure(Call<DietiUser> call, Throwable t) {
                     alertDialog.dismiss();
-                    showFailedUpdateDialog(view, "Impossibile aggiornare la password al momento, riprova più tardi,");
+                    NetworkUtility.showNetworkErrorToast(getContext());
                 }
             });
         });
@@ -242,7 +243,6 @@ public class ProfileFragment extends Fragment {
         TextView surname = viewEditProfileDialog.findViewById(R.id.inputSurname);
 
         changeImgBtn.setOnClickListener(v ->
-                // Launch the photo picker and let the user choose only images
                 singlePhotoPickerLauncher.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build())
@@ -295,7 +295,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<DietiUser> call, Throwable t) {
                 alertDialog.dismiss();
-                showFailedUpdateDialog(view, "Impossibile modficare i tuoi dati al momento, riprova più tardi.");
+                NetworkUtility.showNetworkErrorToast(getContext());
             }
         });
     }
@@ -322,7 +322,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<DietiUser> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getContext());
             }
         });
     }
@@ -353,7 +353,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                NetworkUtility.showNetworkErrorToast(getContext());
             }
         });
     }

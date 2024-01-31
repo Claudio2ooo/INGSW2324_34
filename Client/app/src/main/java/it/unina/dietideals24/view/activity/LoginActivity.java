@@ -25,6 +25,7 @@ import it.unina.dietideals24.response.LoginResponse;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.DietiUserAuthAPI;
+import it.unina.dietideals24.utils.NetworkUtility;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import retrofit2.Call;
@@ -142,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 loginProgressBar.setVisibility(View.GONE);
-                showFailedLoginDialog();
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
     }

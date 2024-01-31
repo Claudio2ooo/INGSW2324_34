@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         String redirect = getIntent().getStringExtra("redirect");
@@ -96,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void startNotificationWorker() {
         Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED) //eseguito solo se connesso a internet
-                .setRequiresBatteryNotLow(true)                //eseguito solo se batteria carica abbastanza
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
                 .build();
 
         PeriodicWorkRequest pushNotificationWorker = new PeriodicWorkRequest.Builder(PushNotificationWorker.class, 1, TimeUnit.MINUTES)
@@ -118,13 +117,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
+        logNavbarButton(fragmentTagEnum);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
+    }
+
+    private void logNavbarButton(FragmentTagEnum fragmentTagEnum) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, fragmentTagEnum.toString());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,  fragmentTagEnum + " button");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar" + fragmentTagEnum + "button");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
     }
 
     private void backButtonManagement() {

@@ -93,9 +93,4 @@ public class EnglishAuctionController {
         } else
             throw new BadRequestException("Auction doesn't exist");
     }
-
-    @DeleteMapping("{id}")
-    public void deleteEnglishAuction(@PathVariable("id") Long id) {
-        englishAuctionService.deleteEnglishAuctionById(id);
-    }
 }

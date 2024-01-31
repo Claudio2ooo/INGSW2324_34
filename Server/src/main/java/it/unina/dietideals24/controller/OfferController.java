@@ -50,16 +50,6 @@ public class OfferController {
         return offerService.getOffersByEnglishAuctionId(englishAuctionId);
     }
 
-    @GetMapping("/downward/{id}")
-    public List<Offer> getOffersByDownwardAuctionId(@PathVariable("id") Long downwardAuctionId) {
-        return offerService.getOffersByDownwardAuctionId(downwardAuctionId);
-    }
-
-    @GetMapping("offerer/{id}")
-    public List<Offer> getOffersByOffererId(@PathVariable("id") Long offererId) {
-        return offerService.getOffersByOffererId(offererId);
-    }
-
     @GetMapping("/english/offerer/{id}")
     public List<EnglishAuction> getAuctionsByOffererId(@PathVariable("id") Long offererId) {
         List<Offer> offers = offerService.getOffersByOffererId(offererId);

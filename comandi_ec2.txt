@@ -1,0 +1,17 @@
+connettersi ad ec2 da terminale:
+    ssh -i "la_tua_chiave_privata" ec2-user@<ip_statico>/<dns ipv4>
+
+passare file ad ec2 da terminale:
+    scp -i "lat_tua_chiave_privata" path_del_file ec2-user@<ip_statico>/<dns ipv4>:path_destinazione
+
+installare docker:
+    sudo yum install docker
+    sudo yum install docker-compose / in alternativa:
+        sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
+
+avviare il compose:
+    docker compose up (da eseguire nella cartella con compose.yaml)

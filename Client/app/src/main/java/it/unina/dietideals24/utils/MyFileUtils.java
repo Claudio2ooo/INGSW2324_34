@@ -42,7 +42,7 @@ public class MyFileUtils {
             return tempFile;
         } catch (IOException e) {
             if (tempFile != null) {
-                tempFile.delete(); // Elimina il file temporaneo in caso di errore
+                tempFile.delete();
             }
             return null;
         }

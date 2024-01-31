@@ -86,4 +86,5 @@
     <string name="failed_data_update_label">Modifica fallita!</string>
     <string name="failed_data_update_text">Impossibile modficare i tuoi dati al momento, riprova più tardi.</string>
     <string name="close_label">Chiudi</string>
+    <string name="obligatory_field_label">Questo campo è obbligatorio</string>
 </resources>
