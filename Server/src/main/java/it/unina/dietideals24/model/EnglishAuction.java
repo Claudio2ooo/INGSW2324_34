@@ -11,5 +11,4 @@ import java.math.BigDecimal;
 @Entity
 public class EnglishAuction extends Auction {
     private BigDecimal increaseAmount;
-
 }

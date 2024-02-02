@@ -66,22 +66,16 @@ public class DietiUser implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (o instanceof DietiUser dietiUser) {
-            if (
-                    this.name.equals(dietiUser.name) &&
+            return this.name.equals(dietiUser.name) &&
                     this.surname.equals(dietiUser.surname) &&
                     this.email.equals(dietiUser.email) &&
                     this.geographicalArea.equals(dietiUser.geographicalArea) &&
                     this.biography.equals(dietiUser.biography) &&
-                    this.links.equals(dietiUser.links)
-            )
-                return true;
-            else
-                return false;
+                    this.links.equals(dietiUser.links);
         } else
             return false;
-
     }
 
     public DietiUser(String name, String surname, String email, String biography, String geographicalArea, List<String> links) {

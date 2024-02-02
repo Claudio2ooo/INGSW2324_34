@@ -82,3 +82,9 @@ Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
 Tsrc/test/java/it/unina/dietideals24/service/implementation/DietiUserServiceTest.java,9\8\982e37e05ab7d02a998e0b67351b283192a866b6
 ‚
 Rsrc/main/java/it/unina/dietideals24/controller/DownwardAuctionTimerController.java,f\b\fb5cce4bfd9611d53a520a8fd3b695c96827769f
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+n
+>src/main/java/it/unina/dietideals24/enumeration/StateEnum.java,4\c\4cecd8dba2226ee16b6a4d1d1c810d1824af8314
+q
+Asrc/main/java/it/unina/dietideals24/enumeration/CategoryEnum.java,3\b\3b97ba7668a186f28838bf3127ae90d9469bb3fd

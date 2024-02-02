@@ -32,4 +32,3 @@ public class Auction {
     @JoinColumn(name = "owner_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_DIETI_USER"))
     private DietiUser owner;
 }
-

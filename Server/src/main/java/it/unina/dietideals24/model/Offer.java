@@ -2,6 +2,7 @@ package it.unina.dietideals24.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,12 +10,11 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Offer {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal amount;
     private Timestamp timestamp;
@@ -33,7 +33,7 @@ public class Offer {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DownwardAuction targetDownwardAuction;
 
-    public Offer(BigDecimal amount, DietiUser offerer, EnglishAuction targetEnglishAuction){
+    public Offer(BigDecimal amount, DietiUser offerer, EnglishAuction targetEnglishAuction) {
         this.amount = amount;
         this.offerer = offerer;
         this.targetEnglishAuction = targetEnglishAuction;
@@ -45,9 +45,5 @@ public class Offer {
         this.offerer = offerer;
         this.targetDownwardAuction = targetDownwardAuction;
         this.timestamp = new Timestamp(System.currentTimeMillis());
-    }
-
-    public Offer(){
-
     }
 }

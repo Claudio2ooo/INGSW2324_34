@@ -9,16 +9,16 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-public class DownwardAuction extends Auction{
+public class DownwardAuction extends Auction {
     private BigDecimal decreaseAmount;
     private BigDecimal minimumPrice;
 
-
     /**
      * checks if it's possibile do decrease the currentPrice by decreaseAmount
+     *
      * @return true if decreaseable, false otherwise
      */
-    public boolean canBeDecreased(){
+    public boolean canBeDecreased() {
         return getCurrentPrice().subtract(getDecreaseAmount()).compareTo(minimumPrice) > 0;
     }
 
@@ -26,7 +26,7 @@ public class DownwardAuction extends Auction{
      * Decreases currentPrice of a downwardAuction by its decreaseAmount
      * Should be used after canBeDecreased()
      */
-    public void decreaseCurrentPrice(){
+    public void decreaseCurrentPrice() {
         setCurrentPrice(getCurrentPrice().subtract(getDecreaseAmount()));
     }
 }
