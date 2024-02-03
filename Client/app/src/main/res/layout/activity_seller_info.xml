@@ -101,7 +101,6 @@
                         android:gravity="center"
                         android:text="Campania, Italy"
                         android:textSize="14sp"
-                        app:drawableEndCompat="@drawable/round_flag_circle_40"
                         app:drawableStartCompat="@drawable/outline_location_on_40"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

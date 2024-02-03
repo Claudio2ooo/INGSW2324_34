@@ -43,7 +43,7 @@ public class NotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         initializeViews(view);
-        initializeNotification(view);
+        initializeNotification();
 
         return view;
     }
@@ -54,7 +54,7 @@ public class NotificationFragment extends Fragment {
         notificationProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void initializeNotification(View view) {
+    private void initializeNotification() {
         NotificationAPI notificationAPI = RetrofitService.getRetrofitInstance().create(NotificationAPI.class);
         notificationAPI.getNotificationByReceiverId(LocalDietiUser.getLocalDietiUser(getContext()).getId()).enqueue(new Callback<List<Notification>>() {
             @Override

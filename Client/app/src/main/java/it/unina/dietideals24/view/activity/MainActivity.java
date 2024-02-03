@@ -44,7 +44,7 @@ import it.unina.dietideals24.view.fragment.ProfileFragment;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public static BadgeDrawable badge;
+    private static BadgeDrawable badge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +81,33 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notify);
-        badge.setVisible(false);
-
+        setBadge();
         backButtonManagement();
+    }
+
+    private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
+        logNavbarButton(fragmentTagEnum);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
+    }
+
+    private void backButtonManagement() {
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) finish();
+
+            FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+
+            if (backStackEntry.getName() == null) return;
+
+            if (backStackEntry.getName().equals(FragmentTagEnum.HOME.toString())) {
+                binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.AUCTION.toString())) {
+                binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.NOTIFICATION.toString())) {
+                binding.bottomNavigation.getMenu().getItem(3).setChecked(true);
+            } else if (backStackEntry.getName().equals(FragmentTagEnum.PROFILE.toString())) {
+                binding.bottomNavigation.getMenu().getItem(4).setChecked(true);
+            }
+        });
     }
 
     private void askNotificationPermission() {
@@ -111,43 +134,15 @@ public class MainActivity extends AppCompatActivity {
         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);
     }
 
-    public static void setBadgeNotification(boolean isVisible, int number) {
+    private synchronized void setBadge() {
+        if (badge == null)
+            badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notify);
+
+        badge.setVisible(false);
+    }
+
+    public static void setIsVisibleBadgeNotification(boolean isVisible) {
         badge.setVisible(isVisible);
-        badge.setNumber(number);
-    }
-
-    private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
-        logNavbarButton(fragmentTagEnum);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragmentTagEnum.toString()).addToBackStack(fragmentTagEnum.toString()).commit();
-    }
-
-    private void logNavbarButton(FragmentTagEnum fragmentTagEnum) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, fragmentTagEnum.toString());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,  fragmentTagEnum + " button");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar" + fragmentTagEnum + "button");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-    }
-
-    private void backButtonManagement() {
-        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) finish();
-
-            FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-
-            if (backStackEntry.getName() == null) return;
-
-            if (backStackEntry.getName().equals(FragmentTagEnum.HOME.toString())) {
-                binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
-            } else if (backStackEntry.getName().equals(FragmentTagEnum.AUCTION.toString())) {
-                binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
-            } else if (backStackEntry.getName().equals(FragmentTagEnum.NOTIFICATION.toString())) {
-                binding.bottomNavigation.getMenu().getItem(3).setChecked(true);
-            } else if (backStackEntry.getName().equals(FragmentTagEnum.PROFILE.toString())) {
-                binding.bottomNavigation.getMenu().getItem(4).setChecked(true);
-            }
-        });
     }
 
     private void showCreateAuctionDialog() {
@@ -177,5 +172,13 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    private void logNavbarButton(FragmentTagEnum fragmentTagEnum) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, fragmentTagEnum.toString());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fragmentTagEnum + " button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar" + fragmentTagEnum + "button");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 }

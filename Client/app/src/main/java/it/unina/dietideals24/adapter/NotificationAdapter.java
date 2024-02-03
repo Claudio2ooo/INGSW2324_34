@@ -74,15 +74,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onResponse(Call<Void> call, Response<Void> response) {
                 notifications.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
+
                 if (!notifications.isEmpty())
-                    MainActivity.setBadgeNotification(true, notifications.size());
+                    MainActivity.setIsVisibleBadgeNotification(true);
                 else
-                    MainActivity.setBadgeNotification(false, 0);
+                    MainActivity.setIsVisibleBadgeNotification(false);
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                MainActivity.setIsVisibleBadgeNotification(false);
             }
         });
     }
