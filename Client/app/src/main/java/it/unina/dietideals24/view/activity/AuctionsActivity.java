@@ -33,7 +33,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuctionsActivity extends AppCompatActivity {
-
     private ImageView backBtn;
     private TextView titleText;
     private ProgressBar progressBar;

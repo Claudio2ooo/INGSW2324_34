@@ -1,8 +1,7 @@
 package it.unina.dietideals24.model;
 
-import androidx.annotation.Nullable;
-
 import java.util.List;
+import java.util.Objects;
 
 public class DietiUser {
     private Long id;
@@ -15,14 +14,8 @@ public class DietiUser {
     private String geographicalArea;
     private String profilePictureUrl;
 
-    public DietiUser(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-    }
-
-    public DietiUser(String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
+    public DietiUser(Long id, String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -44,8 +37,14 @@ public class DietiUser {
         this.profilePictureUrl = profilePictureUrl;
     }
 
-    public DietiUser(Long id, String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
-        this.id = id;
+    public DietiUser(String name, String surname, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
+
+    public DietiUser(String name, String surname, String email, String password, String biography, List<String> links, String geographicalArea, String profilePictureUrl) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -139,21 +138,15 @@ public class DietiUser {
     }
 
     @Override
-    public String toString() {
-        return "DietiUser{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", biography='" + biography + '\'' +
-                ", links=" + links +
-                ", geographicalArea='" + geographicalArea + '\'' +
-                ", profilePictureUrl='" + profilePictureUrl + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DietiUser dietiUser = (DietiUser) o;
+        return Objects.equals(id, dietiUser.id);
     }
 
-    public boolean equals(@Nullable DietiUser dietiUser) {
-        return getId().equals(dietiUser.getId());
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

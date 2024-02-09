@@ -18,18 +18,18 @@ public class Offer {
         this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
+    public Offer(BigDecimal amount, DietiUser offerer, DownwardAuction targetDownwardAuction) {
+        this.amount = amount;
+        this.offerer = offerer;
+        this.targetDownwardAuction = targetDownwardAuction;
+    }
+
     public Offer(Long id, BigDecimal amount, Timestamp timestamp, DietiUser offerer, EnglishAuction targetEnglishAuction, DownwardAuction targetDownwardAuction) {
         this.id = id;
         this.amount = amount;
         this.timestamp = timestamp;
         this.offerer = offerer;
         this.targetEnglishAuction = targetEnglishAuction;
-        this.targetDownwardAuction = targetDownwardAuction;
-    }
-
-    public Offer(BigDecimal amount, DietiUser offerer, DownwardAuction targetDownwardAuction) {
-        this.amount = amount;
-        this.offerer = offerer;
         this.targetDownwardAuction = targetDownwardAuction;
     }
 

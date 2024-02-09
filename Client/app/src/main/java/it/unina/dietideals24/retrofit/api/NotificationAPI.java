@@ -9,7 +9,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface NotificationAPI {
-
     @GET("/notifications/receiver/{id}")
     Call<List<Notification>> getNotificationByReceiverId(@Path("id") Long receiverId);
 

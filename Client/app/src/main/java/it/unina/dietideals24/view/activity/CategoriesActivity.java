@@ -17,11 +17,10 @@ import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.CategoryAdapter;
-import it.unina.dietideals24.entity.CategoryItem;
+import it.unina.dietideals24.adapter.entity.CategoryItem;
 import it.unina.dietideals24.utils.CategoryArrayListInitializer;
 
 public class CategoriesActivity extends AppCompatActivity {
-
     private ArrayList<CategoryItem> categories;
     private RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> categoryAdapter;
     private ImageView backBtn;

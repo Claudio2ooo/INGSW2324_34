@@ -1,4 +1,4 @@
-package it.unina.dietideals24.entity;
+package it.unina.dietideals24.adapter.entity;
 
 public class CategoryItem {
     private String name;

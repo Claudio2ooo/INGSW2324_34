@@ -127,19 +127,19 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
         boolean ret = true;
 
         if (title.isEmpty()) {
-            nameTextLayout.setError("Questo campo è obbligatorio");
+            nameTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             nameTextLayout.setErrorEnabled(false);
 
         if (description.isEmpty()) {
-            descriptionTextLayout.setError("Questo campo è obbligatorio");
+            descriptionTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             descriptionTextLayout.setErrorEnabled(false);
 
         if (startingPrice.isEmpty()) {
-            startingPriceTextLayout.setError("Questo campo è obbligatorio");
+            startingPriceTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             startingPriceTextLayout.setErrorEnabled(false);
@@ -151,13 +151,13 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             timerTextLayout.setErrorEnabled(false);
 
         if (decreaseAmount.isEmpty()) {
-            decreaseAmountTextLayout.setError("Questo campo è obbligatorio");
+            decreaseAmountTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             decreaseAmountTextLayout.setErrorEnabled(false);
 
         if (minimumPrice.isEmpty()) {
-            minimumPriceTextLayout.setError("Questo campo è obbligatorio");
+            minimumPriceTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
         } else
             minimumPriceTextLayout.setErrorEnabled(false);
 
@@ -308,35 +308,6 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
             clearEditText();
             alertDialog.dismiss();
         });
-
-        backToHomeBtn.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(mainActivity);
-        });
-
-        if (alertDialog.getWindow() != null) {
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        alertDialog.show();
-    }
-
-    private void showFailedCreateAuctionDialog(String messageText) {
-        ConstraintLayout failedCreateAuctionConstraintLayout = findViewById(R.id.failedCreateAuctionConstraintLayout);
-        View viewFailedCreateAuctionDialog = LayoutInflater.from(CreateDownwardAuctionActivity.this).inflate(R.layout.failed_create_auction_dialog, failedCreateAuctionConstraintLayout);
-
-        TextView messageTextView = viewFailedCreateAuctionDialog.findViewById(R.id.failedCreateAuctionText);
-        messageTextView.setText(messageText);
-
-        Button backToCreateAuctionBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToCreateAuctionBtn);
-        backToCreateAuctionBtn.setText(getResources().getString(R.string.create_another_downward_auction_label));
-
-        Button backToHomeBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToHomeBtn);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreateDownwardAuctionActivity.this);
-        builder.setView(viewFailedCreateAuctionDialog);
-        final AlertDialog alertDialog = builder.create();
-
-        backToCreateAuctionBtn.setOnClickListener(v -> alertDialog.dismiss());
 
         backToHomeBtn.setOnClickListener(v -> {
             Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);

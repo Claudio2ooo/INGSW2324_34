@@ -9,7 +9,6 @@ import java.util.List;
 import it.unina.dietideals24.model.DietiUser;
 
 public class LocalDietiUser {
-
     private static final String FILE_NAME_DIETI_USER = "local_dieti_user_data";
 
     private LocalDietiUser() {

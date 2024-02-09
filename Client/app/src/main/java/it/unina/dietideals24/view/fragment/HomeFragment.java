@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.adapter.AuctionAdapter;
 import it.unina.dietideals24.adapter.CategoryAdapter;
-import it.unina.dietideals24.entity.CategoryItem;
+import it.unina.dietideals24.adapter.entity.CategoryItem;
 import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.model.Auction;
 import it.unina.dietideals24.model.DownwardAuction;
@@ -39,7 +39,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-
     private SwipeRefreshLayout swipeRefreshLayout;
     private EditText searchAuctionEditText;
     private Button categoryBtn;

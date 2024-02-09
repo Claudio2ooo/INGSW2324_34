@@ -28,7 +28,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SellerInfoActivity extends AppCompatActivity {
-
     private TextView sellerFullNameText;
     private TextView geographicalAreaText;
     private TextView biographyText;
@@ -75,7 +74,7 @@ public class SellerInfoActivity extends AppCompatActivity {
         sellerFullNameText.setText(String.format("%s %s", seller.getName(), seller.getSurname()));
 
         if (seller.getProfilePictureUrl() != null && !seller.getProfilePictureUrl().isEmpty())
-                requestProfilePicture(seller.getProfilePictureUrl());
+            requestProfilePicture(seller.getProfilePictureUrl());
 
         if (seller.getGeographicalArea() == null || seller.getBiography() == null || seller.getLinks() == null) {
             messageNoInformation.setVisibility(View.VISIBLE);

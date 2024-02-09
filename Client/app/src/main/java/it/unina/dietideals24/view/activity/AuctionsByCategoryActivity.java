@@ -31,7 +31,6 @@ import retrofit2.Response;
 
 public class AuctionsByCategoryActivity extends AppCompatActivity {
     private ImageView backBtn;
-    private TextView categoryTitleTextView;
     private Button englishAuctionsBtn;
     private Button downwardAuctionsBtn;
     private ProgressBar englishAuctionProgressBar;
@@ -129,7 +128,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
 
     private void initializeViews(CategoryEnum category) {
         backBtn = findViewById(R.id.backBtn);
-        categoryTitleTextView = findViewById(R.id.categoryTitleTextView);
+        TextView categoryTitleTextView = findViewById(R.id.categoryTitleTextView);
         categoryTitleTextView.setText(CategoryArrayListInitializer.capitalize(category.name()));
 
         englishAuctionsBtn = findViewById(R.id.englishAuctionsBtn);

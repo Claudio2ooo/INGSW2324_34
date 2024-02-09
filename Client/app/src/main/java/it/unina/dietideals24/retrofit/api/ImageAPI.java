@@ -6,7 +6,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ImageAPI {
-
     @GET("/images")
     Call<ResponseBody> getImageByUrl(@Query("imageUrl") String url);
 }

@@ -88,3 +88,7 @@ n
 >src/main/java/it/unina/dietideals24/enumeration/StateEnum.java,4\c\4cecd8dba2226ee16b6a4d1d1c810d1824af8314
 q
 Asrc/main/java/it/unina/dietideals24/enumeration/CategoryEnum.java,3\b\3b97ba7668a186f28838bf3127ae90d9469bb3fd
+~
+Nsrc/main/java/it/unina/dietideals24/auction_timertask/DownwardAuctionTask.java,5\6\56e2235ab8b9ff63aa3cf7da5662ebf4246a9eb4
+}
+Msrc/main/java/it/unina/dietideals24/auction_timertask/EnglishAuctionTask.java,5\4\54b3f81daa2b925ea9174a1ded7f46196ca2816a

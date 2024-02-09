@@ -31,7 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchAuctionActivity extends AppCompatActivity {
-
     private EditText searchAuctionEditText;
     private ImageView backBtn;
     private RecyclerView auctionsRecyclerView;

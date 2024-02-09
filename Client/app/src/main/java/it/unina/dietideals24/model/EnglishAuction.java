@@ -20,20 +20,4 @@ public class EnglishAuction extends Auction {
     public void setIncreaseAmount(BigDecimal increaseAmount) {
         this.increaseAmount = increaseAmount;
     }
-
-    @Override
-    public String toString() {
-        return "EnglishAuction{" +
-                "id=" + getId() +
-                ", title='" + getTitle() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", category=" + getCategory() +
-                ", imageURL='" + getImageURL() + '\'' +
-                ", startingPrice=" + getStartingPrice() +
-                ", currentPrice=" + getCurrentPrice() +
-                ", timerInMilliseconds=" + getTimerInMilliseconds() +
-                ", owner=" + getOwner() +
-                "increaseAmount=" + increaseAmount +
-                '}';
-    }
 }

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class NetworkUtility {
-
     private NetworkUtility() {
-
     }
 
     public static synchronized void showNetworkErrorToast(Context context) {

@@ -53,7 +53,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateEnglishAuctionActivity extends AppCompatActivity {
-
     private EditText nameEditText;
     private EditText descriptionEditText;
     private EditText startingPriceEditText;
@@ -61,18 +60,18 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
     private EditText increaseAmountEditText;
     private TextInputLayout nameTextLayout;
     private TextInputLayout descriptionTextLayout;
+    private TextInputLayout categoryTextLayout;
     private TextInputLayout startingPriceTextLayout;
     private TextInputLayout timerTextLayout;
     private TextInputLayout increaseAmountTextLayout;
-    private TextInputLayout categoryTextLayout;
     private ImageView backBtn;
     private ImageView imageProduct;
     private Button createAuctionBtn;
     private Button uploadImageBtn;
     private Button cancelBtn;
-    private ProgressBar createAuctionProgressBar;
     private AutoCompleteTextView listItemsDropdownMenu;
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
+    private ProgressBar createAuctionProgressBar;
     private String selectedCategory = null;
     private Uri imageUri = null;
 
@@ -106,55 +105,6 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         timerEditText.setOnClickListener(v -> showNumberPickers());
     }
 
-    private void showNumberPickers() {
-        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.number_picker_dialog, null);
-        NumberPicker minutePicker = linearLayout.findViewById(R.id.minutePicker);
-        NumberPicker hourPicker = linearLayout.findViewById(R.id.hourPicker);
-        NumberPicker dayPicker = linearLayout.findViewById(R.id.dayPicker);
-        Button btnOk = linearLayout.findViewById(R.id.btnOk);
-        Button btnCancel = linearLayout.findViewById(R.id.btnCancel);
-
-        minutePicker.setMinValue(0);
-        minutePicker.setMaxValue(59);
-        minutePicker.setValue(0);
-        hourPicker.setMinValue(0);
-        hourPicker.setMaxValue(23);
-        hourPicker.setValue(1);
-        dayPicker.setMinValue(0);
-        dayPicker.setMaxValue(31);
-
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(linearLayout)
-                .setCancelable(false)
-                .create();
-
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        dialog.show();
-
-        btnOk.setOnClickListener(view -> {
-            long days = dayPicker.getValue();
-            long hours = hourPicker.getValue();
-            long minutes = minutePicker.getValue();
-
-            try {
-                String verboseTimer = days + " giorni : " + hours + " ore : " + minutes + " minuti";
-                timerEditText.setText(verboseTimer);
-                timer = TimeUtility.convertFieldsToMilliseconds(days, hours, minutes);
-            } catch (TimePickerException e) {
-                String errorTimer = "0 giorni : 0 ore : 0 minuti";
-                timerEditText.setText(errorTimer);
-                timer = 0;
-                e.printStackTrace();
-            }
-
-            dialog.dismiss();
-        });
-
-        btnCancel.setOnClickListener(view -> dialog.dismiss());
-    }
-
     private boolean isNotEmptyObligatoryFields() {
         String title = nameEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
@@ -164,19 +114,19 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         boolean ret = true;
 
         if (title.isEmpty()) {
-            nameTextLayout.setError("Questo campo è obbligatorio");
+            nameTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             nameTextLayout.setErrorEnabled(false);
 
         if (description.isEmpty()) {
-            descriptionTextLayout.setError("Questo campo è obbligatorio");
+            descriptionTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             descriptionTextLayout.setErrorEnabled(false);
 
         if (startingPrice.isEmpty()) {
-            startingPriceTextLayout.setError("Questo campo è obbligatorio");
+            startingPriceTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             startingPriceTextLayout.setErrorEnabled(false);
@@ -188,7 +138,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
             timerTextLayout.setErrorEnabled(false);
 
         if (increaseAmount.isEmpty()) {
-            increaseAmountTextLayout.setError("Questo campo è obbligatorio");
+            increaseAmountTextLayout.setError(getResources().getString(R.string.obligatory_field_label));
             ret = false;
         } else
             increaseAmountTextLayout.setErrorEnabled(false);
@@ -347,33 +297,53 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void showFailedCreateAuctionDialog(String messageText) {
-        ConstraintLayout failedCreateAuctionConstraintLayout = findViewById(R.id.failedCreateAuctionConstraintLayout);
-        View viewFailedCreateAuctionDialog = LayoutInflater.from(CreateEnglishAuctionActivity.this).inflate(R.layout.failed_create_auction_dialog, failedCreateAuctionConstraintLayout);
+    private void showNumberPickers() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.number_picker_dialog, null);
+        NumberPicker minutePicker = linearLayout.findViewById(R.id.minutePicker);
+        NumberPicker hourPicker = linearLayout.findViewById(R.id.hourPicker);
+        NumberPicker dayPicker = linearLayout.findViewById(R.id.dayPicker);
+        Button btnOk = linearLayout.findViewById(R.id.btnOk);
+        Button btnCancel = linearLayout.findViewById(R.id.btnCancel);
 
-        TextView messageTextView = viewFailedCreateAuctionDialog.findViewById(R.id.failedCreateAuctionText);
-        messageTextView.setText(messageText);
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(59);
+        minutePicker.setValue(0);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        hourPicker.setValue(1);
+        dayPicker.setMinValue(0);
+        dayPicker.setMaxValue(31);
 
-        Button backToCreateAuctionBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToCreateAuctionBtn);
-        backToCreateAuctionBtn.setText(getResources().getString(R.string.create_another_english_auction_label));
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(linearLayout)
+                .setCancelable(false)
+                .create();
 
-        Button backToHomeBtn = viewFailedCreateAuctionDialog.findViewById(R.id.backToHomeBtn);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        dialog.show();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreateEnglishAuctionActivity.this);
-        builder.setView(viewFailedCreateAuctionDialog);
-        final AlertDialog alertDialog = builder.create();
+        btnOk.setOnClickListener(view -> {
+            long days = dayPicker.getValue();
+            long hours = hourPicker.getValue();
+            long minutes = minutePicker.getValue();
 
-        backToCreateAuctionBtn.setOnClickListener(v -> alertDialog.dismiss());
+            try {
+                String verboseTimer = days + " giorni : " + hours + " ore : " + minutes + " minuti";
+                timerEditText.setText(verboseTimer);
+                timer = TimeUtility.convertFieldsToMilliseconds(days, hours, minutes);
+            } catch (TimePickerException e) {
+                String errorTimer = "0 giorni : 0 ore : 0 minuti";
+                timerEditText.setText(errorTimer);
+                timer = 0;
+                e.printStackTrace();
+            }
 
-        backToHomeBtn.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(mainActivity);
+            dialog.dismiss();
         });
 
-        if (alertDialog.getWindow() != null) {
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        alertDialog.show();
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
     }
 
     private void clearEditText() {

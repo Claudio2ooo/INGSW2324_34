@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import it.unina.dietideals24.R;
-import it.unina.dietideals24.entity.CategoryItem;
+import it.unina.dietideals24.adapter.entity.CategoryItem;
 import it.unina.dietideals24.view.activity.AuctionsByCategoryActivity;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {

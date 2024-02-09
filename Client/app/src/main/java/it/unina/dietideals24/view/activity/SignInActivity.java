@@ -29,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
-
     private EditText nameEditText;
     private EditText surnameEditText;
     private EditText emailEditText;
@@ -228,24 +227,6 @@ public class SignInActivity extends AppCompatActivity {
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(loginActivity);
         });
-
-        if (alertDialog.getWindow() != null) {
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        alertDialog.show();
-    }
-
-    private void showFailedSignInDialog() {
-        ConstraintLayout failedSignInConstraintLayout = findViewById(R.id.failedSignInConstraintLayout);
-        View viewFailedSignInDialog = LayoutInflater.from(SignInActivity.this).inflate(R.layout.failed_sign_in_dialog, failedSignInConstraintLayout);
-
-        Button tryAgainBtn = viewFailedSignInDialog.findViewById(R.id.tryAgainBtn);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
-        builder.setView(viewFailedSignInDialog);
-        final AlertDialog alertDialog = builder.create();
-
-        tryAgainBtn.setOnClickListener(v -> alertDialog.dismiss());
 
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

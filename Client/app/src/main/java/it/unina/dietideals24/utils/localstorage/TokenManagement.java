@@ -10,6 +10,10 @@ public class TokenManagement {
     private static final String EXPIRATION_KEY = "expiration";
 
     private TokenManagement(Context context) {
+        setSharedPreferences(context);
+    }
+
+    private synchronized void setSharedPreferences(Context context) {
         sharedPreferences = context.getSharedPreferences("token_data", Context.MODE_PRIVATE);
     }
 
@@ -43,7 +47,7 @@ public class TokenManagement {
         return true;
     }
 
-    public static long getTokenExpiraton() {
+    public static long getTokenExpiration() {
         if (sharedPreferences == null)
             return 0;
         return sharedPreferences.getLong(EXPIRATION_KEY, 0);

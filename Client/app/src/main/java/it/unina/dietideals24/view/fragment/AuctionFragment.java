@@ -31,7 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuctionFragment extends Fragment {
-
     private RecyclerView yourAuctionsRecyclerView;
     private RecyclerView yourOffersRecyclerView;
     private Button yourAuctionsButton;

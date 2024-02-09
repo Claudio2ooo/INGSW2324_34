@@ -35,7 +35,7 @@ public class TimeUtility {
      * @return timer in milliseconds
      */
     public static long convertFieldsToMilliseconds(long days, long hours, long minutes) throws TimePickerException {
-        if (days < 0 || hours > 24 || hours < 0 || minutes>60 || minutes<0)
+        if (days < 0 || hours > 24 || hours < 0 || minutes > 60 || minutes < 0)
             throw new TimePickerException();
 
         long daysInMilliseconds = days * 86400 * 1000;

@@ -2,6 +2,7 @@ package it.unina.dietideals24.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import it.unina.dietideals24.enumerations.CategoryEnum;
 
@@ -110,18 +111,16 @@ public class Auction implements Comparable<Auction> {
     }
 
     @Override
-    public String toString() {
-        return "Auction{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category +
-                ", imageURL='" + imageURL + '\'' +
-                ", startingPrice=" + startingPrice +
-                ", currentPrice=" + currentPrice +
-                ", timerInMilliseconds=" + timerInMilliseconds +
-                ", owner=" + owner +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Auction auction = (Auction) o;
+        return Objects.equals(timerInMilliseconds, auction.timerInMilliseconds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timerInMilliseconds);
     }
 
     @Override

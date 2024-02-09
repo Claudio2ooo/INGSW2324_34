@@ -60,7 +60,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
-
     private ImageView backBtn;
     private ImageView image;
     private TextView title;
@@ -307,8 +306,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     logPurchase();
                     showPurchaseConfirm(response.body());
-                }
-                else {
+                } else {
                     logFailedPurchase();
                     showFailedOfferDialog("Acquisto non effettuato, qualcuno è arrivato prima di te!", true);
                 }

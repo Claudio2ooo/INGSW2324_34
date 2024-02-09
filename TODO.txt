@@ -1,3 +1,3 @@
-Aggiungere toast connessione mancante in tutti gli onFailure Retrofit
+Aggiungere immagini all'adapter delle notifiche
 
 Progress bar su immagini profilo utente

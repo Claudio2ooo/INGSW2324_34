@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 .addTag("pushNotifications")
                 .setInputData(new Data.Builder()
                         .putLong("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId())
-                        .putLong("tokenExpiration", TokenManagement.getTokenExpiraton())
+                        .putLong("tokenExpiration", TokenManagement.getTokenExpiration())
                         .build())
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);

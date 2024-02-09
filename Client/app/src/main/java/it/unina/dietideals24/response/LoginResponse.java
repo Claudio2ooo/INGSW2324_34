@@ -10,9 +10,11 @@ public class LoginResponse {
     public String getToken() {
         return token;
     }
-    public DietiUser getDietiUser(){
+
+    public DietiUser getDietiUser() {
         return dietiUser;
     }
+
     public Long getExpiresIn() {
         return expiresIn;
     }

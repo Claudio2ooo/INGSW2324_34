@@ -56,7 +56,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
-
     private TextView userFullNameText;
     private TextView userEmailText;
     private TextView geographicalAreaText;

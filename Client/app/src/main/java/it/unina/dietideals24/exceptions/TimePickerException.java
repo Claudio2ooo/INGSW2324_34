@@ -1,8 +1,7 @@
 package it.unina.dietideals24.exceptions;
 
-public class TimePickerException extends Exception{
-    public TimePickerException() {
-    }
+public class TimePickerException extends Exception {
+    public TimePickerException() {}
 
     public TimePickerException(String message) {
         super(message);

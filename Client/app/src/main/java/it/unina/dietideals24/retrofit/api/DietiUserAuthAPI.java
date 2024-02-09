@@ -9,11 +9,9 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface DietiUserAuthAPI {
-
     @POST("/auth/register")
     Call<DietiUser> register(@Body RegisterDto registerDto);
 
     @POST("/auth/login")
     Call<LoginResponse> login(@Body LoginDto loginDto);
-
 }

@@ -24,7 +24,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotificationFragment extends Fragment {
-
     private RecyclerView recyclerViewNotification;
     private ProgressBar notificationProgressBar;
 
