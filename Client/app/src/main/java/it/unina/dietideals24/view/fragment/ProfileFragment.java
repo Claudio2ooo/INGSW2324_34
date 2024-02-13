@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,7 @@ public class ProfileFragment extends Fragment {
     private EditText inputLinksEditText;
     private ImageView imageProfile;
     private ImageView profilePicture;
+    private ProgressBar profilePictureProgressBar;
     private ActivityResultLauncher<PickVisualMediaRequest> singlePhotoPickerLauncher;
     private Button changePasswordBtn;
     private Button editProfileBtn;
@@ -116,6 +118,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
+        profilePictureProgressBar = view.findViewById(R.id.imageProgressBar);
         profilePicture = view.findViewById(R.id.profilePicture);
         userFullNameText = view.findViewById(R.id.userFullNameText);
         userEmailText = view.findViewById(R.id.userEmailText);
@@ -327,6 +330,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void requestProfilePicture(String imageUrl) {
+        profilePictureProgressBar.setVisibility(View.VISIBLE);
+
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -344,14 +349,18 @@ public class ProfileFragment extends Fragment {
                                 .load(bitmap)
                                 .apply(requestOptions)
                                 .into(profilePicture);
+
+                        profilePictureProgressBar.setVisibility(View.GONE);
                     }
                 } catch (IOException e) {
+                    profilePictureProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                profilePictureProgressBar.setVisibility(View.GONE);
                 NetworkUtility.showNetworkErrorToast(getContext());
             }
         });

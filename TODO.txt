@@ -1,3 +1,0 @@
-Aggiungere immagini all'adapter delle notifiche
-
-Progress bar su immagini profilo utente

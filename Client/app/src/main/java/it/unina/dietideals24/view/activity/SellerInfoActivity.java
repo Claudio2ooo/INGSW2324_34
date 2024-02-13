@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     private TextView titleSectionLinks;
     private TextView messageNoInformation;
     private ImageView profilePicture;
+    private ProgressBar profilePictureProgressBar;
     private ImageView backBtn;
     private DietiUser seller;
 
@@ -112,6 +114,7 @@ public class SellerInfoActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
+        profilePictureProgressBar = findViewById(R.id.imageProgressBar);
         profilePicture = findViewById(R.id.profilePicture);
         sellerFullNameText = findViewById(R.id.sellerFullNameText);
         geographicalAreaText = findViewById(R.id.geographicalAreaSellerText);
@@ -127,6 +130,8 @@ public class SellerInfoActivity extends AppCompatActivity {
     }
 
     private void requestProfilePicture(String imageUrl) {
+        profilePictureProgressBar.setVisibility(View.VISIBLE);
+
         ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
         imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -144,14 +149,18 @@ public class SellerInfoActivity extends AppCompatActivity {
                                 .load(bitmap)
                                 .apply(requestOptions)
                                 .into(profilePicture);
+
+                        profilePictureProgressBar.setVisibility(View.GONE);
                     }
                 } catch (IOException e) {
+                    profilePictureProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Impossibile caricare l'immagine'!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                profilePictureProgressBar.setVisibility(View.GONE);
                 NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });
