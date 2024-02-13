@@ -171,10 +171,9 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     if (imageUri != null)
                         uploadImage(response.body().getId());
-                    else {
-                        createAuctionProgressBar.setVisibility(View.GONE);
-                        showSuccessCreateAuctionDialog("Asta all'inglese creata con successo!");
-                    }
+
+                    createAuctionProgressBar.setVisibility(View.GONE);
+                    showSuccessCreateAuctionDialog("Asta all'inglese creata con successo!");
                 }
             }
 
@@ -201,8 +200,7 @@ public class CreateEnglishAuctionActivity extends AppCompatActivity {
         englishAuctionAPI.uploadEnglishAuctionImage(englishAuctionId, imagePart).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                createAuctionProgressBar.setVisibility(View.GONE);
-                showSuccessCreateAuctionDialog("Asta all'inglese creata con successo!");
+                // Intentionally empty body
             }
 
             @Override

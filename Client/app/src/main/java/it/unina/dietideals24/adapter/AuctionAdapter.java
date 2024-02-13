@@ -165,6 +165,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                 .load(R.drawable.no_image_auction)
                 .apply(requestOptions)
                 .into(holder.image);
+
+        holder.imageProgressBar.setVisibility(View.GONE);
     }
 
     private void startTimer(AuctionAdapter.AuctionViewHolder holder) {

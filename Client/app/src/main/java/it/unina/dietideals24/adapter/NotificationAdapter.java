@@ -131,6 +131,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 .load(R.drawable.no_image_auction)
                 .apply(requestOptions)
                 .into(holder.image);
+
+        holder.imageProgressBar.setVisibility(View.GONE);
     }
 
 
@@ -171,7 +173,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.imageItem);
+            image = itemView.findViewById(R.id.imageItemNotification);
             titleTextView = itemView.findViewById(R.id.titleItemNotification);
             priceTextView = itemView.findViewById(R.id.priceItemNotification);
             deleteBtn = itemView.findViewById(R.id.deleteNotificationBtn);
