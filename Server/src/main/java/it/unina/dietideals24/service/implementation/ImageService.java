@@ -13,16 +13,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 @Service
 @Qualifier("locallyStoreImageService")
 public class ImageService implements IImageService {
 
+    Logger logger = Logger.getLogger(getClass().getName());
+
     /**
      * Saves an image locally, using the specified directory
+     *
      * @param imageDirectory directory for the image
-     * @param id id of the item that has the image, used as name for the image
-     * @param file representation of the image
+     * @param id             id of the item that has the image, used as name for the image
+     * @param file           representation of the image
      * @throws IOException thrown when the image can't be saved due to "getBytes()" failing
      */
     @Override
@@ -30,7 +34,9 @@ public class ImageService implements IImageService {
         String path = "images" + File.separatorChar + imageDirectory + File.separatorChar + id.toString() + ".jpeg";
         Path fileNameAndPath = Paths.get(path);
         Files.write(fileNameAndPath, file.getBytes());
-        System.out.println("Image saved in: " + fileNameAndPath);
+
+        String message = "Image saved in: " + fileNameAndPath;
+        logger.info(message);
     }
 
     @Override

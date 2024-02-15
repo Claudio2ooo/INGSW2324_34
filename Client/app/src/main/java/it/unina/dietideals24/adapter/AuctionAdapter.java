@@ -45,9 +45,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     int layout;
 
     FirebaseAnalytics mFirebaseAnalytics;
-
-    public enum OrientationEnum {VERTICAL, HORIZONTAL}
-
     OrientationEnum orientation;
 
     /**
@@ -194,6 +191,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     public int getItemCount() {
         return auctions.size();
     }
+
+    public enum OrientationEnum {VERTICAL, HORIZONTAL}
 
     public class AuctionViewHolder extends RecyclerView.ViewHolder {
         ImageView image;

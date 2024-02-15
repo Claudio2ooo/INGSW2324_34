@@ -9,10 +9,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
-    private static Retrofit retrofit = null;
     private static final String BASE_URL = "http://10.0.2.2:9090/";
+    private static Retrofit retrofit = null;
 
-    private RetrofitService() {}
+    private RetrofitService() {
+    }
 
     public static Retrofit getRetrofitInstance() {
         OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(chain -> {

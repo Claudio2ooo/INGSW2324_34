@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/images")
 public class ImageController {
 
+    private final IImageService imageService;
+
     @Autowired
-    private IImageService imageService;
+    public ImageController(IImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @GetMapping(
             produces = MediaType.IMAGE_JPEG_VALUE

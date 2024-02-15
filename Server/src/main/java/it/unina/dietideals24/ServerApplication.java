@@ -4,9 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 @SpringBootApplication
 public class ServerApplication {
+    static Logger logger = Logger.getLogger(ServerApplication.class.getName());
+
     public static void main(String[] args) {
         createNecessaryDirectories();
         SpringApplication.run(ServerApplication.class, args);
@@ -14,24 +17,24 @@ public class ServerApplication {
 
     private static void createNecessaryDirectories() {
         if (new File("images").mkdir())
-            System.out.println("images folder created");
+            logger.info("images folder created");
         else
-            System.out.println("images folder already exists, skipping...");
+            logger.info("images folder already exists, skipping...");
 
         if (new File("images/user").mkdir())
-            System.out.println("images/user folder created");
+            logger.info("images/user folder created");
         else
-            System.out.println("images/user folder already exists, skipping...");
+            logger.info("images/user folder already exists, skipping...");
 
         if (new File("images/english_auction").mkdir())
-            System.out.println("images/english_auction folder created");
+            logger.info("images/english_auction folder created");
         else
-            System.out.println("images/english_auction folder already exists, skipping...");
+            logger.info("images/english_auction folder already exists, skipping...");
 
         if (new File("images/downward_auction").mkdir())
-            System.out.println("images/downward_auction folder created");
+            logger.info("images/downward_auction folder created");
         else
-            System.out.println("images/downward_auction folder already exists, skipping...");
+            logger.info("images/downward_auction folder already exists, skipping...");
 
     }
 }

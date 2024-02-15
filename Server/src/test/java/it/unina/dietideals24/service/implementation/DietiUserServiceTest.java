@@ -3,11 +3,14 @@ package it.unina.dietideals24.service.implementation;
 import it.unina.dietideals24.model.DietiUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DietiUserServiceTest {
+
     DietiUserService dietiUserService = new DietiUserService();
 
     DietiUser toBeUpdated;

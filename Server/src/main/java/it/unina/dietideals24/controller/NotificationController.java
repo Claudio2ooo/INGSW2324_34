@@ -12,9 +12,13 @@ import java.util.List;
 @RequestMapping("/notifications")
 public class NotificationController {
 
-    @Autowired
     @Qualifier("mainNotificationService")
-    private INotificationService notificationService;
+    private final INotificationService notificationService;
+
+    @Autowired
+    public NotificationController(INotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @GetMapping("receiver/{id}")
     public List<Notification> getNotificationsByReceiverId(@PathVariable("id") Long receiverId) {

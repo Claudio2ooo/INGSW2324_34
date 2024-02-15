@@ -18,7 +18,7 @@ public class ApplicationConfiguration {
     private final IDietiUserRepository dietiUserRepository;
 
     @Autowired
-    public ApplicationConfiguration(IDietiUserRepository dietiUserRepository){
+    public ApplicationConfiguration(IDietiUserRepository dietiUserRepository) {
         this.dietiUserRepository = dietiUserRepository;
     }
 
@@ -29,12 +29,12 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

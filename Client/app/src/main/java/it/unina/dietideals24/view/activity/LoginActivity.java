@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout emailTextLayout;
     private TextInputLayout passwordTextLayout;
     private Button loginBtn;
-    private TextView signInBtn;
+    private TextView signInTextView;
     private ProgressBar loginProgressBar;
     private TokenManagement tokenManagement;
 
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signInBtn.setOnClickListener(v -> {
+        signInTextView.setOnClickListener(v -> {
             Intent signInActivity = new Intent(getApplicationContext(), SignInActivity.class);
             startActivity(signInActivity);
         });
@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordTextLayout = findViewById(R.id.passwordTextLayout);
 
         loginBtn = findViewById(R.id.loginBtn);
-        signInBtn = findViewById(R.id.signInBtn);
+        signInTextView = findViewById(R.id.signInBtn);
 
         loginProgressBar = findViewById(R.id.loginProgressBar);
         loginProgressBar.setVisibility(View.GONE);

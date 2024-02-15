@@ -24,7 +24,7 @@ public class DownwardAuctionTask extends TimerTask {
 
     @Override
     public void run() {
-        if (downwardAuction.canBeDecreased()){
+        if (downwardAuction.canBeDecreased()) {
             downwardAuctionService.decreaseCurrentPrice(getDownwardAuction().getId());
             downwardAuction.decreaseCurrentPrice();
         } else {

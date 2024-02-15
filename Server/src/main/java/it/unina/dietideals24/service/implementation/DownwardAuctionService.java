@@ -18,8 +18,12 @@ import java.util.*;
 @Service
 @Qualifier("mainDownwardAuctionService")
 public class DownwardAuctionService implements IDownwardAuctionService {
+    private final IDownwardAuctionRepository downwardAuctionRepository;
+
     @Autowired
-    private IDownwardAuctionRepository downwardAuctionRepository;
+    public DownwardAuctionService(IDownwardAuctionRepository downwardAuctionRepository) {
+        this.downwardAuctionRepository = downwardAuctionRepository;
+    }
 
     @Override
     public List<DownwardAuction> getDownwardAuctions() {
@@ -52,13 +56,13 @@ public class DownwardAuctionService implements IDownwardAuctionService {
 
     @Override
     public void deleteDownwardAuctionById(Long id) {
-        boolean exists = downwardAuctionRepository.existsById(id);
-        if (!exists) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
-        } else {
-            DownwardAuction toBeDeleted = downwardAuctionRepository.findById(id).get();
+        Optional<DownwardAuction> downwardAuctionOptional = downwardAuctionRepository.findById(id);
+        if (downwardAuctionOptional.isPresent()) {
+            DownwardAuction toBeDeleted = downwardAuctionOptional.get();
             toBeDeleted.setOwner(null);
             downwardAuctionRepository.delete(toBeDeleted);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DownwardAuction not found");
         }
     }
 
@@ -85,9 +89,13 @@ public class DownwardAuctionService implements IDownwardAuctionService {
 
     @Override
     public void linkImage(String downwardAuctionImageDirectory, Long id) {
-        DownwardAuction downwardAuction = downwardAuctionRepository.findById(id).get();
-        downwardAuction.setImageURL(downwardAuctionImageDirectory + File.separatorChar + id + ".jpeg");
-        downwardAuctionRepository.save(downwardAuction);
+        Optional<DownwardAuction> downwardAuctionOptional = downwardAuctionRepository.findById(id);
+
+        if (downwardAuctionOptional.isPresent()) {
+            DownwardAuction downwardAuction = downwardAuctionOptional.get();
+            downwardAuction.setImageURL(downwardAuctionImageDirectory + File.separatorChar + id + ".jpeg");
+            downwardAuctionRepository.save(downwardAuction);
+        }
     }
 
     @Override

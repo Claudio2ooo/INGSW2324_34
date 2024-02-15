@@ -59,9 +59,12 @@ public class DietiUserService implements IDietiUserService {
 
     @Override
     public void linkImage(String profilePicDirectory, Long id) {
-        DietiUser dietiUser = dietiUserRepository.findById(id).get();
-        dietiUser.setProfilePictureUrl(profilePicDirectory + File.separatorChar + id + ".jpeg");
-        dietiUserRepository.save(dietiUser);
+        Optional<DietiUser> dietiUserOptional = dietiUserRepository.findById(id);
+        if (dietiUserOptional.isPresent()) {
+            DietiUser dietiUser = dietiUserOptional.get();
+            dietiUser.setProfilePictureUrl(profilePicDirectory + File.separatorChar + id + ".jpeg");
+            dietiUserRepository.save(dietiUser);
+        }
     }
 
     @Override
@@ -85,7 +88,6 @@ public class DietiUserService implements IDietiUserService {
         return dietiUserRepository.save(toBeUpdated);
     }
 
-    //TODO Candidato al testing
     public void updateData(DietiUser toBeUpdated, DietiUser newDietiUser) {
         toBeUpdated.setName(newDietiUser.getName());
         toBeUpdated.setSurname(newDietiUser.getSurname());

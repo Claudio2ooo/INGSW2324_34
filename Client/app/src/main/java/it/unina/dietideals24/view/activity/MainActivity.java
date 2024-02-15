@@ -42,9 +42,13 @@ import it.unina.dietideals24.view.fragment.NotificationFragment;
 import it.unina.dietideals24.view.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
+    private static BadgeDrawable badge;
     private ActivityMainBinding binding;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private static BadgeDrawable badge;
+
+    public static void setIsVisibleBadgeNotification(boolean isVisible) {
+        badge.setVisible(isVisible);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
             badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notify);
 
         badge.setVisible(false);
-    }
-
-    public static void setIsVisibleBadgeNotification(boolean isVisible) {
-        badge.setVisible(isVisible);
     }
 
     private void showCreateAuctionDialog() {

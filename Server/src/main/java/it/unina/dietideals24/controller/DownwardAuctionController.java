@@ -8,7 +8,6 @@ import it.unina.dietideals24.service.interfaces.IDietiUserService;
 import it.unina.dietideals24.service.interfaces.IDownwardAuctionService;
 import it.unina.dietideals24.service.interfaces.IImageService;
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +20,25 @@ import java.util.List;
 @RequestMapping("/downward-auctions")
 public class DownwardAuctionController {
 
-    @Autowired
-    @Qualifier("mainDownwardAuctionService")
-    private IDownwardAuctionService downwardAuctionService;
 
-    @Autowired
-    @Qualifier("mainDietiUserService")
-    private IDietiUserService dietiUserService;
-
-    @Autowired
-    private DownwardAuctionTimerController downwardAuctionTimerController;
-
-    @Autowired
-    @Qualifier("locallyStoreImageService")
-    private IImageService imageService;
     private static final String DOWNWARD_AUCTION_IMAGE_DIRECTORY = "downward_auction";
+    @Qualifier("mainDownwardAuctionService")
+    private final IDownwardAuctionService downwardAuctionService;
+    @Qualifier("mainDietiUserService")
+    private final IDietiUserService dietiUserService;
+    private final DownwardAuctionTimerController downwardAuctionTimerController;
+    @Qualifier("locallyStoreImageService")
+    private final IImageService imageService;
+
+    public DownwardAuctionController(IDownwardAuctionService downwardAuctionService,
+                                     IDietiUserService dietiUserService,
+                                     DownwardAuctionTimerController downwardAuctionTimerController,
+                                     IImageService imageService) {
+        this.downwardAuctionService = downwardAuctionService;
+        this.dietiUserService = dietiUserService;
+        this.downwardAuctionTimerController = downwardAuctionTimerController;
+        this.imageService = imageService;
+    }
 
     @GetMapping
     public List<DownwardAuction> getDownwardAuctions() {

@@ -24,7 +24,7 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public DietiUser register(RegisterDto registerDTO){
+    public DietiUser register(RegisterDto registerDTO) {
         DietiUser dietiUser = new DietiUser();
         dietiUser.setEmail(registerDTO.getEmail());
         dietiUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));

@@ -66,6 +66,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.SellerViewHo
         return offerrers.size();
     }
 
+    private String replacingCharactersWithAsterisks(String str) {
+        return str.replaceFirst("\\b(\\w)\\S*?(\\S@)(\\S)\\S*(\\S\\.\\S*)\\b", "$1****$2$3****$4");
+    }
+
     public class SellerViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView email;
@@ -78,9 +82,5 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.SellerViewHo
             email = itemView.findViewById(R.id.emailOffer);
             amount = itemView.findViewById(R.id.amountOffer);
         }
-    }
-
-    private String replacingCharactersWithAsterisks(String str) {
-        return str.replaceFirst("\\b(\\w)\\S*?(\\S@)(\\S)\\S*(\\S\\.\\S*)\\b", "$1****$2$3****$4");
     }
 }

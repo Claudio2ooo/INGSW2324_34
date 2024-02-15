@@ -19,8 +19,12 @@ import java.util.*;
 @Service
 @Qualifier("mainEnglishAuctionService")
 public class EnglishAuctionService implements IEnglishAuctionService {
+    private final IEnglishAuctionRepository englishAuctionRepository;
+
     @Autowired
-    private IEnglishAuctionRepository englishAuctionRepository;
+    public EnglishAuctionService(IEnglishAuctionRepository englishAuctionRepository) {
+        this.englishAuctionRepository = englishAuctionRepository;
+    }
 
     @Override
     public List<EnglishAuction> getEnglishAuctions() {
@@ -83,9 +87,12 @@ public class EnglishAuctionService implements IEnglishAuctionService {
 
     @Override
     public void linkImage(String englishAuctionImageDirectory, Long id) {
-        EnglishAuction englishAuction = englishAuctionRepository.findById(id).get();
-        englishAuction.setImageURL(englishAuctionImageDirectory + File.separatorChar + id + ".jpeg");
-        englishAuctionRepository.save(englishAuction);
+        Optional<EnglishAuction> englishAuctionOptional = englishAuctionRepository.findById(id);
+        if (englishAuctionOptional.isPresent()) {
+            EnglishAuction englishAuction = englishAuctionOptional.get();
+            englishAuction.setImageURL(englishAuctionImageDirectory + File.separatorChar + id + ".jpeg");
+            englishAuctionRepository.save(englishAuction);
+        }
     }
 
     @Override

@@ -21,21 +21,22 @@ import java.util.List;
 @RequestMapping("/english-auctions")
 public class EnglishAuctionController {
 
-    @Autowired
-    @Qualifier("mainEnglishAuctionService")
-    private IEnglishAuctionService englishAuctionService;
-
-    @Autowired
-    @Qualifier("mainDietiUserService")
-    private IDietiUserService dietiUserService;
-
-    @Autowired
-    private EnglishAuctionTimerController englishAuctionTimerController;
-
-    @Autowired
-    @Qualifier("locallyStoreImageService")
-    private IImageService imageService;
     private static final String ENGLISH_AUCTION_IMAGE_DIRECTORY = "english_auction";
+    @Qualifier("mainEnglishAuctionService")
+    private final IEnglishAuctionService englishAuctionService;
+    @Qualifier("mainDietiUserService")
+    private final IDietiUserService dietiUserService;
+    private final EnglishAuctionTimerController englishAuctionTimerController;
+    @Qualifier("locallyStoreImageService")
+    private final IImageService imageService;
+
+    @Autowired
+    public EnglishAuctionController(IEnglishAuctionService englishAuctionService, IDietiUserService dietiUserService, EnglishAuctionTimerController englishAuctionTimerController, IImageService imageService) {
+        this.englishAuctionService = englishAuctionService;
+        this.dietiUserService = dietiUserService;
+        this.englishAuctionTimerController = englishAuctionTimerController;
+        this.imageService = imageService;
+    }
 
     @GetMapping
     public List<EnglishAuction> getEnglishAuctions() {

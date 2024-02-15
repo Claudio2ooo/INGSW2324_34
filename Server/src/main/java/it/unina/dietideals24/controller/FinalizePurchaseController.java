@@ -17,23 +17,27 @@ import java.util.Set;
 @Controller
 public class FinalizePurchaseController {
 
-    @Autowired
     @Qualifier("mainEnglishAuctionService")
-    private IEnglishAuctionService englishAuctionService;
+    private final IEnglishAuctionService englishAuctionService;
 
-    @Autowired
     @Qualifier("mainDownwardAuctionService")
-    private IDownwardAuctionService downwardAuctionService;
+    private final IDownwardAuctionService downwardAuctionService;
 
-    @Autowired
     @Qualifier("mainNotificationService")
-    private INotificationService notificationService;
+    private final INotificationService notificationService;
+
+    @Qualifier("mainOfferService")
+    private final IOfferService offerService;
 
     @Autowired
-    @Qualifier("mainOfferService")
-    private IOfferService offerService;
+    public FinalizePurchaseController(IEnglishAuctionService englishAuctionService, IDownwardAuctionService downwardAuctionService, INotificationService notificationService, IOfferService offerService) {
+        this.englishAuctionService = englishAuctionService;
+        this.downwardAuctionService = downwardAuctionService;
+        this.notificationService = notificationService;
+        this.offerService = offerService;
+    }
 
-    public void finalizeAuction(EnglishAuction englishAuction){
+    public void finalizeAuction(EnglishAuction englishAuction) {
         if (noOffersReceived(englishAuction))
             createFailedAuctionNotification(englishAuction);
         else
@@ -41,7 +45,7 @@ public class FinalizePurchaseController {
         removeAuction(englishAuction);
     }
 
-    public void finalizeAuction(DownwardAuction downwardAuction){
+    public void finalizeAuction(DownwardAuction downwardAuction) {
         if (failed(downwardAuction)) {
             createFailedAuctionNotification(downwardAuction);
         } else {
@@ -56,7 +60,7 @@ public class FinalizePurchaseController {
         createOwnerNotification(englishAuction);
     }
 
-    private void createNotifications(DownwardAuction downwardAuction){
+    private void createNotifications(DownwardAuction downwardAuction) {
         createOwnerNotification(downwardAuction);
     }
 
@@ -71,7 +75,7 @@ public class FinalizePurchaseController {
         notificationService.save(failedAuctionNotification);
     }
 
-    private void createOwnerNotification(Auction auction){
+    private void createOwnerNotification(Auction auction) {
         Notification ownerNotification = new Notification(
                 StateEnum.CONCLUSA,
                 auction.getOwner(),
@@ -82,7 +86,7 @@ public class FinalizePurchaseController {
         notificationService.save(ownerNotification);
     }
 
-    private void createWinnerNotification(EnglishAuction englishAuction){
+    private void createWinnerNotification(EnglishAuction englishAuction) {
         Notification winnerNotification = new Notification(
                 StateEnum.VINTA,
                 offerService.getWinner(englishAuction),
@@ -93,17 +97,17 @@ public class FinalizePurchaseController {
         notificationService.save(winnerNotification);
     }
 
-    private void createLosersNotification(EnglishAuction englishAuction){
+    private void createLosersNotification(EnglishAuction englishAuction) {
         Set<DietiUser> losers = offerService.getLosers(englishAuction);
         List<Notification> losersNotification = new ArrayList<>();
 
         for (DietiUser loser : losers) {
             losersNotification.add(new Notification(
-                    StateEnum.PERSA,
-                    loser,
-                    englishAuction.getTitle(),
-                    englishAuction.getImageURL(),
-                    englishAuction.getCurrentPrice()
+                            StateEnum.PERSA,
+                            loser,
+                            englishAuction.getTitle(),
+                            englishAuction.getImageURL(),
+                            englishAuction.getCurrentPrice()
                     )
             );
         }

@@ -2,7 +2,7 @@ package it.unina.dietideals24.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import it.unina.dietideals24.exceptions.TimePickerException;
 

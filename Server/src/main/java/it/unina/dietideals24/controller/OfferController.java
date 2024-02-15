@@ -20,30 +20,32 @@ import java.util.stream.Collectors;
 @RequestMapping("/offers")
 public class OfferController {
 
-    @Autowired
     @Qualifier("mainOfferService")
-    private IOfferService offerService;
+    private final IOfferService offerService;
 
-    @Autowired
     @Qualifier("mainEnglishAuctionService")
-    private IEnglishAuctionService englishAuctionService;
+    private final IEnglishAuctionService englishAuctionService;
 
-    @Autowired
     @Qualifier("mainDownwardAuctionService")
-    private IDownwardAuctionService downwardAuctionService;
+    private final IDownwardAuctionService downwardAuctionService;
 
-    @Autowired
     @Qualifier("mainDietiUserService")
-    private IDietiUserService dietiUserService;
+    private final IDietiUserService dietiUserService;
+
+    private final EnglishAuctionTimerController englishAuctionTimerController;
+    private final DownwardAuctionTimerController downwardAuctionTimerController;
+    private final FinalizePurchaseController finalizePurchaseController;
 
     @Autowired
-    private EnglishAuctionTimerController englishAuctionTimerController;
-
-    @Autowired
-    private DownwardAuctionTimerController downwardAuctionTimerController;
-
-    @Autowired
-    private FinalizePurchaseController finalizePurchaseController;
+    public OfferController(IOfferService offerService, IEnglishAuctionService englishAuctionService, IDownwardAuctionService downwardAuctionService, IDietiUserService dietiUserService, EnglishAuctionTimerController englishAuctionTimerController, DownwardAuctionTimerController downwardAuctionTimerController, FinalizePurchaseController finalizePurchaseController) {
+        this.offerService = offerService;
+        this.englishAuctionService = englishAuctionService;
+        this.downwardAuctionService = downwardAuctionService;
+        this.dietiUserService = dietiUserService;
+        this.englishAuctionTimerController = englishAuctionTimerController;
+        this.downwardAuctionTimerController = downwardAuctionTimerController;
+        this.finalizePurchaseController = finalizePurchaseController;
+    }
 
     @GetMapping("/english/{id}")
     public List<Offer> getOffersByEnglishAuctionId(@PathVariable("id") Long englishAuctionId) {
@@ -60,7 +62,7 @@ public class OfferController {
     public ResponseEntity<Offer> makeOfferForEnglishAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
         EnglishAuction targetAuction = englishAuctionService.getEnglishAuctionById(offerDto.getAuctionId());
         DietiUser offerer = dietiUserService.getUserById(offerDto.getOffererId());
-        if(offerIsBetter(targetAuction, offerDto.getAmount())){
+        if (offerIsBetter(targetAuction, offerDto.getAmount())) {
             Offer betterOffer = new Offer(
                     offerDto.getAmount(),
                     offerer,

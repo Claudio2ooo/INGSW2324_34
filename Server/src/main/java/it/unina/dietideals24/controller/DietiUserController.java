@@ -17,12 +17,11 @@ import java.io.IOException;
 @RequestMapping("/users")
 public class DietiUserController {
 
+    private static final String PROFILE_PIC_DIRECTORY = "user";
     @Qualifier("mainDietiUserService")
     private final IDietiUserService dietiUserService;
     @Qualifier("locallyStoreImageService")
     private final IImageService imageService;
-    private static final String PROFILE_PIC_DIRECTORY = "user";
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired

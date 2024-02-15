@@ -20,12 +20,8 @@ import it.unina.dietideals24.view.activity.AuctionsByCategoryActivity;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     ArrayList<CategoryItem> categories;
     Context context;
-
-    public enum ShapeEnum {ROUND, SQUARE}
-
     ShapeEnum shape;
     int layout;
-
     /**
      * Constructor of CategoryAdapter
      *
@@ -67,6 +63,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public int getItemCount() {
         return categories.size();
     }
+
+    public enum ShapeEnum {ROUND, SQUARE}
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView nameCategory;

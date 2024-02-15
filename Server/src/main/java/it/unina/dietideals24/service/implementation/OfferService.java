@@ -16,8 +16,13 @@ import java.util.stream.Collectors;
 @Service
 @Qualifier("mainOfferService")
 public class OfferService implements IOfferService {
+
+    private final IOfferRepository offerRepository;
+
     @Autowired
-    private IOfferRepository offerRepository;
+    public OfferService(IOfferRepository offerRepository) {
+        this.offerRepository = offerRepository;
+    }
 
     @Override
     public List<Offer> getOffersByEnglishAuctionId(Long englishAuctionId) {

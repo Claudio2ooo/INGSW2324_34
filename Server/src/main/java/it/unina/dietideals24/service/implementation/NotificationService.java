@@ -13,8 +13,12 @@ import java.util.List;
 @Qualifier("mainNotificationService")
 public class NotificationService implements INotificationService {
 
+    private final INotificationRepository notificationRepository;
+
     @Autowired
-    private INotificationRepository notificationRepository;
+    public NotificationService(INotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
 
     @Override
     public List<Notification> getNotificationsByReceiverId(Long userId) {
@@ -39,7 +43,7 @@ public class NotificationService implements INotificationService {
     @Override
     public List<Notification> getPushNotificationsByReceiverId(Long receiverId) {
         List<Notification> pushNotifications = notificationRepository.findByReceiverIdAndPushed(receiverId, false);
-        for(Notification notification : pushNotifications) {
+        for (Notification notification : pushNotifications) {
             notification.setPushed(true);
         }
         notificationRepository.saveAll(pushNotifications);

@@ -9,25 +9,28 @@ import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
 import java.util.Timer;
+import java.util.logging.Logger;
 
 @Controller
 public class DownwardAuctionTimerController {
-    private final static HashMap<Long, Timer> downwardAuctionTimers = new HashMap<>();
-
-    @Autowired
+    private static final HashMap<Long, Timer> downwardAuctionTimers = new HashMap<>();
     @Qualifier("mainDownwardAuctionService")
-    private IDownwardAuctionService downwardAuctionService;
+    private final IDownwardAuctionService downwardAuctionService;
+    private final FinalizePurchaseController finalizePurchaseController;
+    Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
-    private FinalizePurchaseController finalizePurchaseController;
-
-
+    public DownwardAuctionTimerController(IDownwardAuctionService downwardAuctionService, FinalizePurchaseController finalizePurchaseController) {
+        this.downwardAuctionService = downwardAuctionService;
+        this.finalizePurchaseController = finalizePurchaseController;
+    }
 
     /**
      * Starts a timer for an auction
+     *
      * @param downwardAuction auction whose timer starts
      */
-    public void startNewTimer(DownwardAuction downwardAuction){
+    public void startNewTimer(DownwardAuction downwardAuction) {
         Long position = downwardAuction.getId();
         long countdownInMilliseconds = downwardAuction.getTimerInMilliseconds();
 
@@ -36,14 +39,15 @@ public class DownwardAuctionTimerController {
 
         timer.scheduleAtFixedRate(downwardAuctionTask, countdownInMilliseconds, countdownInMilliseconds);
         downwardAuctionTimers.put(position, timer);
-        System.out.println("Timer started for downward auction "+downwardAuction.getTitle());
+        logger.info("Timer started for downward auction " + downwardAuction.getTitle());
     }
 
     /**
      * Stops an ongoing timer of a downwardAuction
+     *
      * @param downwardAuction downwardAuction whose timer gets stopped
      */
-    public void stopOngoingDownwardTimer(DownwardAuction downwardAuction){
+    public void stopOngoingDownwardTimer(DownwardAuction downwardAuction) {
         Long position = downwardAuction.getId();
 
         Timer toBeStopped = downwardAuctionTimers.get(position);

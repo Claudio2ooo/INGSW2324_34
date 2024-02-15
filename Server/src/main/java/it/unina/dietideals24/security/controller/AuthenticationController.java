@@ -20,14 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    private final AuthenticationService authenticationService;
+    private final AuthenticationManager authenticationManager;
+    private final IDietiUserRepository dietiUserRepository;
+    private final JwtService jwtService;
+
     @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private IDietiUserRepository dietiUserRepository;
-    @Autowired
-    private JwtService jwtService;
+    public AuthenticationController(AuthenticationService authenticationService, AuthenticationManager authenticationManager, IDietiUserRepository dietiUserRepository, JwtService jwtService) {
+        this.authenticationService = authenticationService;
+        this.authenticationManager = authenticationManager;
+        this.dietiUserRepository = dietiUserRepository;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<DietiUser> register(@RequestBody RegisterDto registerDTO) throws BadRequestException {
