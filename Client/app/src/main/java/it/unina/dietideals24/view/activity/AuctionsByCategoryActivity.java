@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuctionsByCategoryActivity extends AppCompatActivity {
+    private static final String CATEGORY = "category";
     private ImageView backBtn;
     private Button englishAuctionsBtn;
     private Button downwardAuctionsBtn;
@@ -43,7 +44,7 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auctions_by_category);
 
-        CategoryEnum category = CategoryEnum.valueOf(getIntent().getExtras().getString("category").toUpperCase());
+        CategoryEnum category = CategoryEnum.valueOf(getIntent().getExtras().getString(CATEGORY).toUpperCase());
 
         initializeViews(category);
         initializeAuctions(category);
@@ -52,13 +53,13 @@ public class AuctionsByCategoryActivity extends AppCompatActivity {
         englishAuctionsBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AuctionsActivity.class);
             intent.putExtra("typeOfAuction", "English");
-            intent.putExtra("category", category.name());
+            intent.putExtra(CATEGORY, category.name());
             startActivity(intent);
         });
         downwardAuctionsBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AuctionsActivity.class);
             intent.putExtra("typeOfAuction", "Downward");
-            intent.putExtra("category", category.name());
+            intent.putExtra(CATEGORY, category.name());
             startActivity(intent);
         });
     }

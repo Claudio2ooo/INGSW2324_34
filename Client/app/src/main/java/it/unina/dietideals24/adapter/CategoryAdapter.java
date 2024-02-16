@@ -22,6 +22,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     Context context;
     ShapeEnum shape;
     int layout;
+
     /**
      * Constructor of CategoryAdapter
      *

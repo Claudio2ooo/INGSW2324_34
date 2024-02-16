@@ -85,11 +85,6 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -166,27 +161,14 @@ public class ProfileFragment extends Fragment {
 
         Button changeOldPasswordBtn = viewChangePasswordDialog.findViewById(R.id.changePasswordBtn);
         changeOldPasswordBtn.setOnClickListener(v -> {
-            boolean passwordsInvalid = false;
 
-            if (oldPassword.getText().toString().trim().isEmpty()) {
-                oldPasswordLayout.setError("Inserire la password corrente!");
-                passwordsInvalid = true;
-            } else
-                oldPasswordLayout.setErrorEnabled(false);
+            boolean oldPasswordCorrect = checkOldPassword(oldPassword, oldPasswordLayout);
+            boolean passwordCorrespond = checkPasswordsCorrespond(newPassword, confirmNewPassword, confirmNewPasswordLayout);
+            boolean newPasswordMatchesRegex = checkNewPasswordMatchesRegex(newPassword, newPasswordLayout);
 
-            if (!newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
-                confirmNewPasswordLayout.setError("Le password non corrispondono!");
-                passwordsInvalid = true;
-            } else
-                confirmNewPasswordLayout.setErrorEnabled(false);
+            boolean passwordIsValid = oldPasswordCorrect && passwordCorrespond && newPasswordMatchesRegex;
 
-            if (!newPassword.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
-                newPasswordLayout.setError("Deve avere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale");
-                passwordsInvalid = true;
-            } else
-                newPasswordLayout.setErrorEnabled(false);
-
-            if (passwordsInvalid)
+            if (!passwordIsValid)
                 return;
 
             UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto(
@@ -221,6 +203,37 @@ public class ProfileFragment extends Fragment {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         alertDialog.show();
+    }
+
+    private boolean checkNewPasswordMatchesRegex(TextView newPassword, TextInputLayout newPasswordLayout) {
+
+        if (!newPassword.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+            newPasswordLayout.setError("Deve avere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale");
+            return true;
+        } else {
+            newPasswordLayout.setErrorEnabled(false);
+            return false;
+        }
+    }
+
+    private boolean checkPasswordsCorrespond(TextView newPassword, TextView confirmNewPassword, TextInputLayout confirmNewPasswordLayout) {
+        if (!newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
+            confirmNewPasswordLayout.setError("Le password non corrispondono!");
+            return true;
+        } else {
+            confirmNewPasswordLayout.setErrorEnabled(false);
+            return false;
+        }
+    }
+
+    private boolean checkOldPassword(TextView oldPassword, TextInputLayout oldPasswordLayout) {
+        if (oldPassword.getText().toString().trim().isEmpty()) {
+            oldPasswordLayout.setError("Inserire la password corrente!");
+            return true;
+        } else {
+            oldPasswordLayout.setErrorEnabled(false);
+            return false;
+        }
     }
 
     private void updateLocalDietiUserPassword(DietiUser dietiUser) {
@@ -476,6 +489,6 @@ public class ProfileFragment extends Fragment {
      * This method remove square brackets when printing an array
      */
     private String removeSquareBrackets(String str) {
-        return str.replaceAll("\\[|\\]", "");
+        return str.replaceAll("[\\[\\]]", "");
     }
 }

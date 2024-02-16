@@ -144,10 +144,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 notifications.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
 
-                if (!notifications.isEmpty())
-                    MainActivity.setIsVisibleBadgeNotification(true);
-                else
-                    MainActivity.setIsVisibleBadgeNotification(false);
+                MainActivity.setIsVisibleBadgeNotification(!notifications.isEmpty());
             }
 
             @Override

@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewDownwardAuction;
     private ProgressBar englishAuctionProgressBar;
     private ProgressBar downwardAuctionProgressBar;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     public HomeFragment() {
@@ -57,16 +56,11 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         initializeViews(view);
 

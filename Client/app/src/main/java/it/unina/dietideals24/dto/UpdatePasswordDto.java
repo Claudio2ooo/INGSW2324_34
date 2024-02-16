@@ -1,8 +1,8 @@
 package it.unina.dietideals24.dto;
 
 public class UpdatePasswordDto {
-    private String oldPassword;
-    private String newPassword;
+    private final String oldPassword;
+    private final String newPassword;
 
     public UpdatePasswordDto(String oldPassword, String newPassword) {
         this.oldPassword = oldPassword;

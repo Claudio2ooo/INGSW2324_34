@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.DownwardAuctionDto;
@@ -360,7 +362,7 @@ public class CreateDownwardAuctionActivity extends AppCompatActivity {
                 String errorTimer = "0 giorni : 0 ore : 0 minuti";
                 timerEditText.setText(errorTimer);
                 timer = 0;
-                e.printStackTrace();
+                Log.e("TIMER_ERROR", Objects.requireNonNull(e.getMessage()));
             }
 
             dialog.dismiss();

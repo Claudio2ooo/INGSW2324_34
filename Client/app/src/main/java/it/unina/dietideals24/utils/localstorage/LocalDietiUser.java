@@ -10,6 +10,7 @@ import it.unina.dietideals24.model.DietiUser;
 
 public class LocalDietiUser {
     private static final String FILE_NAME_DIETI_USER = "local_dieti_user_data";
+    private static final String LINKS = "links";
 
     private LocalDietiUser() {
     }
@@ -23,9 +24,9 @@ public class LocalDietiUser {
         editor.putString("email", dietiUser.getEmail());
         editor.putString("password", dietiUser.getPassword());
         if (dietiUser.getLinks() == null)
-            editor.putString("links", "");
+            editor.putString(LINKS, "");
         else
-            editor.putString("links", dietiUser.getLinks().toString());
+            editor.putString(LINKS, dietiUser.getLinks().toString());
         editor.putString("geographicalArea", dietiUser.getGeographicalArea());
         editor.putString("biography", dietiUser.getBiography());
         editor.putString("profilePictureUrl", dietiUser.getProfilePictureUrl());
@@ -39,7 +40,7 @@ public class LocalDietiUser {
 
     public static DietiUser getLocalDietiUser(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME_DIETI_USER, Context.MODE_PRIVATE);
-        List<String> links = Collections.singletonList(sharedPreferences.getString("links", ""));
+        List<String> links = Collections.singletonList(sharedPreferences.getString(LINKS, ""));
         return new DietiUser(
                 sharedPreferences.getLong("id", 0),
                 sharedPreferences.getString("name", ""),

@@ -57,6 +57,7 @@ public class AuctionsActivity extends AppCompatActivity {
                 case "Downward" -> initializeDownwardAuctions();
                 case "Yours" -> initializeYourAuctions();
                 case "YourOffers" -> initializeYourOffers();
+                default -> backToHomeActivity();
             }
             logViewList(typeOfAuction);
         } else {
@@ -67,6 +68,11 @@ public class AuctionsActivity extends AppCompatActivity {
         }
 
         backBtn.setOnClickListener(v -> finish());
+    }
+
+    private void backToHomeActivity() {
+        Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainActivity);
     }
 
     private void logViewList(String typeOfAuction) {
