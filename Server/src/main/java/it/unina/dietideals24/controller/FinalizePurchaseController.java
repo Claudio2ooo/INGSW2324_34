@@ -37,21 +37,25 @@ public class FinalizePurchaseController {
         this.offerService = offerService;
     }
 
-    public void finalizeAuction(EnglishAuction englishAuction) {
-        if (noOffersReceived(englishAuction))
-            createFailedAuctionNotification(englishAuction);
+    public void finalizeEnglishAuction(Long englishAuctionId) {
+        EnglishAuction englishAuctionWithImage = englishAuctionService.getEnglishAuctionById(englishAuctionId);
+
+        if (noOffersReceived(englishAuctionWithImage))
+            createFailedAuctionNotification(englishAuctionWithImage);
         else
-            createNotifications(englishAuction);
-        removeAuction(englishAuction);
+            createNotifications(englishAuctionWithImage);
+        removeAuction(englishAuctionWithImage);
     }
 
-    public void finalizeAuction(DownwardAuction downwardAuction) {
-        if (failed(downwardAuction)) {
-            createFailedAuctionNotification(downwardAuction);
+    public void finalizeDownwardAuction(Long downwardAuctionId) {
+        DownwardAuction downwardAuctionWithImage = downwardAuctionService.getDownwardAuctionById(downwardAuctionId);
+
+        if (failed(downwardAuctionWithImage)) {
+            createFailedAuctionNotification(downwardAuctionWithImage);
         } else {
-            createNotifications(downwardAuction);
+            createNotifications(downwardAuctionWithImage);
         }
-        removeAuction(downwardAuction);
+        removeAuction(downwardAuctionWithImage);
     }
 
     private void createNotifications(EnglishAuction englishAuction) {

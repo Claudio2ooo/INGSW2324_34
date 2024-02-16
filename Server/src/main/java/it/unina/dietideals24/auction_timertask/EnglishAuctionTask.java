@@ -21,7 +21,7 @@ public class EnglishAuctionTask extends TimerTask {
 
     @Override
     public void run() {
-        finalizePurchaseController.finalizeAuction(auction);
-        cancel(); //buona pratica metterlo alla fine anche se non strettamente necessario
+        finalizePurchaseController.finalizeEnglishAuction(auction.getId());
+        cancel();
     }
 }

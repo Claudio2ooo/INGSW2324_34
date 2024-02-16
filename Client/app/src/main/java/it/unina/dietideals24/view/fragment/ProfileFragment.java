@@ -166,9 +166,7 @@ public class ProfileFragment extends Fragment {
             boolean passwordCorrespond = checkPasswordsCorrespond(newPassword, confirmNewPassword, confirmNewPasswordLayout);
             boolean newPasswordMatchesRegex = checkNewPasswordMatchesRegex(newPassword, newPasswordLayout);
 
-            boolean passwordIsValid = oldPasswordCorrect && passwordCorrespond && newPasswordMatchesRegex;
-
-            if (!passwordIsValid)
+            if (!oldPasswordCorrect || !passwordCorrespond || !newPasswordMatchesRegex)
                 return;
 
             UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto(
@@ -209,30 +207,30 @@ public class ProfileFragment extends Fragment {
 
         if (!newPassword.getText().toString().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
             newPasswordLayout.setError("Deve avere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale");
-            return true;
+            return false;
         } else {
             newPasswordLayout.setErrorEnabled(false);
-            return false;
+            return true;
         }
     }
 
     private boolean checkPasswordsCorrespond(TextView newPassword, TextView confirmNewPassword, TextInputLayout confirmNewPasswordLayout) {
         if (!newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
             confirmNewPasswordLayout.setError("Le password non corrispondono!");
-            return true;
+            return false;
         } else {
             confirmNewPasswordLayout.setErrorEnabled(false);
-            return false;
+            return true;
         }
     }
 
     private boolean checkOldPassword(TextView oldPassword, TextInputLayout oldPasswordLayout) {
         if (oldPassword.getText().toString().trim().isEmpty()) {
             oldPasswordLayout.setError("Inserire la password corrente!");
-            return true;
+            return false;
         } else {
             oldPasswordLayout.setErrorEnabled(false);
-            return false;
+            return true;
         }
     }
 

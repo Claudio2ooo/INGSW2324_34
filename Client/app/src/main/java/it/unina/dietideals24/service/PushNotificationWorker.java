@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -19,19 +20,24 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.NotificationAPI;
+import it.unina.dietideals24.utils.localstorage.BadgeVisibilityStatus;
 import it.unina.dietideals24.view.activity.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PushNotificationWorker extends Worker {
+    NotificationAPI notificationAPI;
+
     public PushNotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        notificationAPI = RetrofitService.getRetrofitInstance().create(NotificationAPI.class);
     }
 
     @NonNull
     @Override
     public Result doWork() {
+        Log.e("WORKER RUNNING", "WORKER IS RUNNING");
         long tokenExpiration = getInputData().getLong("tokenExpiration", 0);
 
         if (tokenExpiration < System.currentTimeMillis()) {
@@ -47,21 +53,25 @@ public class PushNotificationWorker extends Worker {
         if (receiverId == -1)
             return;
 
-        NotificationAPI notificationAPI = RetrofitService.getRetrofitInstance().create(NotificationAPI.class);
         notificationAPI.getPushNotificationByReceiverId(receiverId).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
+                Log.e("WORKER INFO", "id: " + receiverId + " body: " + response.body());
+
                 if (response.body() != null) {
                     pushNotifications(response.body());
-                    MainActivity.setIsVisibleBadgeNotification(true);
+                    BadgeVisibilityStatus.setBadgeVisibilityStatus(getApplicationContext(), true);
+                    MainActivity.setBadgeNotificationVisibility(true);
                 } else {
-                    MainActivity.setIsVisibleBadgeNotification(false);
+                    BadgeVisibilityStatus.setBadgeVisibilityStatus(getApplicationContext(), false);
+                    MainActivity.setBadgeNotificationVisibility(false);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
-                MainActivity.setIsVisibleBadgeNotification(false);
+                BadgeVisibilityStatus.setBadgeVisibilityStatus(getApplicationContext(), false);
+                MainActivity.setBadgeNotificationVisibility(false);
             }
         });
     }
@@ -150,5 +160,11 @@ public class PushNotificationWorker extends Worker {
         }
 
         notificationManager.notify(0, builder.build());
+    }
+
+    @Override
+    public void onStopped() {
+        super.onStopped();
+        Log.e("WORKER STOPPED", "WORKER STOPPED");
     }
 }

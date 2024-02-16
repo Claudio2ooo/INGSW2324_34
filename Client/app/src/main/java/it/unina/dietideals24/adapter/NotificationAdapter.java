@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
 import it.unina.dietideals24.retrofit.api.NotificationAPI;
+import it.unina.dietideals24.utils.localstorage.BadgeVisibilityStatus;
 import it.unina.dietideals24.view.activity.MainActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -81,10 +83,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private void retrieveImage(NotificationAdapter.NotificationViewHolder holder) {
         String imageUrl = notifications.get(holder.getAdapterPosition()).getImageUrlOfTheAuction();
 
-        if (imageUrl == null)
+        if (imageUrl == null) {
             retrieveDefaultImage(holder);
-        else
+        }
+        else {
             retrieveNotificationImage(holder, imageUrl);
+        }
     }
 
     private void retrieveNotificationImage(NotificationAdapter.NotificationViewHolder holder, String imageUrl) {
@@ -144,12 +148,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 notifications.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
 
-                MainActivity.setIsVisibleBadgeNotification(!notifications.isEmpty());
+                BadgeVisibilityStatus.setBadgeVisibilityStatus(context, false);
+                MainActivity.setBadgeNotificationVisibility(!notifications.isEmpty());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                MainActivity.setIsVisibleBadgeNotification(false);
+                MainActivity.setBadgeNotificationVisibility(false);
             }
         });
     }

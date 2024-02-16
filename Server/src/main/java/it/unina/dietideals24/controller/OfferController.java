@@ -83,7 +83,7 @@ public class OfferController {
     public ResponseEntity<DownwardAuction> makeOfferForDownwardAuction(@RequestBody OfferDto offerDto) throws BadRequestException {
         DownwardAuction targetAuction = downwardAuctionService.getDownwardAuctionById(offerDto.getAuctionId());
         downwardAuctionTimerController.stopOngoingDownwardTimer(targetAuction);
-        finalizePurchaseController.finalizeAuction(targetAuction);
+        finalizePurchaseController.finalizeDownwardAuction(targetAuction.getId());
 
         return ResponseEntity.ok(targetAuction);
     }

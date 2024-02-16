@@ -29,7 +29,7 @@ public class DownwardAuctionTask extends TimerTask {
             downwardAuction.decreaseCurrentPrice();
         } else {
             downwardAuction.decreaseCurrentPrice();
-            finalizePurchaseController.finalizeAuction(downwardAuction);
+            finalizePurchaseController.finalizeDownwardAuction(downwardAuction.getId());
             cancel();
         }
     }

@@ -2,12 +2,16 @@ package it.unina.dietideals24.view.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +38,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
 import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.service.PushNotificationWorker;
+import it.unina.dietideals24.utils.localstorage.BadgeVisibilityStatus;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
 import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
@@ -46,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public static void setIsVisibleBadgeNotification(boolean isVisible) {
-        badge.setVisible(isVisible);
+    public static void setBadgeNotificationVisibility(boolean isVisible) {
+        if (badge != null)
+            badge.setVisible(isVisible);
     }
 
     @Override
@@ -142,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         if (badge == null)
             badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notify);
 
-        badge.setVisible(false);
+        badge.setVisible(BadgeVisibilityStatus.getBadgeVisibilityStatus(getApplicationContext()));
     }
 
     private void showCreateAuctionDialog() {
@@ -180,5 +186,11 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fragmentTagEnum + " button");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Navbar" + fragmentTagEnum + "button");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setBadge();
     }
 }
