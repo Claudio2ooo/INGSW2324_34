@@ -1,17 +1,15 @@
 package it.unina.dietideals24.view.activity;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,25 +20,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.NetworkType;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.util.concurrent.TimeUnit;
-
 import it.unina.dietideals24.R;
 import it.unina.dietideals24.databinding.ActivityMainBinding;
 import it.unina.dietideals24.enumerations.FragmentTagEnum;
-import it.unina.dietideals24.service.PushNotificationWorker;
+import it.unina.dietideals24.pushnotifications.PushNotificationService;
 import it.unina.dietideals24.utils.localstorage.BadgeVisibilityStatus;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
-import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
 import it.unina.dietideals24.view.fragment.HomeFragment;
 import it.unina.dietideals24.view.fragment.NotificationFragment;
@@ -54,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
     public static void setBadgeNotificationVisibility(boolean isVisible) {
         if (badge != null)
             badge.setVisible(isVisible);
+    }
+
+    public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager != null) {
+            for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+                if (serviceClass.getName().equals(service.service.getClassName()) && service.pid != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment(new HomeFragment(), FragmentTagEnum.HOME);
 
         askNotificationPermission();
-        startNotificationWorker();
+        startNotificationService();
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
 
@@ -126,22 +127,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startNotificationWorker() {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresBatteryNotLow(true)
-                .build();
-
-        PeriodicWorkRequest pushNotificationWorker = new PeriodicWorkRequest.Builder(PushNotificationWorker.class, 1, TimeUnit.MINUTES)
-                .setInitialDelay(1, TimeUnit.MINUTES)
-                .setConstraints(constraints)
-                .addTag("pushNotifications")
-                .setInputData(new Data.Builder()
-                        .putLong("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId())
-                        .putLong("tokenExpiration", TokenManagement.getTokenExpiration())
-                        .build())
-                .build();
-        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("pushNotificationWorker", ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, pushNotificationWorker);
+    private void startNotificationService() {
+        if (!isServiceRunning(this, PushNotificationService.class)) {
+            Intent intent = new Intent(this, PushNotificationService.class);
+            intent.putExtra("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId());
+            startForegroundService(intent);
+        }
     }
 
     private synchronized void setBadge() {
