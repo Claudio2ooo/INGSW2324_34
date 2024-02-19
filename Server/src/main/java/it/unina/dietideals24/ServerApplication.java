@@ -35,6 +35,5 @@ public class ServerApplication {
             logger.info("images/downward_auction folder created");
         else
             logger.info("images/downward_auction folder already exists, skipping...");
-
     }
 }

@@ -24,7 +24,6 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -79,6 +78,7 @@ public class ProfileFragment extends Fragment {
     private Button logOutBtn;
     private DietiUser localDietiUser;
     private Uri imageUri = null;
+    private Bitmap bitmap;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -103,7 +103,6 @@ public class ProfileFragment extends Fragment {
         logOutBtn.setOnClickListener(v -> {
             TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getActivity());
-            WorkManager.getInstance(getActivity()).cancelUniqueWork("pushNotificationWorker");
 
             Intent loginActivity = new Intent(getActivity(), LoginActivity.class);
             startActivity(loginActivity);
@@ -351,7 +350,7 @@ public class ProfileFragment extends Fragment {
                     if (response.body() != null) {
                         byte[] imageData = response.body().bytes();
 
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                        bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
 
                         RequestOptions requestOptions = new RequestOptions();
                         requestOptions = requestOptions.transform(new CenterCrop());
@@ -443,6 +442,18 @@ public class ProfileFragment extends Fragment {
      * @param viewEditProfileDialog reference to the EditProfileDialog
      */
     private void initializeEditTextEditProfileDialog(View viewEditProfileDialog) {
+        requestProfilePicture(localDietiUser.getProfilePictureUrl());
+
+        if (bitmap != null) {
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions = requestOptions.transform(new CenterCrop());
+
+            Glide.with(getActivity())
+                    .load(bitmap)
+                    .apply(requestOptions)
+                    .into(imageProfile);
+        }
+
         inputNameEditText = viewEditProfileDialog.findViewById(R.id.inputName);
         inputNameEditText.setText(localDietiUser.getName());
 
