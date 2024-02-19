@@ -29,7 +29,12 @@ import retrofit2.Response;
 public class PushNotificationService extends Service {
     private static final long INTERVAL = 60 * 1000;
     private static final int REQUEST_CODE = 100;
-    private static final String channelId = "CHANNEL_ID_NOTIFICATION";
+    private static final String CHANNEL_ID = "CHANNEL_ID_NOTIFICATION";
+    public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
+
+    public static final String ACTION_STOP_FOREGROUND_SERVICE = "ACTION_STOP_FOREGROUND_SERVICE";
+    public static final String NOTIFICATION = "Notification";
+
     private PendingIntent pendingIntent;
     private AlarmManager alarmManager;
     private long receiverId = -1;
@@ -42,17 +47,29 @@ public class PushNotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (receiverId == -1)
-            receiverId = intent.getLongExtra("receiverId", -1);
-        Log.i("Notification", "fetching with id: " + receiverId);
-        fetchNotification(receiverId);
+        if (intent!=null) {
+            String action = intent.getAction();
+            switch (action) {
+                case ACTION_START_FOREGROUND_SERVICE -> {
+                    if (receiverId == -1)
+                        receiverId = intent.getLongExtra("receiverId", -1);
+                    Log.i(NOTIFICATION, "fetching with id: " + receiverId);
+                    fetchNotification(receiverId);
+                }
+                case ACTION_STOP_FOREGROUND_SERVICE -> {
+                    Log.i(NOTIFICATION, "Service stopped");
+                    stopForeground(STOP_FOREGROUND_REMOVE);
+                    stopSelf();
+                }
+            }
+        }
         return START_STICKY;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("Notification", "Service created");
+        Log.i(NOTIFICATION, "Service created");
 
         createNotificationChannel();
         startServiceWithNotification();
@@ -63,7 +80,7 @@ public class PushNotificationService extends Service {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel notificationChannel = new NotificationChannel(channelId, "Auction push notification", importance);
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Auction push notification", importance);
         notificationChannel.setLightColor(Color.YELLOW);
         notificationChannel.enableVibration(true);
         notificationManager.createNotificationChannel(notificationChannel);
@@ -71,6 +88,7 @@ public class PushNotificationService extends Service {
 
     private void scheduleNotificationCheck() {
         Intent intent = new Intent(this, PushNotificationService.class);
+        intent.setAction(ACTION_START_FOREGROUND_SERVICE);
         pendingIntent = PendingIntent.getService(this, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (alarmManager != null) {
@@ -86,7 +104,7 @@ public class PushNotificationService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("DietiDeals24")
                 .setContentText("Riceverai aggiornamenti per le aste a cui parteciperai!")
                 .setSmallIcon(R.drawable.ic_gavel_notification)
@@ -99,7 +117,7 @@ public class PushNotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("Notification", "Service was destroyed!");
+        Log.i(NOTIFICATION, "Service was destroyed!");
         cancelNotificationCheck();
     }
 
@@ -118,7 +136,7 @@ public class PushNotificationService extends Service {
         notificationAPI.getPushNotificationByReceiverId(receiverId).enqueue(new Callback<List<it.unina.dietideals24.model.Notification>>() {
             @Override
             public void onResponse(Call<List<it.unina.dietideals24.model.Notification>> call, Response<List<it.unina.dietideals24.model.Notification>> response) {
-                Log.i("Notification", "id: " + receiverId + " body: " + response.body());
+                Log.i(NOTIFICATION, "id: " + receiverId + " body: " + response.body());
 
                 if (response.body() != null) {
                     pushNotifications(response.body());
@@ -153,7 +171,7 @@ public class PushNotificationService extends Service {
     }
 
     private void pushNotification(it.unina.dietideals24.model.Notification notification) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         builder
                 .setSmallIcon(R.drawable.ic_gavel_notification)
                 .setContentTitle(notification.getTitleOfTheAuction() + " terminata!")
@@ -184,10 +202,10 @@ public class PushNotificationService extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
+        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
         if (notificationChannel == null) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            notificationChannel = new NotificationChannel(channelId, "Auction push notification", importance);
+            notificationChannel = new NotificationChannel(CHANNEL_ID, "Auction push notification", importance);
             notificationChannel.setLightColor(Color.YELLOW);
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
@@ -197,7 +215,7 @@ public class PushNotificationService extends Service {
     }
 
     private void pushManyNotifications() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         builder
                 .setSmallIcon(R.drawable.ic_gavel_notification)
                 .setContentTitle("Ci sono novità!")
@@ -214,10 +232,10 @@ public class PushNotificationService extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
+        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
         if (notificationChannel == null) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            notificationChannel = new NotificationChannel(channelId, "ManyNotifications", importance);
+            notificationChannel = new NotificationChannel(CHANNEL_ID, "ManyNotifications", importance);
             notificationChannel.setLightColor(Color.YELLOW);
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);

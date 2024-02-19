@@ -1,6 +1,10 @@
 package it.unina.dietideals24.view.fragment;
 
+import static androidx.core.content.ContextCompat.startForegroundService;
+
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +43,7 @@ import it.unina.dietideals24.R;
 import it.unina.dietideals24.dto.UpdatePasswordDto;
 import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.model.DietiUser;
+import it.unina.dietideals24.pushnotifications.PushNotificationService;
 import it.unina.dietideals24.retrofit.RetrofitService;
 import it.unina.dietideals24.retrofit.api.DietiUserAPI;
 import it.unina.dietideals24.retrofit.api.ImageAPI;
@@ -103,12 +108,33 @@ public class ProfileFragment extends Fragment {
         logOutBtn.setOnClickListener(v -> {
             TokenManagement.deleteTokenData();
             LocalDietiUser.deleteLocalDietiUser(getActivity());
+            stopNotificationService();
 
             Intent loginActivity = new Intent(getActivity(), LoginActivity.class);
             startActivity(loginActivity);
         });
 
         return view;
+    }
+
+    private void stopNotificationService() {
+        if (isServiceRunning(getContext(), PushNotificationService.class)) {
+            Intent intent = new Intent(getContext(), PushNotificationService.class);
+            intent.setAction(PushNotificationService.ACTION_STOP_FOREGROUND_SERVICE);
+            getContext().startForegroundService(intent);
+        }
+    }
+
+    public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager != null) {
+            for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+                if (serviceClass.getName().equals(service.service.getClassName()) && service.pid != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void initializeViews(View view) {

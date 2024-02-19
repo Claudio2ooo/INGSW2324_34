@@ -123,6 +123,8 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     private void initializeViews() {
         image = findViewById(R.id.imageAcution);
         imageProgressBar = findViewById(R.id.imageProgressBar);
+        imageProgressBar.setVisibility(View.GONE);
+
         title = findViewById(R.id.titleAuction);
         categoryName = findViewById(R.id.categoryAuction);
         description = findViewById(R.id.descriptionText);
@@ -263,7 +265,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
-                if (response.body() != null) {
+                if (response.code() == 200) {
                     Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
                     logOffer();
                     refreshActivity();

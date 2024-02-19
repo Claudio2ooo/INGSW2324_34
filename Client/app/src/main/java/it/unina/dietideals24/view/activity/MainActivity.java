@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     private void startNotificationService() {
         if (!isServiceRunning(this, PushNotificationService.class)) {
             Intent intent = new Intent(this, PushNotificationService.class);
+            intent.setAction(PushNotificationService.ACTION_START_FOREGROUND_SERVICE);
             intent.putExtra("receiverId", LocalDietiUser.getLocalDietiUser(getApplicationContext()).getId());
             startForegroundService(intent);
         }
