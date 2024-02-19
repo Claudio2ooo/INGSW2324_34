@@ -61,7 +61,8 @@ import retrofit2.Response;
 
 public class AuctionDetailsActivity extends AppCompatActivity {
     private ImageView backBtn;
-    private ImageView image;
+    private ImageView imageAuction;
+    private ImageView imageSellerProfile;
     private TextView title;
     private TextView categoryName;
     private TextView description;
@@ -121,9 +122,10 @@ public class AuctionDetailsActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        image = findViewById(R.id.imageAcution);
+        imageAuction = findViewById(R.id.imageAcution);
         imageProgressBar = findViewById(R.id.imageProgressBar);
         imageProgressBar.setVisibility(View.GONE);
+        imageSellerProfile = findViewById(R.id.imageProfile);
 
         title = findViewById(R.id.titleAuction);
         categoryName = findViewById(R.id.categoryAuction);
@@ -157,6 +159,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200 && response.body() != null) {
                     auction = response.body();
                     getAuctionImage(auction.getImageURL());
+                    requestProfilePicture(auction.getOwner().getProfilePictureUrl());
                 } else {
                     Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
                     openMainActivity();
@@ -181,6 +184,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                 if (response.code() == 200 && response.body() != null) {
                     auction = response.body();
                     getAuctionImage(auction.getImageURL());
+                    requestProfilePicture(auction.getOwner().getProfilePictureUrl());
                 } else {
                     Toast.makeText(AuctionDetailsActivity.this, "L'asta non è più disponibile!", Toast.LENGTH_SHORT).show();
                     openMainActivity();
@@ -211,7 +215,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         Glide.with(getApplicationContext())
                 .load(R.drawable.no_image_auction)
                 .apply(requestOptions)
-                .into(image);
+                .into(imageAuction);
 
         initializeFields();
     }
@@ -235,7 +239,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                         Glide.with(getApplicationContext())
                                 .load(bitmap)
                                 .apply(requestOptions)
-                                .into(image);
+                                .into(imageAuction);
                     }
 
 
@@ -316,6 +320,36 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownwardAuction> call, Throwable t) {
+                NetworkUtility.showNetworkErrorToast(getApplicationContext());
+            }
+        });
+    }
+
+    private void requestProfilePicture(String imageUrl) {
+        ImageAPI imageAPI = RetrofitService.getRetrofitInstance().create(ImageAPI.class);
+        imageAPI.getImageByUrl(imageUrl).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.body() != null) {
+                        byte[] imageData = response.body().bytes();
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions = requestOptions.transform(new CenterCrop());
+
+                        Glide.with(getApplicationContext())
+                                .load(bitmap)
+                                .apply(requestOptions)
+                                .into(imageSellerProfile);
+                    }
+                } catch (IOException e) {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });

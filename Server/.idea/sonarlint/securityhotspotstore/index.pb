@@ -71,8 +71,6 @@ m
 =src/main/java/it/unina/dietideals24/model/EnglishAuction.java,c\4\c48c778a6b360d1a9e0027e34da40c433b523170
 ƒ
 Ssrc/main/java/it/unina/dietideals24/service/interfaces/IDownwardAuctionService.java,5\1\51181e5b9e880cdd4e3e2261ecf6897872e4fe32
-o
-?src/main/java/it/unina/dietideals24/config/DietiUserConfig.java,7\9\7900e7175c1c60bbbb392c43ce3800ca95c612ea
 x
 Hsrc/main/java/it/unina/dietideals24/config/ApplicationConfiguration.java,b\6\b69bd3b8e96aa61b075dbf897a53aee237cd9a99
 :
