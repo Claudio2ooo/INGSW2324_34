@@ -156,8 +156,8 @@ public class PushNotificationService extends Service {
 
     private void pushNotifications(List<it.unina.dietideals24.model.Notification> notifications) {
         if (notifications.isEmpty()) {
-            BadgeVisibilityStatus.setBadgeVisibilityStatus(getApplicationContext(), true);
-            MainActivity.setBadgeNotificationVisibility(true);
+            BadgeVisibilityStatus.setBadgeVisibilityStatus(getApplicationContext(), false);
+            MainActivity.setBadgeNotificationVisibility(false);
             return;
         }
 

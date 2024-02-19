@@ -265,7 +265,7 @@ public class AuctionDetailsActivity extends AppCompatActivity {
         offerAPI.makeEnglishOffer(offerDto).enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
-                if (response.code() == 200) {
+                if (response.body() != null) {
                     Toast.makeText(AuctionDetailsActivity.this, "Offerta fatta!", Toast.LENGTH_SHORT).show();
                     logOffer();
                     refreshActivity();

@@ -509,8 +509,9 @@ public class ProfileFragment extends Fragment {
         String linksStr = inputLinksEditText.getText().toString();
         List<String> links = Arrays.asList(linksStr.split(","));
         String geographicalArea = inputGeographicalAreaEditText.getText().toString();
+        String profilePictureUrl = localDietiUser.getProfilePictureUrl();
 
-        return new DietiUser(localDietiUser.getId(), name, surname, localDietiUser.getEmail(), biography, links, geographicalArea);
+        return new DietiUser(localDietiUser.getId(), name, surname, localDietiUser.getEmail(), biography, links, geographicalArea, profilePictureUrl);
     }
 
     /**
