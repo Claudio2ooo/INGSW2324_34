@@ -345,11 +345,13 @@ public class AuctionDetailsActivity extends AppCompatActivity {
                                 .into(imageSellerProfile);
                     }
                 } catch (IOException e) {
+                    useDefaultImage();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                useDefaultImage();
                 NetworkUtility.showNetworkErrorToast(getApplicationContext());
             }
         });

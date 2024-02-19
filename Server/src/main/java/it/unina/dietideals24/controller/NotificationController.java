@@ -2,7 +2,6 @@ package it.unina.dietideals24.controller;
 
 import it.unina.dietideals24.model.Notification;
 import it.unina.dietideals24.service.interfaces.INotificationService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +22,7 @@ public class NotificationController {
 
     @GetMapping("receiver/{id}")
     public List<Notification> getNotificationsByReceiverId(@PathVariable("id") Long receiverId) {
-        List<Notification> notifications = notificationService.getNotificationsByReceiverId(receiverId);
-        System.out.println(notifications);
-        return notifications;
+        return notificationService.getNotificationsByReceiverId(receiverId);
     }
 
     @GetMapping("receiver/{id}/push")

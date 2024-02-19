@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PushNotificationService extends Service {
-    private static final long INTERVAL = 60 * 1000;
+    private static final long INTERVAL = 60000L;
     private static final int REQUEST_CODE = 100;
     private static final String CHANNEL_ID = "CHANNEL_ID_NOTIFICATION";
     public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
@@ -49,19 +49,16 @@ public class PushNotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent!=null) {
             String action = intent.getAction();
-            switch (action) {
-                case ACTION_START_FOREGROUND_SERVICE -> {
-                    if (receiverId == -1)
-                        receiverId = intent.getLongExtra("receiverId", -1);
-                    Log.i(NOTIFICATION, "fetching with id: " + receiverId);
-                    fetchNotification(receiverId);
-                }
-                case ACTION_STOP_FOREGROUND_SERVICE -> {
+             if (action.equals(ACTION_START_FOREGROUND_SERVICE)) {
+                if (receiverId == -1)
+                    receiverId = intent.getLongExtra("receiverId", -1);
+                Log.i(NOTIFICATION, "fetching with id: " + receiverId);
+                fetchNotification(receiverId);
+             } else if (action.equals(ACTION_STOP_FOREGROUND_SERVICE)) {
                     Log.i(NOTIFICATION, "Service stopped");
                     stopForeground(STOP_FOREGROUND_REMOVE);
                     stopSelf();
-                }
-            }
+             }
         }
         return START_STICKY;
     }

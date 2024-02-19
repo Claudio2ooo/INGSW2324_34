@@ -169,7 +169,26 @@ public class MainActivity extends AppCompatActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+
+        alertDialog.setOnDismissListener(v -> {
+            alertDialog.dismiss();
+            resetNavbarPosition();
+        });
+
         alertDialog.show();
+    }
+
+    private void resetNavbarPosition() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (currentFragment instanceof HomeFragment) {
+            binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
+        } else if (currentFragment instanceof AuctionFragment) {
+            binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
+        } else if (currentFragment instanceof NotificationFragment) {
+            binding.bottomNavigation.getMenu().getItem(3).setChecked(true);
+        } else if (currentFragment instanceof ProfileFragment) {
+            binding.bottomNavigation.getMenu().getItem(4).setChecked(true);
+        }
     }
 
     private void logNavbarButton(FragmentTagEnum fragmentTagEnum) {
