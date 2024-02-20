@@ -462,19 +462,19 @@ public class AuctionDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                showEndedAuctionDialog("L'asta è terminata!");
+                showEndedAuctionDialog();
             }
         }.start();
     }
 
-    private void showEndedAuctionDialog(String errorMessage) {
+    private void showEndedAuctionDialog() {
         ConstraintLayout failedOfferConstraintLayout = findViewById(R.id.failedOfferConstraintLayout);
         View viewFailedOfferDialog = LayoutInflater.from(AuctionDetailsActivity.this).inflate(R.layout.failed_offer_dialog, failedOfferConstraintLayout);
 
         Button backToHomeButton = viewFailedOfferDialog.findViewById(R.id.backToAuctionBtn);
 
         TextView errorText = viewFailedOfferDialog.findViewById(R.id.failedOfferText);
-        errorText.setText(errorMessage);
+        errorText.setText("L'asta è terminata!");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AuctionDetailsActivity.this);
         builder.setView(viewFailedOfferDialog);
