@@ -30,6 +30,7 @@ import it.unina.dietideals24.enumerations.FragmentTagEnum;
 import it.unina.dietideals24.pushnotifications.PushNotificationService;
 import it.unina.dietideals24.utils.localstorage.BadgeVisibilityStatus;
 import it.unina.dietideals24.utils.localstorage.LocalDietiUser;
+import it.unina.dietideals24.utils.localstorage.TokenManagement;
 import it.unina.dietideals24.view.fragment.AuctionFragment;
 import it.unina.dietideals24.view.fragment.HomeFragment;
 import it.unina.dietideals24.view.fragment.NotificationFragment;
@@ -66,8 +67,12 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         String redirect = getIntent().getStringExtra("redirect");
-        if (redirect != null && redirect.equals("notificationFragment"))
-            replaceFragment(new NotificationFragment(), FragmentTagEnum.NOTIFICATION);
+        if (redirect != null && redirect.equals("notificationFragment")) {
+            if (TokenManagement.isExpired())
+                backToLogin();
+            else
+                replaceFragment(new NotificationFragment(), FragmentTagEnum.NOTIFICATION);
+        }
         else
             replaceFragment(new HomeFragment(), FragmentTagEnum.HOME);
 
@@ -94,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
         setBadge();
         backButtonManagement();
+    }
+
+    private void backToLogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     private void replaceFragment(Fragment fragment, FragmentTagEnum fragmentTagEnum) {
