@@ -21,23 +21,23 @@ class DietiUserServiceTest {
     }
 
     @Test
-    void updateDataBothNotNull() {
+    void updateData_covers_1_1() {
         dietiUserService.updateData(toBeUpdated, newDietiUser);
         assertEquals(new DietiUser("Mariano", "Rossi", "example@mail.com", "Extended biography", "Napoli" , null), toBeUpdated);
     }
 
     @Test
-    void updateDataToBeUpdatedNullNewDietiUserNotNull() {
+    void updateData_covers_2_1() {
         assertThrows(NullPointerException.class, () -> dietiUserService.updateData(null, newDietiUser));
     }
 
     @Test
-    void updateDataToBeUpdatedNotNullNewDietiUserNull() {
+    void updateData_covers_1_2() {
         assertThrows(NullPointerException.class, () -> dietiUserService.updateData(toBeUpdated, null));
     }
 
     @Test
-    void updateDataBothNull() {
+    void updateData_covers_2_2() {
         assertThrows(NullPointerException.class, () -> dietiUserService.updateData(null, null));
     }
 }
