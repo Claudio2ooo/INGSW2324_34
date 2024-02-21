@@ -19,7 +19,7 @@ public class TimeUtility {
         long minutes = (timeInSeconds / 60) % 60;
 
         if (days > 0)
-            return days + "d:" + minutes + "m:" + secondsLeft + "s";
+            return  days + "d:" + hours + "h:" + minutes + "m";
         else if (hours == 0)
             return minutes + "m:" + secondsLeft + "s";
         else
