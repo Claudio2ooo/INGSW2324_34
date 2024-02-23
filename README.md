@@ -19,7 +19,7 @@ Alla fine di questi passaggi, eseguire "docker compose up" nella root directory 
 
 Per buildare l'apk del client, specificare l'indirizzo ip su cui viene eseguito il backend in /Client/app/src/main/java/it/unina/dietideals24/retrofit/RetrofitService.java
 
-TODO
+# TODO
 - subvariation su template cockburn
 - rileggere documentazione
 - testare istruzioni build su repository appena clonata
