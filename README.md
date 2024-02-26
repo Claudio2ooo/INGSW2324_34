@@ -30,8 +30,4 @@ docker compose up
 
 Per buildare l'apk del client:
 - Specificare l'indirizzo ip su cui viene eseguito il backend in Client/app/src/main/java/it/unina/dietideals24/retrofit/RetrofitService.java (usare 10.0.2.2 se si vuole usare l'emulatore di android studio con il server in locale) e la porta impostata in precedenza
-- Se si vuole tracciare le statistiche di utilizzo, sostituire il google-services.json in /Client/app
-
-# TODO
-- subvariation su template cockburn
-- rileggere documentazione
+- Se si vuole tracciare le statistiche di utilizzo, sostituire il google-services.json in Client/app
