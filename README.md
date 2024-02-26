@@ -17,7 +17,9 @@ Per lanciare in esecuzione il Backend di DietiDeals24:
 - Impostare una secret key jwt e una expiration (security.jwt.secret-key=<your_secret_key>, security.jwt.expiration-time=<your_expiration>) in /Server/src/main/resources/application.properties
 Alla fine di questi passaggi, eseguire "docker compose up" nella root directory della repository.
 
-Per buildare l'apk del client, specificare l'indirizzo ip su cui viene eseguito il backend in /Client/app/src/main/java/it/unina/dietideals24/retrofit/RetrofitService.java
+Per buildare l'apk del client:
+- specificare l'indirizzo ip su cui viene eseguito il backend in /Client/app/src/main/java/it/unina/dietideals24/retrofit/RetrofitService.java
+- se si vuole tracciare le statistiche di utilizzo, sostituire il google-services.json in /Client/app
 
 # TODO
 - subvariation su template cockburn
