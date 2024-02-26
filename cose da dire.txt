@@ -1,3 +1,0 @@
-1 - nelle EditText c'è un'animazione che fa leggere il nome di ciò che si sta inserendo(regola di Scheneidermen sulla memoria)
-2 - studio del mercato riguardo l'interfaccia(vinted e wallapop come competitor popolari, ebay come competitor per le funzionalità)
-3 - studio dell'usabilità a priori, barra inferiore più usabile se con testo
