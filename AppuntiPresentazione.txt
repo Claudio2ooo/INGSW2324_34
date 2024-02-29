@@ -1,0 +1,8 @@
+Slide:
+    una con tutti i requisti, in generale riassuntiva della traccia
+    una con il disegnino dell'architettura, magari che compare passo passo
+    una con sonarqube
+    una con cloud
+    varie per backend (Springboot, database, jpa, dto, orm, jwt)
+    una per retrofit/rest api
+
